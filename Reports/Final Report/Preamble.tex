@@ -1,0 +1,40 @@
+\documentclass[12pt]{article}
+\usepackage[margin=2.5cm]{geometry}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{./figures/}}
+\usepackage{float}
+\usepackage{listings}
+\usepackage{courier}
+\usepackage{subcaption}
+\usepackage{upgreek}
+\usepackage{algorithmic}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage[nottoc]{tocbibind}
+\usepackage[titletoc]{appendix}
+
+\lstset{basicstyle=\footnotesize\ttfamily,tabsize=4,breaklines=true}
+%\lstset{framextopmargin=50pt,frame=bottomline}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,arrows,positioning,calc}
+\pgfplotsset{compat=newest,
+			table/search path={./figures/}}
+
+\tikzset{
+block/.style = {draw, fill=white, rectangle, minimum height=3em, minimum width=3em},
+tmp/.style  = {coordinate}, 
+sum/.style= {draw, fill=white, circle, node distance=1cm},
+input/.style = {coordinate},
+output/.style= {coordinate},
+pinstyle/.style = {pin edge={to-,thin,black}}
+}
+
+ 
+\linespread{1.5}
+\setlength\parindent{0pt}
+
+\setlength{\belowdisplayskip}{10pt}

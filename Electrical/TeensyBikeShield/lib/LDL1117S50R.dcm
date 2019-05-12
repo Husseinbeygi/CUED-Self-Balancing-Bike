@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP LDL1117S50R
+D STMICROELECTRONICS - LDL1117S50R - LDO, FIXED, 5V, 1.2A, SOT-223-3
+K
+F http://www.farnell.com/datasheets/2259188.pdf
+$ENDCMP
+#
+#End Doc Library

@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name I6A4W020A033V-001-R)(type Legacy)(uri ${KIPRJMOD}/I6A4W020A033V-001-R.lib)(options "")(descr ""))
+  (lib (name XT60-M)(type Legacy)(uri ${KIPRJMOD}/XT60-M.lib)(options "")(descr ""))
+)

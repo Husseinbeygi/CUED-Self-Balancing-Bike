@@ -1,0 +1,2 @@
+Yellow	-> TX3
+Blue	-> RX3

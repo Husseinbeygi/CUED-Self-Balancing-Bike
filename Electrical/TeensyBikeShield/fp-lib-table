@@ -1,0 +1,5 @@
+(fp_lib_table
+  (lib (name BNO055)(type Legacy)(uri ${KIPRJMOD}/lib/BNO055.mod)(options "")(descr ""))
+  (lib (name LDL1117S50R)(type Legacy)(uri ${KIPRJMOD}/lib/LDL1117S50R.mod)(options "")(descr ""))
+  (lib (name teensy)(type KiCad)(uri "${KIPRJMOD}/TEENSY FOOTPRINTS/teensy.pretty")(options "")(descr ""))
+)

@@ -1,0 +1,4 @@
+Speed: 11
+Kp: 14
+Kd: 18
+fc = 5 Hz (50 Hz IMU sampling, 20 Hz CTRL sampling)

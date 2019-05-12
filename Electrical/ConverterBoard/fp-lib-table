@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name I6A4W020A033V-001-R)(type Legacy)(uri ${KIPRJMOD}/I6A4W020A033V-001-R.mod)(options "")(descr ""))
+  (lib (name XT60-M)(type Legacy)(uri ${KIPRJMOD}/XT60-M.mod)(options "")(descr ""))
+)

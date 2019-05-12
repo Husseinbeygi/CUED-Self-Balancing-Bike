@@ -1,0 +1,27 @@
+- Brake cables:
+	-> simple on/off
+	-> brakes engaged if wires connected (blue & black)
+
+- Master on/off switch:
+	-> On: Connect brown and yellow
+
+- LEDs:
+	-> Leave connected
+	-> LED colours: Red>EMPTY
+			Yellow>HALF
+			Green>FULL
+	-> Green: Signal
+	-> Black: Ground
+
+- Throttle:
+	-> Used to be hall-effect type (I assume)
+	-> Essentially, potential divider
+	-> Red: Vcc = 5V (can leave unused)
+	-> Black: Ground (connect to Arduino ground)
+	-> White: Signal (Speed control) between 0V and 5V
+		-> Using Arduino Uno (5V outputs), connect to PWM pin
+		   use analogWrite(pin, val),
+		-> val triggers motor at approx 70.
+		-> Motor doesn't start smoothly, therefore
+		   slowly increase val until motor starts, otherwise jumpy.
+

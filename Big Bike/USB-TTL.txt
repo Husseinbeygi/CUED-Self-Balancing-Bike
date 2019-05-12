@@ -1,0 +1,2 @@
+Yellow 	-> USB GREEN
+Blue	-> USB WHITE

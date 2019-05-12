@@ -1,0 +1,24 @@
+Inverted pendulum
+Controls: rotate fork, motor speed, brakes(?)
+Mounting servo directly at fork (not via gears) gives us direct access to fork rotation (assuming initial calibration)
+Stationary (track stand) vs at speed (critical velocity) (static vs dynamic stability)
+Robustness (varying frame geometry, added mass (potentially even rider))
+non-linear equations incredibly complex (give references)
+linear equations (whipple, fourth order) -> linearisation about velocity/upright position/etc.
+Can we measure all states? If not, Kalman Filter (observer)
+Funding -> Build full-scale model (riderless) -> Arduino? Raspberry Pi?
+Controllability -> How many actuators do we need?
+Observability -> What is the minimum amount (and type) of sensors needed?
+Hall Effect Sensor on wheel to measure speed
+At zero speed, lose controllability
+2nd order vs 4th order model - linear vs nonlinear?
+Simulation - only linear?
+SISO vs MIMO feedback design
+Gain-scheduled state feedback, since stability varies across 3 regimes (unstable, stable, nearly stable) + integral feedback (do we need this?)
+PID?
+Optimal control / MPC
+Possible options for stabilising at zero speed? Spinning wheel?
+Control at speed with rider on as well?
+Disturbance rejection
+Trajectory tracking -> manual control, GPS, etc.
+Non-minimum phase: Handlebar torque to steer angle

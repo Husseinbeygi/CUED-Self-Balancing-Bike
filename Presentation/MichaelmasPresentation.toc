@@ -1,0 +1,6 @@
+\beamer@sectionintoc {1}{First Main Section}{2}{0}{1}
+\beamer@subsectionintoc {1}{1}{First Subsection}{2}{0}{1}
+\beamer@subsectionintoc {1}{2}{Aims and Significance}{3}{0}{1}
+\beamer@subsectionintoc {1}{3}{Progress}{5}{0}{1}
+\beamer@subsectionintoc {1}{4}{Findings}{8}{0}{1}
+\beamer@subsectionintoc {1}{5}{Plans}{9}{0}{1}

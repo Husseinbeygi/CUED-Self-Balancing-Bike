@@ -1,0 +1,14 @@
+\BOOKMARK [1][-]{section.1}{Notation and Preliminaries}{}% 1
+\BOOKMARK [1][-]{section.2}{Bicycle Modelling}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Moment of Inertia Program}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Equations of Motion}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{Second Order Model: Tilt and Steer}{section.3}% 5
+\BOOKMARK [2][-]{subsection.3.2}{Fourth Order Model}{section.3}% 6
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Decoupling, State Space Form, and Transfer Functions}{subsection.3.2}% 7
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Stability vs Forward Speed}{subsection.3.2}% 8
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Transfer Function from Handlebar Torque to Lean Angle}{subsection.3.2}% 9
+\BOOKMARK [3][-]{subsubsection.3.2.4}{Transfer Function from Roll Torque Disturbance to Lean Angle}{subsection.3.2}% 10
+\BOOKMARK [1][-]{section.4}{Control Design}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Second Order Model: Tilt}{section.4}% 12
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Proportional Controller}{subsection.4.1}% 13
+\BOOKMARK [1][-]{section.5}{Implementation}{}% 14

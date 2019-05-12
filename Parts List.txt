@@ -1,0 +1,35 @@
+1x PLA 3D Printer Filament (1kg, Black)
+https://www.robotshop.com/uk/black-pla-1-0kg-spool-filament.html
+£20.90
+
+1x DC Motor (Drive Actuator, 9.2A Stall Current, 0.16 Nm)
+https://www.robotshop.com/uk/rs-555-12v-6100-rpm-brushed-dc-motor.html
+£4.54
+
+1x DC Motor with Encoder (Handlebar Actuator, 3.6A Stall Current, 3.9 Nm)
+https://www.robotshop.com/uk/12v-dc-motor-146rpm-encoder.html
+£47.70
+
+2x 12V NiMH Batteries (over 25A max. discharge current, can use one for both actuators! Another one for Arduino)
+https://www.componentshop.co.uk/12-0v-1600mah-2-3a-nimh-mini-battery-pack-5x2.html
+£34.80 (£17.40 each)
+
+1s NiMH Battery Charger
+https://www.componentshop.co.uk/intelligent-300-600ma-charger-for-airsoft-nicd-nimh-battery-packs.html
+£12.50
+
+1x IMU (Integrated Sensor Fusion)
+https://www.robotshop.com/uk/bno055-9-dof-absolute-orientation-imu-module.html
+£19.91
+
+2x Mounting Hubs
+https://www.robotshop.com/uk/pololu-universal-aluminum-6mm-mounting-hubs-4-40.html
+£14.44 (£7.22 each)
+
+1x DC Current Sensor (to estimate handlebar torque)
+https://www.robotshop.com/uk/gravity-analog-20a-current-sensor.html
+£9.08
+
+(Already have hall effect sensor, magnets, Arduino - and motor drivers?)
+(Can use simple high-resistance potential divider to measure servo voltage.)
+(Torque = Current * Voltage * Efficiency / Angular Velocity)

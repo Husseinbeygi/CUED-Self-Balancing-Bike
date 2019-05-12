@@ -1,0 +1,31 @@
+\contentsline {section}{\numberline {1}Introduction and Objectives}{3}
+\contentsline {section}{\numberline {2}Notation}{3}
+\contentsline {section}{\numberline {3}Bicycle Modelling}{3}
+\contentsline {subsection}{\numberline {3.1}Mass and Center of Mass}{3}
+\contentsline {subsection}{\numberline {3.2}Inertia Tensor}{4}
+\contentsline {subsection}{\numberline {3.3}Overall Description}{4}
+\contentsline {section}{\numberline {4}Equations of Motion}{5}
+\contentsline {subsection}{\numberline {4.1}Second Order Model}{5}
+\contentsline {subsubsection}{\numberline {4.1.1}Excluding Fork Dynamics}{5}
+\contentsline {subsubsection}{\numberline {4.1.2}Including Fork Dynamics}{6}
+\contentsline {subsection}{\numberline {4.2}Fourth Order Model}{6}
+\contentsline {subsubsection}{\numberline {4.2.1}Decoupling and Transfer Functions}{7}
+\contentsline {subsection}{\numberline {4.3}State Space Form}{8}
+\contentsline {section}{\numberline {5}Controller Design}{8}
+\contentsline {subsection}{\numberline {5.1}Stability Analysis}{8}
+\contentsline {subsubsection}{\numberline {5.1.1}Dependence on Forward Speed}{8}
+\contentsline {subsection}{\numberline {5.2}Single Input Single Output (SISO)}{9}
+\contentsline {subsubsection}{\numberline {5.2.1}Proportional Controller}{9}
+\contentsline {subsubsection}{\numberline {5.2.2}P-D Controller}{10}
+\contentsline {subsection}{\numberline {5.3}State Feedback}{12}
+\contentsline {subsection}{\numberline {5.4}Optimal Control}{12}
+\contentsline {subsection}{\numberline {5.5}Zero-Speed Stabilisation}{12}
+\contentsline {section}{\numberline {6}Trajectory Tracking}{12}
+\contentsline {section}{\numberline {7}Simulation}{12}
+\contentsline {subsection}{\numberline {7.1}MatLAB}{12}
+\contentsline {subsection}{\numberline {7.2}Unity}{12}
+\contentsline {section}{\numberline {8}Implementation}{12}
+\contentsline {section}{\numberline {9}Results and Discussion}{13}
+\contentsline {section}{\numberline {10}Conclusions}{13}
+\contentsline {section}{\numberline {11}References}{13}
+\contentsline {section}{\numberline {12}Appendix}{13}
