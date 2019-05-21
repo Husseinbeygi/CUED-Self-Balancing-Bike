@@ -5,9 +5,11 @@ As previously mentioned, the equations of motion for a bicycle are a set of many
 This section aims to explore two commonly used linearised bicycle models of second and fourth order, which will be the basis for controller design in later sections.
 
 \subsection{Geometry and Definitions}
-The definitions of bicycle parameters, geometry, and coordinate system in this report follows the system given by {\AA}str{\"o}m in \cite{astrom}, which is based on the \textit{ISO 8855} standard \cite{iso}. A brief explanation of the bicycle parameters, as well as the top, rear, and side views of the bicycle are detailed in Table \ref{table:params} and Figures \ref{fig:geometry} and \ref{fig:geometry2}. \\
+The definitions of bicycle parameters, geometry, and coordinate system in this report follows the system given by {\AA}str{\"o}m in \cite{astrom}, which is based on the \textit{ISO 8855} standard \cite{iso}. \\
 
-\begin{table}[H]
+A brief explanation of the bicycle parameters, as well as the top, rear, and side views of the bicycle are detailed in Table \ref{table:params} and Figures \ref{fig:geometry} and \ref{fig:geometry2}. \\
+
+\begin{table}[h]
 	\centering
  	\begin{tabular}[t]{c c p{10cm}} 
 	\toprule
@@ -309,7 +311,9 @@ The actuator models were identified by applying a step input to the handlebar se
 An initial guess was made at the form of the transfer function, such as the model order and form. Then, the Matlab \textit{System Identification Toolbox} was used to identify the locations of the poles and zeros, as well as the magnitude of any possible delays.
 
 \subsubsection{Lego Prototype}
-Interfacing with the Lego handlebar motor can only be achieved by issuing a speed command, not an absolute position command. This meant that it was necessary to implement an additional controller to set the motor position. Luckily, an encoder was already fitted to the servo, meaning that positional measurement for feedback was available. After experimentation, it was decided to use a proportional-only controller, since it satisfied the requirements and was easy to implement. The step responses for a set of proportional gains can be seen in Figure \ref{fig:ServoModel} a) below. A proportional gain of 2 was chosen to give a critically damped response, with a fast rise time, and minimal steady-state error. \\
+Interfacing with the Lego handlebar motor can only be achieved by issuing a speed command, not an absolute position command. This meant that it was necessary to implement an additional controller to set the motor position. Luckily, an encoder was already fitted to the servo, meaning that positional measurement for feedback was available. After experimentation, it was decided to use a proportional-only controller, since it satisfied the requirements and was easy to implement. \\
+
+The step responses for a set of proportional gains can be seen in Figure \ref{fig:ServoModel} a) below. A proportional gain of 2 was chosen to give a critically damped response, with a fast rise time, and minimal steady-state error. \\
 
 \begin{figure}[H]
 	\begin{subfigure}[t]{0.5\textwidth}
@@ -350,7 +354,7 @@ Interfacing with the Lego handlebar motor can only be achieved by issuing a spee
 	\label{fig:ServoModel}
 \end{figure}
 
-The closed-loop, proportional-control motor system was given a step input of magnitude 100 degrees. The \textit{System Identification Toolbox} was then used to fit transfer function parameters to the acquired step response data. By iteration, a third order model, consisting of a real pole and an under-damped pair of poles, of the following form was chosen:
+The closed-loop, proportional-control motor system was given a step input of magnitude $10^{\circ}$. The \textit{System Identification Toolbox} was then used to fit transfer function parameters to the acquired step response data. By iteration, a third order model, consisting of a real pole and an under-damped pair of poles, of the following form was chosen:
 
 \begin{equation}
 G_a(s) = \frac{1}{(T_1 s + 1) \cdot (T^2_w s^2 + 2 \zeta T_w s + 1)}
@@ -362,6 +366,7 @@ This servo model is then cascaded with the bicycle model to give an overall more
 
 \subsubsection{Full-Scale Bicycle}
 The same process can now be repeated for the full-scale bicycle. However, direct positional control of the motor was already implemented by the manufacturer and thus the step response data could be directly acquired. \\
+
 Again, a third order model was fitted to the step response data, giving the following parameters: $T_1 = 0.07$, $T_w = 0.073$, and $\zeta = 0.48$. The comparison between the step response of the true system and the model can be seen in Figure \ref{fig:FSServoModel} below, again indicating a near-ideal fit. 
 
 \begin{figure}[H]

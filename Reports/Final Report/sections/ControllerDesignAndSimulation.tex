@@ -57,14 +57,16 @@ However, this is without considering the effects of the actuator. Cascading the 
 		\begin{axis}
 			[xlabel=Im,
 			 ylabel=Re,
-			 xmin=-20,xmax=10,
-			 ymin=-30,ymax=30,
+			 xmin=-20,xmax=12,
+			 ymin=-35,ymax=35,
 			 axis lines=middle]
 			\addplot[mark=none,color=red] table[x=r1,y=i1, col sep=comma] {legoRL.csv};
 			\addplot[mark=none,color=red] table[x=r2,y=i2, col sep=comma] {legoRL.csv};
 			\addplot[mark=none,color=blue] table[x=r3,y=i3, col sep=comma] {legoRL.csv};
 			\addplot[mark=none,color=gray] table[x=r4,y=i4, col sep=comma] {legoRL.csv};
 			\addplot[mark=none,color=gray] table[x=r5,y=i5, col sep=comma] {legoRL.csv};
+			\addplot+[black,only marks,mark=x,mark size=3pt] table[x=reP,y=imP, col sep=comma] {legoPZ.csv};
+			\addplot+[black,only marks,mark=o,mark size=2.5pt] table[x=reZ,y=imZ, col sep=comma] {legoPZ.csv};
 		\end{axis}
 	\end{tikzpicture}
 	\centering
@@ -78,8 +80,8 @@ As can be seen from the plot, there is now an additional upper bound on the gain
 
 After choosing a proportional gain, both an integral gain and derivative gain can be chosen using the same root-locus approach by reforming the controller and plant into the respective Evans' form:
 \begin{align*}
-1 + K_I \frac{G_a(s) G(s)}{s (1 + (1 + K_P) G_a(s) G(s)} &= 0 \\
-1 + K_D \frac{s G_a(s) G(s)}{1 + (1 + (K_P + K_I/s) G_a(s) G(s)} &= 0
+1 + K_I \frac{G_a(s) G(s)}{s (1 + (1 + K_P) G_a(s) G(s))} &= 0 \\
+1 + K_D \frac{s G_a(s) G(s)}{1 + (K_P + K_I/s) G_a(s) G(s)} &= 0
 \end{align*}
 
 Integral gain is chosen to give zero steady-state error when the system is subjected to a constant disturbance, whereas derivative gain is then chosen to increase the damping of the system, thus reducing the oscillations. \\
@@ -121,7 +123,7 @@ In this way the parameters were chosen to be: $K_P=12$, $K_I=38$, $K_D=0.44$, an
 	\label{fig:pidLego}
 \end{figure}
 
-As can be seen from the plots, the PID controller in simulation can recover from an impulse in approximately one second whilst keeping the controller effort relatively small. The response is rather oscillatory however due to the addition of the integrator.
+As can be seen from the plots, the PID controller in simulation can recover from an impulse in approximately one second whilst keeping the controller effort relatively small. The response is rather oscillatory however due to the addition of the integrator with a substantial amount of gain.
 
 \subsection{Linear Quadratic Regulator}
 As a second controller type, optimal linear control was investigated by means of an infinite-horizon linear quadratic regulator (LQR), which aims to minimise the cost function for the state-space realisation $\underline{\dot{x}}=\mathbf{A} \underline{x} + \mathbf{B} \underline{u}, \underline{y} = \mathbf{C} \underline{x}$,
@@ -172,7 +174,7 @@ As pictured in Figure \ref{fig:LQR} below, the state estimates of the observer c
 	\label{fig:LQR}
 \end{figure}
 
-The choice of $\mathbf{Q}$ and R, which for a single-input system is a scalar, in general is not trivial. However, some constraints can be placed on the magnitudes of both. For the bicycle, it is desirable to reduce actuator effort, which is achieved by increasing the magnitude of R. Rapid stabilisation in turn is brought into effect by increasing the elements of $\mathbf{Q}$, thus heavily penalising a non-zero state. \\
+The choice of $\mathbf{Q}$ and R, which for a single-input system is a scalar, in general is not trivial. However, some constraints can be placed on the magnitudes of both. For the bicycle, it is desirable to reduce actuator effort, which is achieved by increasing the magnitude of R. Rapid stabilisation in turn is brought into effect by increasing the magnitude of the elements of $\mathbf{Q}$, thus heavily penalising a non-zero state. \\
 
 \textbf{Lego Protoype} \\
 Values for $\mathbf{Q}$ and R for the Lego prototype model were chosen by iteration. The solution to the CARE and thus the resulting state-feedback gains were computed using the Matlab command \texttt{lqr} and resulted in the following gain matrix:
@@ -231,7 +233,8 @@ For a general transfer function matrix $G(s)$, which is analytic in the right-ha
 \lVert G(s) \rVert_{\infty} = \sup_{\omega}{\bar{\sigma}(G(j\omega))}.
 \end{equation*}
 
-Where $\bar{\sigma}$ denotes the maximum singular value. For a single-input, single-output system the problem reduces to finding the supremum of the magnitude for all $\omega$. \\
+Where $\bar{\sigma}$ denotes the maximum singular value. For a single-input, single-output system the problem reduces to finding the supremum of the magnitude over all $\omega$. \\
+
 Since the bicycle transfer function used for controller design has poles in the right-half plane, it is not in $H_{\infty}$. Therefore, a normalised co-prime factorisation of the plant must be found, so that
 \begin{align*}
 G_0(s) = \tilde{M}^{-1} \tilde{N} \\
@@ -261,7 +264,7 @@ $b(G,K)$ is known as the stability margin. $H_{\infty}$ loop-shaping aims to fin
 
 In practice, this is achieved using the Matlab \textit{Robust Control Toolbox}, where functions are available for computing normalised coprime factorisations (\texttt{ncfmr}), as well as the optimal, stabilising controller using the \textit{Glover-McFarlane} method (\texttt{ncfsyn}) proposed in \cite{hinf}. \\
 
-Furthermore, it may be more convenient to use the $\nu$-gap metric (denoted by $\delta_{\nu}(G_0,G_1)$) to check for robustness. In general, a gap between two plants $G_0$ and $G_1$ gives the smallest value of $\lVert [\Delta_M, \Delta_N] \rVert_{\infty}$ that perturbs $G_0$ into $G_1$. Thus, if the closed-loop system is stable for $G_0$ and $K$, then $K$ will also stabilise $G_1$ if and only if,
+Furthermore, it may be more convenient to use the $\nu$-gap metric (denoted by $\delta_{\nu}(G_0,G_1)$) to check for robustness, which was proposed by Vinnicombe in \cite{nugap}. In general, a gap between two plants $G_0$ and $G_1$ gives the smallest value of $\lVert [\Delta_M, \Delta_N] \rVert_{\infty}$ that perturbs $G_0$ into $G_1$. Thus, if the closed-loop system is stable for $G_0$ and $K$, then $K$ will also stabilise $G_1$ if and only if,
 \begin{equation*}
 \delta_{\nu}(G_0,G_1) < b(G_0,K).
 \end{equation*}
@@ -339,6 +342,7 @@ The frequency response of the shaped loop, in comparison to the desired and nomi
 			[xlabel=$\omega$ ($\si{rad.s^{-1}}$),
 			 ylabel=$|G(j\omega)|$ ($\si{dB}$),
 			 xmin=10^-1,xmax=10^2,
+			 ymin=-60,ymax=30,
 			 grid=both,
 			 width=0.75\textwidth,
 			 height=\axisdefaultheight]
@@ -391,8 +395,35 @@ As can be seen from the plot, the final loop shape is not exactly the desired lo
 \subsection{Non-Linear Methods}
 As opposed to having several linear controllers gain-scheduled for different operating points, want a single controller that works sufficiently well at \textit{any} forward speed.
 
+\subsection{Full-Scale Bicycle}
+For completeness, the final controllers for the full-scale bicycle are given here. \\
+
+\textbf{PID} \\
+The controller gains were chosen to be: $K_P=5.4$, $K_I=5.8$, $K_D=0.48$, and $\tau=0.022$, with a resulting phase margin of just over $32^{\circ}$. \\
+
+\textbf{LQR} \\
+The observer and state-feedback gains were chosen to be:
+\begin{align*}
+\mathbf{L} &= \begin{bmatrix}
+1.1 & 1.7
+\end{bmatrix}^T \\
+\mathbf{K} &= \begin{bmatrix}
+36 & 8.5
+\end{bmatrix}
+\end{align*}
+
+\textbf{$H_{\infty}$ Loop-Shaping} \\
+The final controller, including weighting function, was found to be:
+\begin{equation*}
+K(s) = W(s) K_{\infty}(s) = \Big( 4 \cdot \frac{s+0.4}{s} \Big) \Big(4.8 \cdot \frac{(s+0.039)(s+4.5)(s+14)(s^2+13s+188)}{(s+0.1)(s+11)(s+23)(s^2+15s+423)} \Big)
+\end{equation*}
+
+Resulting in a stability margin of $b(G_0,K)=0.20$. \\
+
+The respective responses to an input disturbance are given in Figure \ref{fig:fsSimResp} below.
+
 \subsection{Comparison and Robustness}
-In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system, as stated previously. \\
+In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system in terms of $b(G_0,K)$, as stated previously. \\
 
 On the other hand, PID control is the simplest to implement and tune \textit{on-the-go}, whilst still providing satisfactory performance and the smallest controller effort. As a measurement of robustness, the phase margin of the nominal, PID-controlled system was found to be adequate at just under $30^{\circ}$. \\
 
@@ -413,6 +444,6 @@ The Tustin transform achieves the best frequency domain match between continuous
 
 However, the smallest possible sampling time is limited by the computational power of the processor. \\
 
-Another implementation detail is the prevention of integrator wind-up. For instance, a large error signal sustained over a longer period of time can cause an integrating controller to produce a very large output, which will cause large amounts of overshoot, as well as instability. To counter-act this problem, all integrators will be limited using a dynamic clamping scheme proposed in \cite{antiwindup}. \\
+Another implementation detail is the prevention of integrator wind-up. For instance, a large error signal sustained over a longer period of time can cause an integrating controller to produce a very large output, which will cause large amounts of overshoot, as well as instability. To counter-act this problem, all integrators were limited by using a dynamic clamping scheme proposed in \cite{antiwindup}. \\
 
 As a last consideration, the controller output is limited to $\pm 60^{\circ}$ as to not cause excessive steering angles to be demanded of the actuator.

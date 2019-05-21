@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500) (preloaded format=pdflatex 2018.10.21)  21 MAY 2019 20:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6500) (preloaded format=pdflatex 2018.10.21)  22 MAY 2019 00:48
 entering extended mode
 **./FinalReport.tex
 (FinalReport.tex
@@ -1310,7 +1310,7 @@ Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.16}).
 
 (TitleAndContents.tex
-<./figures/University_Crest.pdf, id=198, pagebox=cropbox, 59.22125pt x 69.25874
+<./figures/University_Crest.pdf, id=206, pagebox=cropbox, 59.22125pt x 69.25874
 pt>
 File: ./figures/University_Crest.pdf Graphic file (type pdf)
 <use ./figures/University_Crest.pdf>
@@ -1331,43 +1331,51 @@ ith the same identifier (name{page.1}) has been already used, duplicate ignored
 
 <to be read again> 
                    \relax 
-l.34 ...tation: Full-Scale Bicycle}{34}{section.5}
+l.34 ...del Verification}{35}{subsubsection.4.3.4}
                                                    [1])
 \tf@toc=\write5
 \openout5 = `FinalReport.toc'.
 
  [2])
-(sections/Introduction.tex
-Underfull \hbox (badness 10000) in paragraph at lines 1--2
+(sections/Introduction.tex (figures/bikeevo.pdf_tex
+<./figures/bikeevo.pdf, id=281, pagebox=cropbox, 596.50981pt x 257.81686pt>
+File: ./figures/bikeevo.pdf Graphic file (type pdf)
+<use ./figures/bikeevo.pdf>
+Package pdftex.def Info: ./figures/bikeevo.pdf  used on input line 46. on input
+ line 46.
+Package pdftex.def Info: Requested size: 424.82523pt x 183.6138pt on input line
+ 46.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 9--10
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 3--4
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 5--6
+Underfull \hbox (badness 10000) in paragraph at lines 13--14
 
  []
 
-<./figures/LegoBike.jpg, id=276, 3432.825pt x 2137.9875pt>
+[3 <./figures/bikeevo.pdf>]
+<./figures/LegoBike.jpg, id=478, 3432.825pt x 2137.9875pt>
 File: ./figures/LegoBike.jpg Graphic file (type jpg)
 <use ./figures/LegoBike.jpg>
-Package pdftex.def Info: ./figures/LegoBike.jpg  used on input line 11. on inpu
-t line 11.
+Package pdftex.def Info: ./figures/LegoBike.jpg  used on input line 21. on inpu
+t line 21.
 Package pdftex.def Info: Requested size: 291.81245pt x 181.74284pt on input lin
-e 11.
-[3]
-<./figures/FSBike.jpg, id=287, 3907.59875pt x 2283.53125pt>
+e 21.
+<./figures/FSBike.jpg, id=479, 3907.59875pt x 2283.53125pt>
 File: ./figures/FSBike.jpg Graphic file (type jpg)
 <use ./figures/FSBike.jpg>
-Package pdftex.def Info: ./figures/FSBike.jpg  used on input line 18. on input 
-line 18.
+Package pdftex.def Info: ./figures/FSBike.jpg  used on input line 28. on input 
+line 28.
 Package pdftex.def Info: Requested size: 293.05727pt x 171.25745pt on input lin
-e 18.
-) (sections/Modelling.tex
+e 28.
+ [4 <./figures/LegoBike.jpg> <./figures/FSBike.jpg>]) (sections/Modelling.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
 
  []
@@ -1377,21 +1385,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 3--4
 
  []
 
-[4 <./figures/LegoBike.jpg> <./figures/FSBike.jpg>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 8--9
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 10--11
+
+ []
+
 (figures/geometry3.pdf_tex
-<./figures/geometry3.pdf, id=297, pagebox=cropbox, 227.79594pt x 223.14964pt>
+<./figures/geometry3.pdf, id=489, pagebox=cropbox, 227.79594pt x 223.14964pt>
 File: ./figures/geometry3.pdf Graphic file (type pdf)
 <use ./figures/geometry3.pdf>
 Package pdftex.def Info: ./figures/geometry3.pdf  used on input line 46. on inp
 ut line 46.
 Package pdftex.def Info: Requested size: 236.01561pt x 231.2155pt on input line
  46.
-) (figures/geometry1.pdf_tex
-<./figures/geometry1.pdf, id=298, pagebox=cropbox, 215.5803pt x 223.13075pt>
+) [5] (figures/geometry1.pdf_tex
+<./figures/geometry1.pdf, id=499, pagebox=cropbox, 215.5803pt x 223.13075pt>
 File: ./figures/geometry1.pdf Graphic file (type pdf)
 <use ./figures/geometry1.pdf>
 Package pdftex.def Info: ./figures/geometry1.pdf  used on input line 46. on inp
@@ -1399,77 +1412,77 @@ ut line 46.
 Package pdftex.def Info: Requested size: 214.7749pt x 222.29604pt on input line
  46.
 )
-Overfull \hbox (25.9653pt too wide) in paragraph at lines 53--41
+Overfull \hbox (25.9653pt too wide) in paragraph at lines 53--43
  [][] 
  []
 
 (figures/geometry2.pdf_tex
-<./figures/geometry2.pdf, id=299, pagebox=cropbox, 111.66249pt x 221.38422pt>
+<./figures/geometry2.pdf, id=500, pagebox=cropbox, 111.66249pt x 221.38422pt>
 File: ./figures/geometry2.pdf Graphic file (type pdf)
 <use ./figures/geometry2.pdf>
 Package pdftex.def Info: ./figures/geometry2.pdf  used on input line 46. on inp
 ut line 46.
 Package pdftex.def Info: Requested size: 111.24532pt x 220.56616pt on input lin
 e 46.
-) [5 <./figures/geometry3.pdf>]
-Underfull \hbox (badness 10000) in paragraph at lines 54--55
-
- []
-
-
+)
 Underfull \hbox (badness 10000) in paragraph at lines 56--57
 
  []
 
-[6 <./figures/geometry1.pdf> <./figures/geometry2.pdf
+
+Underfull \hbox (badness 10000) in paragraph at lines 58--59
+
+ []
+
+[6 <./figures/geometry3.pdf> <./figures/geometry1.pdf
+
+pdfTeX warning: pdflatex (file ./figures/geometry1.pdf): PDF inclusion: multipl
+e pdfs with page group included in a single page
+> <./figures/geometry2.pdf
 
 pdfTeX warning: pdflatex (file ./figures/geometry2.pdf): PDF inclusion: multipl
 e pdfs with page group included in a single page
 >]
-Underfull \hbox (badness 10000) in paragraph at lines 79--80
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
 
  []
 
 [7] [8] [9]
-Underfull \hbox (badness 10000) in paragraph at lines 179--180
+Underfull \hbox (badness 10000) in paragraph at lines 181--182
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--185
+Underfull \hbox (badness 10000) in paragraph at lines 186--187
 
  []
 
 [10]
-Underfull \hbox (badness 10000) in paragraph at lines 214--215
+Underfull \hbox (badness 10000) in paragraph at lines 216--217
 
  []
 
-PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
-PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
-PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
-PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
 [11]
+PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
+PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
+PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
+PGFPlots: reading {./figures//StabilityVsForwardSpeed.csv}
+ [12]
 PGFPlots: reading {./figures//weaveMode.csv}
 
-Overfull \hbox (18.24504pt too wide) in paragraph at lines 281--282
+Overfull \hbox (18.24504pt too wide) in paragraph at lines 283--284
 [][] 
  []
 
 PGFPlots: reading {./figures//capsizeMode.csv}
 
-Overfull \hbox (2.71495pt too wide) in paragraph at lines 295--296
+Overfull \hbox (2.71495pt too wide) in paragraph at lines 297--298
 [][] 
  []
 
 
-Overfull \hbox (14.36095pt too wide) in paragraph at lines 271--298
+Overfull \hbox (14.36095pt too wide) in paragraph at lines 273--300
 [][]  [] 
- []
-
-[12]
-Underfull \hbox (badness 10000) in paragraph at lines 305--306
-
  []
 
 
@@ -1477,8 +1490,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 307--308
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 309--310
+
+ []
+
 [13]
-Underfull \hbox (badness 10000) in paragraph at lines 312--313
+Underfull \hbox (badness 10000) in paragraph at lines 314--315
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 316--317
 
  []
 
@@ -1487,48 +1510,53 @@ PGFPlots: reading {./figures//legoServoData.csv}
 PGFPlots: reading {./figures//legoServoData.csv}
 PGFPlots: reading {./figures//legoServoData.csv}
 
-Overfull \hbox (10.22029pt too wide) in paragraph at lines 330--331
+Overfull \hbox (10.22029pt too wide) in paragraph at lines 334--335
 [][] 
  []
 
 PGFPlots: reading {./figures//legoServoVerification.csv}
 PGFPlots: reading {./figures//legoServoVerification.csv}
 
-Overfull \hbox (10.22029pt too wide) in paragraph at lines 346--347
+Overfull \hbox (10.22029pt too wide) in paragraph at lines 350--351
 [][] 
  []
 
 
-Overfull \hbox (2.61107pt too wide) in paragraph at lines 315--349
+Overfull \hbox (2.61107pt too wide) in paragraph at lines 319--353
 [][] [] 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 359--360
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 363--364
 
  []
 
-[14]
+
+Underfull \hbox (badness 10000) in paragraph at lines 368--369
+
+ []
+
 PGFPlots: reading {./figures//FSServoData.csv}
 PGFPlots: reading {./figures//FSServoData.csv}
-) (sections/ControllerDesignAndSimulation.tex
+[15]) (sections/ControllerDesignAndSimulation.tex
 Underfull \hbox (badness 10000) in paragraph at lines 1--2
 
  []
 
-[15]
+
 Underfull \hbox (badness 10000) in paragraph at lines 3--4
 
  []
 
-<./figures/BikeSim.png, id=392, 599.23875pt x 449.42906pt>
+[16]
+<./figures/BikeSim.png, id=587, 599.23875pt x 449.42906pt>
 File: ./figures/BikeSim.png Graphic file (type png)
 <use ./figures/BikeSim.png>
 Package pdftex.def Info: ./figures/BikeSim.png  used on input line 9. on input 
 line 9.
 Package pdftex.def Info: Requested size: 359.54602pt x 269.6595pt on input line
  9.
-[16 <./figures/BikeSim.png>]
+
 Underfull \hbox (badness 10000) in paragraph at lines 17--18
 
  []
@@ -1538,7 +1566,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
 
-
+[17 <./figures/BikeSim.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 21--22
 
  []
@@ -1553,13 +1581,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 28--29
 
  []
 
-[17]
+
 Underfull \hbox (badness 10000) in paragraph at lines 30--31
 
  []
 
-(figures/pidblock.pdf_tex
-<./figures/pidblock.pdf, id=404, pagebox=cropbox, 324.73193pt x 129.283pt>
+[18] (figures/pidblock.pdf_tex
+<./figures/pidblock.pdf, id=599, pagebox=cropbox, 324.73193pt x 129.283pt>
 File: ./figures/pidblock.pdf Graphic file (type pdf)
 <use ./figures/pidblock.pdf>
 Package pdftex.def Info: ./figures/pidblock.pdf  used on input line 46. on inpu
@@ -1571,47 +1599,50 @@ Underfull \hbox (badness 10000) in paragraph at lines 45--46
 
  []
 
-[18 <./figures/pidblock.pdf>]
 PGFPlots: reading {./figures//legoRL.csv}
 PGFPlots: reading {./figures//legoRL.csv}
 PGFPlots: reading {./figures//legoRL.csv}
 PGFPlots: reading {./figures//legoRL.csv}
 PGFPlots: reading {./figures//legoRL.csv}
-
-Underfull \hbox (badness 10000) in paragraph at lines 85--86
-
- []
-
-
+PGFPlots: reading {./figures//legoPZ.csv}
+PGFPlots: reading {./figures//legoPZ.csv}
+NOTE: coordinate (,0.000) has been dropped because of a coordinate filter. (see
+ also unbounded coords=jump). 
+NOTE: coordinate (,0.000) has been dropped because of a coordinate filter. (see
+ also unbounded coords=jump). 
+NOTE: coordinate (,0.000) has been dropped because of a coordinate filter. (see
+ also unbounded coords=jump). 
+NOTE: coordinate (,0.000) has been dropped because of a coordinate filter. (see
+ also unbounded coords=jump). 
+[19 <./figures/pidblock.pdf>]
 Underfull \hbox (badness 10000) in paragraph at lines 87--88
 
  []
 
-[19]
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
+
+ []
+
 PGFPlots: reading {./figures//legoPID.csv}
 
-Overfull \hbox (2.45563pt too wide) in paragraph at lines 102--103
+Overfull \hbox (2.45563pt too wide) in paragraph at lines 104--105
 [][] 
  []
 
 PGFPlots: reading {./figures//legoPID.csv}
 
-Overfull \hbox (8.33057pt too wide) in paragraph at lines 117--118
+Overfull \hbox (8.33057pt too wide) in paragraph at lines 119--120
 [][] 
  []
 
 
-Overfull \hbox (14.36095pt too wide) in paragraph at lines 92--120
+Overfull \hbox (14.36095pt too wide) in paragraph at lines 94--122
 []$[]$  $[]$ 
  []
 
-[20]
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 163--164
+[20] [21]
+Underfull \hbox (badness 10000) in paragraph at lines 158--159
 
  []
 
@@ -1620,127 +1651,157 @@ Underfull \hbox (badness 10000) in paragraph at lines 165--166
 
  []
 
+
+Underfull \hbox (badness 10000) in paragraph at lines 167--168
+
+ []
+
 (figures/lqrblock.pdf_tex
-<./figures/lqrblock.pdf, id=426, pagebox=cropbox, 184.96446pt x 108.405pt>
+<./figures/lqrblock.pdf, id=621, pagebox=cropbox, 184.96446pt x 108.405pt>
 File: ./figures/lqrblock.pdf Graphic file (type pdf)
 <use ./figures/lqrblock.pdf>
 Package pdftex.def Info: ./figures/lqrblock.pdf  used on input line 46. on inpu
 t line 46.
 Package pdftex.def Info: Requested size: 236.01561pt x 138.3328pt on input line
  46.
-) [21]
-Underfull \hbox (badness 10000) in paragraph at lines 175--176
+)
+Underfull \hbox (badness 10000) in paragraph at lines 177--178
 
  []
 
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 178.
+[22 <./figures/lqrblock.pdf>]
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 180.
+
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\psnfss\ot1pcr.fd"
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 PGFPlots: reading {./figures//lqrLego.csv}
 
-Overfull \hbox (2.45563pt too wide) in paragraph at lines 205--206
+Overfull \hbox (2.45563pt too wide) in paragraph at lines 207--208
 [][] 
  []
 
 PGFPlots: reading {./figures//lqrLego.csv}
 
-Overfull \hbox (8.06741pt too wide) in paragraph at lines 195--222
+Overfull \hbox (8.06741pt too wide) in paragraph at lines 197--224
 []$[]$   $[]$ 
  []
 
-[22 <./figures/lqrblock.pdf>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 226.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 226.
+(hyperref)                removing `math shift' on input line 228.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\infty' on input line 226.
+(hyperref)                removing `subscript' on input line 228.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 226.
+(hyperref)                removing `\infty' on input line 228.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 227--228
+Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
+(hyperref)                removing `math shift' on input line 228.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 229--230
 
  []
 
 [23]
-Underfull \hbox (badness 10000) in paragraph at lines 260--261
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 262--263
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 269--270
+Underfull \hbox (badness 10000) in paragraph at lines 236--237
 
  []
 
 [24]
-Underfull \hbox (badness 10000) in paragraph at lines 292--293
+Underfull \hbox (badness 10000) in paragraph at lines 263--264
 
  []
 
-Package pgfplots info on input line 305: Using 'lua backend=false' for axis: xm
-ode=log unsupported (yet).
-PGFPlots: reading {./figures//legoHinf.csv}
 
-Underfull \hbox (badness 10000) in paragraph at lines 314--315
+Underfull \hbox (badness 10000) in paragraph at lines 265--266
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 272--273
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 295--296
 
  []
 
 [25]
-Package pgfplots info on input line 344: Using 'lua backend=false' for axis: xm
+Package pgfplots info on input line 308: Using 'lua backend=false' for axis: xm
+ode=log unsupported (yet).
+PGFPlots: reading {./figures//legoHinf.csv}
+
+Underfull \hbox (badness 10000) in paragraph at lines 317--318
+
+ []
+
+[26]
+Package pgfplots info on input line 348: Using 'lua backend=false' for axis: xm
 ode=log unsupported (yet).
 PGFPlots: reading {./figures//legoHinf.csv}
 PGFPlots: reading {./figures//legoHinf.csv}
 PGFPlots: reading {./figures//legoHinf.csv}
- [26]
 PGFPlots: reading {./figures//legoHinfResp.csv}
 
-Overfull \hbox (2.45563pt too wide) in paragraph at lines 370--371
+Overfull \hbox (2.45563pt too wide) in paragraph at lines 374--375
 [][] 
  []
 
 PGFPlots: reading {./figures//legoHinfResp.csv}
 
-Overfull \hbox (8.33057pt too wide) in paragraph at lines 384--385
+Overfull \hbox (8.33057pt too wide) in paragraph at lines 388--389
 [][] 
  []
 
 
-Overfull \hbox (8.06741pt too wide) in paragraph at lines 360--387
+Overfull \hbox (8.06741pt too wide) in paragraph at lines 364--391
 []$[]$   $[]$ 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
-
- []
-
 [27]
-Underfull \hbox (badness 10000) in paragraph at lines 397--398
+Underfull \hbox (badness 10000) in paragraph at lines 399--400
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 414--415
+Underfull \hbox (badness 10000) in paragraph at lines 401--403
 
  []
 
 [28]
-Underfull \hbox (badness 10000) in paragraph at lines 416--417
+Underfull \hbox (badness 10000) in paragraph at lines 421--422
+
+ []
+
+
+LaTeX Warning: Reference `fig:fsSimResp' on page 29 undefined on input line 423
+.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 426--427
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 428--429
+
+ []
+
+[29]
+Underfull \hbox (badness 10000) in paragraph at lines 445--446
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
 
  []
 
@@ -1750,10 +1811,10 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 )
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\listings\lstmisc.sty"
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
-)
+) [30]
 LaTeX Font Info:    Font shape `OT1/pcr/bx/n' in size <10> not available
 (Font)              Font shape `OT1/pcr/b/n' tried instead on input line 15.
- [29]
+
 Underfull \hbox (badness 10000) in paragraph at lines 29--30
 
  []
@@ -1763,12 +1824,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 31--32
 
  []
 
-
+[31]
 Underfull \hbox (badness 10000) in paragraph at lines 39--40
 
  []
 
-[30]
+
 Underfull \hbox (badness 10000) in paragraph at lines 48--50
 
  []
@@ -1780,7 +1841,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--52
 
 PGFPlots: reading {./figures//legoKalman.csv}
 PGFPlots: reading {./figures//legoKalman.csv}
-[31]
+[32]
 Underfull \hbox (badness 10000) in paragraph at lines 77--79
 
  []
@@ -1802,36 +1863,58 @@ Overfull \hbox (8.06741pt too wide) in paragraph at lines 83--110
 []$[]$   $[]$ 
  []
 
-[32]
-Underfull \hbox (badness 10000) in paragraph at lines 114--116
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 120--122
-
- []
-
-PGFPlots: reading {./figures//legoP12.csv}
-PGFPlots: reading {./figures//legoP12.csv}
 [33]
+Underfull \hbox (badness 10000) in paragraph at lines 114--115
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+ []
+
+PGFPlots: reading {./figures//legoPIDImp.csv}
+
+Overfull \hbox (9.10625pt too wide) in paragraph at lines 132--133
+[][] 
+ []
+
+PGFPlots: reading {./figures//legoPIDImp.csv}
+
+Overfull \hbox (14.98119pt too wide) in paragraph at lines 146--147
+[][] 
+ []
+
+
+Overfull \hbox (8.06741pt too wide) in paragraph at lines 122--149
+[]$[]$   $[]$ 
+ []
+
+[34]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 144.
+(hyperref)                removing `math shift' on input line 158.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `subscript' on input line 144.
+(hyperref)                removing `subscript' on input line 158.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\infty' on input line 144.
+(hyperref)                removing `\infty' on input line 158.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `math shift' on input line 144.
+(hyperref)                removing `math shift' on input line 158.
 
-) (sections/ImplementationFS.tex
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--162
+
+ []
+
+PGFPlots: reading {./figures//legoP12.csv}
+PGFPlots: reading {./figures//legoP12.csv}
+[35]) (sections/ImplementationFS.tex
 File: ./figures/FSBike.jpg Graphic file (type jpg)
 <use ./figures/FSBike.jpg>
 Package pdftex.def Info: ./figures/FSBike.jpg  used on input line 5. on input l
@@ -1849,57 +1932,66 @@ Overfull \hbox (8.06741pt too wide) in paragraph at lines 4--12
 []$[]$   $[]$ 
  []
 
-[34]
+[36]
 Underfull \hbox (badness 10000) in paragraph at lines 35--36
 
  []
 
-[35]
-<./figures/Basestation.png, id=540, 602.25pt x 492.33937pt>
+<./figures/Basestation.png, id=739, 602.25pt x 492.33937pt>
 File: ./figures/Basestation.png Graphic file (type png)
 <use ./figures/Basestation.png>
 Package pdftex.def Info: ./figures/Basestation.png  used on input line 47. on i
 nput line 47.
 Package pdftex.def Info: Requested size: 301.12425pt x 246.16907pt on input lin
 e 47.
-) (sections/ConclusionsAndFutureWork.tex [36 <./figures/Basestation.png>])
+[37]) (sections/ConclusionsAndFutureWork.tex)
 Underfull \hbox (badness 10000) in paragraph at lines 5--24
 
  []
 
 (sections/References.tex
-Underfull \hbox (badness 1533) in paragraph at lines 9--10
+Underfull \hbox (badness 10000) in paragraph at lines 3--4
+[]\OT1/cmr/m/it/12 Bicycle Evo-lu-tion\OT1/cmr/m/n/12 . On-line: []$https : / /
+ commons . wikimedia . org / wiki / File : Bicycle[]
+ []
+
+[38 <./figures/Basestation.png>]
+Underfull \hbox (badness 1533) in paragraph at lines 12--13
 []\OT1/cmr/m/n/12 Karl J. []Astrom, Richard E. Klein, An-ders Lennarts-son. \O
 T1/cmr/m/it/12 Bi-cy-cle Dy-nam-ics and
  []
 
 
-Underfull \hbox (badness 2903) in paragraph at lines 9--10
+Underfull \hbox (badness 2903) in paragraph at lines 12--13
 \OT1/cmr/m/it/12 Con-trol: Adapted bi-cy-cles for ed-u-ca-tion and re-search\OT
 1/cmr/m/n/12 . IEEE Con-trol Sys-tems,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 22--23
+Underfull \hbox (badness 10000) in paragraph at lines 28--29
 \OT1/cmr/m/n/12 motordrivecontrol / archive / 2013 / 04 / 13 / teaching-[]your-
 []pi-[]controller-[]to-[]behave-[]part-[]vii$[],
  []
 
-[37]) (sections/Appendix.tex) [38]
+) (sections/Appendix.tex) [39]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 30.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 30.
  (FinalReport.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 30.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 30.
 Package rerunfilecheck Info: File `FinalReport.out' has not changed.
-(rerunfilecheck)             Checksum: 66FE543A70D5321B5C40816112CB74E4;3312.
+(rerunfilecheck)             Checksum: 248DD4F8EBD7B1B48F9D6BFDE3223C16;3466.
+
+
+LaTeX Warning: There were undefined references.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 30.
  ) 
 Here is how much of TeX's memory you used:
- 43517 strings out of 493312
- 1020588 string characters out of 3136303
- 1660227 words of memory out of 3000000
- 46261 multiletter control sequences out of 15000+200000
+ 43579 strings out of 493312
+ 1022025 string characters out of 3136303
+ 1658783 words of memory out of 3000000
+ 46309 multiletter control sequences out of 15000+200000
  550786 words of font info for 91 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
  81i,21n,136p,935b,2231s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -1921,9 +2013,9 @@ blic/amsfonts/cm/cmti12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
 ic/amsfonts/euler/eurm10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw
 /courier/ucrb8a.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/urw/courier/
 ucrr8a.pfb>
-Output written on FinalReport.pdf (40 pages, 4126333 bytes).
+Output written on FinalReport.pdf (41 pages, 4283196 bytes).
 PDF statistics:
- 650 PDF objects out of 1000 (max. 8388607)
- 158 named destinations out of 1000 (max. 500000)
- 447 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 852 PDF objects out of 1000 (max. 8388607)
+ 165 named destinations out of 1000 (max. 500000)
+ 468 words of extra memory for PDF output out of 10000 (max. 10000000)
 
