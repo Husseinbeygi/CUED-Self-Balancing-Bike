@@ -2,12 +2,13 @@
 #include "IMU.h"
 
 #define IMU_DT_US 20000
-#define CTRL_DT_US 50000
-#define SERIAL_DT_US 50000
+#define CTRL_DT_US 20000
+#define SERIAL_DT_US 100000
+#define START_DT_US 1000000
 
 // Drive
 #define DRIVE_MOTOR_PIN 13
-unsigned int driveSetting = 11;
+unsigned int driveSetting = map(14, 0, 100, 0, 1023);
 
 // IMU
 IMU mpu;
@@ -22,17 +23,17 @@ float roll = 0.0;
 float steer = 0.0;
 
 // Controller
-float Kp = 10;
-float Ki =  0;
-float Kd =  0;
-float Tf = 0.50;
-int ctrlAngleLimit = 20;
+float Kp = 1.00;
+float Ki = 0.00;
+float Kd = 0.00;
+float Tf = 0.0110;
+int ctrlAngleLimit = 60;
 
 // Telemetry
 bool parsing;
 byte parseNumber = (byte) 0;
 
-unsigned long timerIMU, timerCTRL, timerSERIAL;
+unsigned long timerIMU, timerCTRL, timerSERIAL, timerSTART;
 
 bool started = false;
 
@@ -42,7 +43,7 @@ uint8_t parsingIMUcount = 0;
 
 void setup() {
 
-  Serial.begin(115200);
+ // Serial.begin(115200);
 
   mpu.init();
 
@@ -67,18 +68,18 @@ void setup() {
   delay(50);
 
   // Set integral control at servo
-  Serial3.print("C10\r");
+  Serial3.print("C0\r");
   delay(50);
 
   Serial3.print("A0\r");
   delay(50);
 
-  Serial3.print("B7500\r"); //Serial3.print("B7500\r");
+  Serial3.print("B10000\r"); //Serial3.print("B7500\r");
   delay(50);
 
   pidRoll.init(Kp, Ki, Kd, Tf, -ctrlAngleLimit, ctrlAngleLimit, -ctrlAngleLimit, ctrlAngleLimit);
 
-  timerIMU = timerCTRL = timerSERIAL = micros();
+  timerIMU = timerCTRL = timerSERIAL = timerSTART = micros();
 
 }
 
@@ -165,8 +166,6 @@ void loop() {
 
           if (started) {
 
-            Serial.println("STOP");
-
             analogWrite(DRIVE_MOTOR_PIN, 0);
             Serial3.print("G0\r");
 
@@ -174,8 +173,6 @@ void loop() {
             started = false;
 
           } else {
-
-            Serial.println("START");
 
             // Set maximum speed
             Serial3.print("M255\r");
@@ -192,17 +189,16 @@ void loop() {
             // Start drive motor (slow startup to prevent jolting)
             for (int i = 0; i <= driveSetting; i++) {
               analogWrite(DRIVE_MOTOR_PIN, i);
-            //  delay(20);
             }
             
             Serial2.write(252);
             started = true;
+            timerSTART = micros();
 
           }
 
         } else if (data == 251) { // Reset encoder
 
-          Serial.println("RESET ENCODER");
           Serial3.print("P0\r");
           Serial2.write(251);
 
@@ -235,6 +231,8 @@ void loop() {
     cmd += String(abs(controllerOutput));
     cmd += "\r";
 
+   // Serial.print(roll); Serial.print(" "); Serial.print(steer); Serial.print(" "); Serial.print(controllerOutput); Serial.print(" "); Serial.println(cmd);
+
     timerIMU += IMU_DT_US;
 
   }
@@ -242,7 +240,7 @@ void loop() {
   if (started) {
 
     // SERVO COMMAND
-    if (micros() - timerCTRL >= CTRL_DT_US) {
+    if ((micros() - timerCTRL >= CTRL_DT_US)) {
       Serial3.print(cmd);
 
       timerCTRL += CTRL_DT_US;

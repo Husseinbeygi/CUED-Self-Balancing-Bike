@@ -1,9 +1,11 @@
-To be able to design suitable control laws to stabilise the bicycle, it is necessary to provide a mathematical description of the system. Additionally, developing a dynamical model of the system will give an insight into what factors influence the bicycle behaviour in terms of its stability.
+To be able to design suitable control laws in order to stabilise the bicycle, it is necessary to provide a mathematical description of the system. Additionally, developing a dynamical model of the system will give an insight into what factors influence a bicycle's behaviour in terms of its stability. \\
+
 As previously mentioned, the equations of motion for a bicycle are a set of many, highly non-linear, and coupled differential equations. In this form, they do not aid an intuitive understanding of what makes a bicycle more or less stable and are inconvenient to use for control law design, which is based mainly on linear methods. For simulation however, these non-linear equations of motion are important, as they capture the dynamics over the entire range of operating regimes. \\
+
 This section aims to explore two commonly used linearised bicycle models of second and fourth order, which will be the basis for controller design in later sections.
 
 \subsection{Geometry and Definitions}
-The definitions of bicycle parameters, geometry, and coordinate system in this report follows the system given by {\AA}str{\"o}m in \cite{astrom}, which is based on the \textit{ISO 8855} standard \cite{iso}. A brief explanation of the bicycle parameters, as well as the top, rear, and side views of the bicycle are detailed in Table \ref{table:params} and Figures \ref{fig:geometry} and \ref{fig:geometry2}.
+The definitions of bicycle parameters, geometry, and coordinate system in this report follows the system given by {\AA}str{\"o}m in \cite{astrom}, which is based on the \textit{ISO 8855} standard \cite{iso}. A brief explanation of the bicycle parameters, as well as the top, rear, and side views of the bicycle are detailed in Table \ref{table:params} and Figures \ref{fig:geometry} and \ref{fig:geometry2}. \\
 
 \begin{table}[H]
 	\centering
@@ -48,11 +50,38 @@ The definitions of bicycle parameters, geometry, and coordinate system in this r
     \label{fig:geometry2}
 \end{figure}
 
-\subsection{Second Order Model}
-The simplest model of a bicycle leads to a second order differential equation relating the steer angle $\delta$ to the lean angle $\phi$. It does not take the dynamics of the front fork into account and assumes zero trail, a $90^{\circ}$ head angle, and a constant forward speed. Even though the model is limited to due its simplifying assumptions, it is useful for both intuitive understand of bicycle stability, as well as for controller design.
+\subsection{Parameter Estimation}
+The parameters of the real-world bicycles needed to be estimated to be used in the models explored in this section. \\
+
+The required lengths were obtained by simple measurement. However, parameters such as centers of mass, as well as moments of inertia were more difficult to estimate. To aid the estimation, a Python script was written that takes as an input the geometry and mass distribution of the bicycle, slices this geometry into a finite three-dimensional grid, and then computes the center of mass and moment of inertia terms via discrete approximations of the relevant integrals. \\
+
+The estimated parameters for both bicycles can be found in Table \ref{table:LegoFSParams} below.
+
+\begin{table}[H]
+	\centering
+ 	\begin{tabular}[t]{lccc} 
+	\toprule
+	Parameter & Symbol & Lego & Full-Scale \\
+ 	\midrule
+ 	Mass & m & $0.76\si{kg}$ & $28\si{kg}$\\
+ 	Center of Mass (x) & a & $0.10\si{m}$ & $0.26\si{m}$\\ 
+ 	Center of Mass (z) & h & $0.11\si{m}$ & $0.55\si{m}$\\
+ 	Wheel Base & b & $0.23\si{m}$ & $1.1\si{m}$\\
+ 	Moment of Inertia (xz) & $I_{xz}$ & $0.0084\si{kg.m^2}$ & $8.3\si{kg.m^2}$\\
+ 	Moment of Inertia (x)& $I_x$ & $0.0092\si{kg.m^2}$ & $3.9\si{kg.m^2}$\\
+ 	\bottomrule
+	\end{tabular}
+ 	\caption{Lego Prototype and Full-Scale Bicycle Estimated Parameters}
+	\label{table:LegoFSParams}
+\end{table}
+
+\subsection{Second Order Model} \label{SecondOrder}
+The simplest model of a bicycle leads to a second order differential equation relating the steer angle $\delta$ to the lean angle $\phi$. It does not take the dynamics of the front fork into account and assumes zero trail $c$, a $90^{\circ}$ head angle $\lambda$, and a constant forward speed $V$. \\
+
+Even though the model is limited due to its simplifying assumptions, it provides useful and intuitive insights into aspects of bicycle stability. In addition, it forms the basis for controller design in later sections.
 
 \subsubsection{Derivation}
-The first step in deriving the second order model is to consider a bicycle that is rotating about a fixed center $O$ with angular velocity $\omega_z$. Using the method of instantaneous centers, this can be calculated to be
+The derivation given in this section follows the method used by {\AA}str{\"o}m in \cite{astrom}. The first step in deriving the second order model is to consider a bicycle that is rotating about a fixed center $O$ with angular velocity $\omega_z$. Using the method of instantaneous centers, this can be calculated to be
 \begin{equation*}
 \omega_z = \frac{V}{b} \tan{(\delta)}.
 \end{equation*}
@@ -99,19 +128,19 @@ F_c &= m \omega^2_z r = \frac{m V^2}{b} \tan{(\delta)} \\
 
 Summing both torques results in the final moment balance:
 \begin{equation}
-J \ddot{\phi} - \frac{D V}{b} \dot{\delta} \sec^2{(\delta)} = m g h \sin{(\phi)} + \frac{m V^2 h}{b} \tan{(\delta)} \cos{(\phi)}
+J \ddot{\phi} - \frac{V D}{b} \dot{\delta} \sec^2{(\delta)} = m g h \sin{(\phi)} + \frac{m V^2 h}{b} \tan{(\delta)} \cos{(\phi)}
 \label{eq:2ndOrderNL}
 \end{equation}
 
-This is the final form of the governing second-order, non-linear differential equation of motion and will be used for simulation. To make this model useful for controller design, it needs to be linearised about zero lean and zero steer angle by using the small-angle approximations. Collecting terms, the linearised equation of motion then becomes,
-\begin{equation}
-J \ddot{\phi} - m g h \phi = \frac{V D}{b} \dot{\delta} + \frac{m h V^2}{b} \delta.
-\end{equation}
+This is the final form of the governing second-order, non-linear differential equation of motion and will be used for simulation. To make this model useful for controller design, it needs to be linearised about zero lean and zero steer angle by using small-angle approximations. Collecting terms, the linearised equation of motion then becomes,
+\begin{equation*}
+J \ddot{\phi} - m g h \phi = \frac{V D}{b} \dot{\delta} + \frac{m V^2 h}{b} \delta.
+\end{equation*}
 
 Now taking Laplace transforms, the transfer function for the second order bicycle model becomes:
-\begin{equation}
+\begin{equation*}
 G(s) = \frac{\bar{\phi}(s)}{\bar{\delta}(s)} =  \frac{V D}{J b} \frac{s + m h V / D}{s^2 - m g h / J}
-\end{equation}
+\end{equation*}
 
 Lastly, the moment of inertia terms can be approximated as $D \approx m a h$ and $J \approx m h^2$, which leads to the final version of the linearised, second order model,
 \begin{equation}
@@ -140,9 +169,41 @@ k_{\delta} > \frac{b g}{V^2}
 
 Which shows that an ever-increasing gain is needed as the forward speed decreases. This, of course, is practically infeasible and shows that it is impossible to balance a stationary bicycle via just controlling the handlebars. Interestingly, a longer wheel base ($b$) in turn requires the feedback gain to be larger as well.
 
+\subsubsection{Non-Minimum Phase Behaviour}
+As a brief aside, the model given above does not take fork parameters into account, such as trail $c$ or head angle $\lambda$. Including these in the model leads to a zero that can move into the right-half plane, where the location is given by:
+
+\begin{equation*}
+s = - \frac{V^2h-acg}{Vah}
+\end{equation*}
+
+For a fixed geometry, the zero will enter the right-half plane depending on the forward speed ($V<\sqrt{acg/h}$). Thus, the system is not only unstable but also exhibits non-minimum phase behaviour, making the system extremely difficult to control. \\
+
+However, since for the Lego prototype the trail $c$ was found to be sufficiently small, it can be effectively ignored, as the model then approximates the simpler minimum phase, second order model derived previously. Furthermore, for the full-scale bicycle the speed is sufficiently large that the zero does not move into the right-half plane. Thus, the simpler second order model can be used for controller design for both bicycles as both do not exhibit non-minimum phase behaviour.
+
+\subsubsection{Transfer Functions}
+Using the estimated bicycle parameters for the Lego prototype and full-scale bicycle in conjunction with the second order model, the transfer functions in terms of forward speed can be given for both the Lego prototype and full-scale bicycle. \\
+
+\textit{Lego Prototype}
+\begin{equation}
+G_{Lego}(s) = 3.4 \cdot V \cdot \frac{s + 10 \cdot V}{s^2 - 74}
+\label{eq:2ndOrderLego}
+\end{equation}
+
+\textit{Full-Scale Bicycle}
+\begin{equation}
+G_{FS}(s) = 0.44 \cdot V \cdot \frac{s + 3.8 \cdot V}{s^2 - 18}
+\label{eq:2ndOrderFS}
+\end{equation}
+
 \subsection{Fourth Order Model} \label{FourthOrder}
-A natural evolution from the second order model is the fourth order model, which takes the dynamics of the front fork into account. This model can explain why the bicycle can keep itself self-stable under certain conditions. However, the control input is now the \textit{torque} acting on the handlebar as opposed to the steer angle. Thus, this model is not suited for control design for two reasons: firstly, driving the handlebar motor in torque is not feasible, since both motor current and voltage measurement, as well as knowledge of the internal motor parameters, is needed to estimate the torque. Secondly, if not most importantly, using a servo at the handlebars essentially eliminates the front fork dynamics by enforcing a steer angle. Therefore, the second order model will be used for controller design. \\
-Nonetheless, this fourth order model is incredibly useful in describing the self-stable dynamics of a rider-less bicycle and will be briefly investigated here. A full derivation is given by Papadopoulos in \cite{fourthorder}. The model takes the following standard form:
+A natural evolution from the second order model is the fourth order model, which takes the dynamics of the front fork into account. This model can explain why the bicycle can keep itself self-stable under certain conditions. However, the control input is now the \textit{torque} acting on the handlebar as opposed to the steer angle. Thus, this model is not suited for control design for two reasons: 
+
+\begin{enumerate}
+\item{Driving the handlebar motor in torque is not feasible, since both motor current and voltage measurement, as well as knowledge of the internal motor parameters, is needed to estimate the torque.}
+\item{If not most importantly, using a servo at the handlebars essentially eliminates the front fork dynamics by enforcing a steer angle.}
+\end{enumerate}
+
+Therefore, the second order model will be used for controller design. Nonetheless, this fourth order model is incredibly useful in describing the self-stable dynamics of a rider-less bicycle and will be briefly investigated here. A full derivation is given by Papadopoulos in \cite{fourthorder}. The model takes the following standard form:
 
 \begin{equation*}
 \mathbf{M} \cdot \underline{\ddot{q}} + \mathbf{C}_1 \cdot v \cdot \underline{\dot{q}} + (\mathbf{K}_0 + \mathbf{K}_2 \cdot v^2) \cdot \underline{q} = \begin{bmatrix}
@@ -150,9 +211,9 @@ Nonetheless, this fourth order model is incredibly useful in describing the self
 \end{bmatrix}
 \end{equation*}
 
-Where $\mathbf{M}$, $\mathbf{C}$, and $\mathbf{K}$ are mass, damping, and stiffness matrices respectively. The vector $\underline{q}$ is composed of $\begin{bmatrix} \phi & \delta \end{bmatrix}^T$.
+Where $\mathbf{M}$, $\mathbf{C}$, and $\mathbf{K}$ are mass, damping, and stiffness matrices respectively. The vector $\underline{q}$ is composed of $\begin{bmatrix} \phi & \delta \end{bmatrix}^T$. \\
 
-Alternatively, this can be converted to a four-state, state-space representation. For the full-scale bicycle, this results in the following system matrices:
+Alternatively, this can be converted to a four-state, state-space representation. For the unmodified, full-scale bicycle, this results in the following system matrices:
 
 \begin{equation*}
 \underline{\dot{x}} = 
@@ -239,46 +300,6 @@ The weave and capsize modes can be excited by a lean torque disturbance when the
 \end{figure}
 
 The oscillations of the unstable weave mode dominate the response in a). On the other hand in b), the high frequency oscillations due to the stable complex-conjugate poles die out quickly with the very slow, non-oscillatory capsize mode dominating the response and finally causing the bicycle to fall over. Notice that even after ten seconds, the lean angle has only deviated by a couple hundredths of a degree. As stated before, this mode is therefore very easily stabilised. 
-
-\subsection{Parameter Estimation}
-Python script
-
-The estimated parameters for the Lego prototype can be found in Table \ref{table:LegoFSParams} below.
-
-\begin{table}[H]
-	\centering
- 	\begin{tabular}[t]{lccc} 
-	\toprule
-	Parameter & Symbol & Lego & Full-Scale \\
- 	\midrule
- 	Mass & m & $0.76\si{kg}$ & $28\si{kg}$\\
- 	Center of Mass (x) & a & $0.10\si{m}$ & $0.26\si{m}$\\ 
- 	Center of Mass (z) & h & $0.11\si{m}$ & $0.55\si{m}$\\
- 	Wheel Base & b & $0.23\si{m}$ & $1.1\si{m}$\\
- 	Moment of Inertia (xz) & D & $0.0084\si{kg.m^2}$ & $8.3\si{kg.m^2}$\\
- 	Moment of Inertia (x)& J & $0.0092\si{kg.m^2}$ & $3.9\si{kg.m^2}$\\
- 	\bottomrule
-	\end{tabular}
- 	\caption{Lego Prototype and Full-Scale Bicycle Parameters}
-	\label{table:LegoFSParams}
-\end{table}
-
-\subsubsection{Transfer Functions}
-Using the estimated bicycle parameters for the Lego prototype and full-scale bicycle in conjunction with the second order model, the transfer functions in terms of forward speed can be given for both the Lego prototype, as well as the full-scale bicycle.
-
-\textit{Lego Prototype} \\
-
-\begin{equation}
-G_{Lego}(s) = 3.4 \cdot V \cdot \frac{s + 10 \cdot V}{s^2 - 74}
-\label{eq:2ndOrderLego}
-\end{equation}
-
-\textit{Full-Scale Bicycle} \\
-
-\begin{equation}
-G_{FS}(s) = 0.44 \cdot V \cdot \frac{s + 3.8 \cdot V}{s^2 - 18}
-\label{eq:2ndOrderFS}
-\end{equation}
 
 \subsection{Actuators}
 The modelling of control actuators is also of vital importance and needs to be included in the overall system representation. This is due to the fact that actuators cannot change their position instantaneously and therefore will introduce lag into the system, which may cause further instability. \\

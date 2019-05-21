@@ -1,17 +1,41 @@
+After having completed the modelling and controller design for both bicycles, the final designs could then be tested on the real-world system. Firstly, the Lego prototype implementation was investigated, since it is much easier to assemble and to test in a confined space. The Lego prototype is depicted in Figure \ref{fig:lego} below.
+
 \begin{figure}[H]
 \centering
 \includegraphics[scale=0.075]{LegoBike.jpg}
 \caption{Lego Prototype Bicycle}
+\label{fig:lego}
 \end{figure}
 
 \subsection{Hardware}
-Two drive motors to give maximum speed (to aid stability), limited by single gyro sensor (measuring rate of change of lean angle), limited by maximum speed
+The Lego prototype was made up of standard \textit{Lego Mindstorms EV3} parts. In particular, two large motors are used in parallel to propel the bicycle forwards at a maximum possible speed, whilst a smaller motor was placed at the handlebars to actuate the front fork assembly. Only a single gyroscopic sensor was available to provide a measurement of the rate of change of the lean angle. Lastly, the \textit{Lego EV3 Brick} served as the central processing system, with a 300 MHz ARM processor, 16MB of Flash memory, and 64MB of RAM.
 
 \subsection{Software}
-RobotC, Choice of sample time (dependent on bandwidth of system)
+The microprocessor was programmed using RobotC, a C-derivative specifically for Lego systems. The software structure is outlined in pseudo-code below.
+
+\begin{lstlisting}[language=C, caption=Lego Software Pseudo-Code]
+initialiseSensorsAndMotors();
+bias = calibrateGyroscope();
+startDriveMotors(maxSpeed);
+startTimer();
+
+while (true) {
+	if (currentSampleTime >= desiredSampleTime) {
+		leandot = getSensorMeasurement() - bias;
+		lean = estimateLeanAngle(leandot);
+		ctrl = computeControllerOutput(0.0 - lean);
+		pos = actuateHandlebarMotor(ctrl);
+		logData(time,lean,ctrl,pos);
+	}
+}
+\end{lstlisting}
+
+The calibration routine records a fixed number of measurements and calculates their mean. This mean bias is then subtracted from each subsequent measurement in the control loop. The controller function computes the output of a difference equation obtained via discretisation, as mentioned in the previous section. Logging of data was achieved via Bluetooth using RobotC's inbuilt logging functionality. Finally, the desired sample time was chosen to be $T=0.01s$.
 
 \subsubsection{Lean Angle Estimation}
-The Lego bicycle is only equipped with a gyroscopic sensor, meaning that only the rate of change of the lean angle is directly measurable. Direct integration of this measurement to give an estimate of the lean angle is not possible, since the measurements are corrupted by noise and the gyro has a time-varying bias. This noise and gyro bias will cause a drift in the estimated lean angle over time and thus deviate quickly from the true lean angle. Therefore, it is necessary to estimate the lean angle at every timestep using a continuous-discrete \textit{Extended Kalman Filter} (EKF). The EKF fuses the approximately-known, linearised, continuous system dynamics with discrete, noisy sensor readings to give an overall improved state estimate. The state vector and model dynamics are taken from the fourth-order linearised model given in section \ref{FourthOrder}. Note that this entire state estimation step would not be necessary if an accelerometer were available, which could be used as reference to correct for drift. \\
+The Lego bicycle is only equipped with a gyroscopic sensor, meaning that only the rate of change of the lean angle is directly measurable. Direct integration of this measurement to give an estimate of the lean angle is not possible, since the measurements are corrupted by noise and the gyro has a time-varying bias. This noise and gyro bias will cause a drift in the estimated lean angle over time and thus deviate quickly from the true lean angle. \\
+
+Therefore, it is necessary to estimate the lean angle at every timestep using a continuous-discrete \textit{Extended Kalman Filter} (EKF). The EKF fuses the approximately-known, linearised, continuous system dynamics with discrete, noisy sensor readings to give an overall improved state estimate. Th full derivation of the EKF is given in \cite{smalluav}. The state vector and model dynamics are taken from the second-order model given in section \ref{SecondOrder}. Note that this entire state estimation step would not be necessary if an accelerometer were available, which could be used as reference to correct for drift. \\
 
 The continuous-discrete EKF can be divided into two steps. Firstly, the \textit{prediction} step uses the system dynamics to estimate the state vector a timestep $T$ in the future:
 \begin{align*}
@@ -25,35 +49,38 @@ Following this, the \textit{update} step fuses the linearised dynamics with the 
 \begin{align*}
 \mathbf{K} &= \mathbf{P} \mathbf{C}^T (\mathbf{R} + \mathbf{C} \mathbf{P} \mathbf{C}^T)^{-1} \\
 \mathbf{P} &= (\mathbf{I} - \mathbf{K C}) \mathbf{P} \\
-\hat{\underline{x}} &= \hat{\underline{x}} + \mathbf{K} (\underline{y} - h(\hat{\underline{x}}, \underline{u}))
+\hat{\underline{x}} &= \hat{\underline{x}} + \mathbf{K} (\underline{y}_m - \mathbf{C} \hat{\underline{x}})
 \end{align*}
 
-Where $h(\hat{\underline{x}}, \underline{u})$ is the output function, $\mathbf{C}$ is the Jacobian of the output function, $\mathbf{R}$ is the measurement noise matrix, and $\mathbf{K}$ is the Kalman gain, which effectively weights the measurements and internal model predictions. \\
+Where $\underline{y}_m$ is the measurement vector, $\mathbf{C}$ is the state output matrix, $\mathbf{R}$ is the measurement noise matrix, and $\mathbf{K}$ is the Kalman gain, which places a weighting on the measurements and internal model predictions. \\
+$\mathbf{Q}$ is chosen depending on the model accuracy, whereas $\mathbf{R}$ is set to the noise covariance found in the sensor datasheet. \\
 
-Lastly, it is important to note that an approximate model of the dynamics is used in conjunction with a noisy, biased sensor. Even though the resulting state estimation performance is much improved over using only the gyroscope readings, the inevitable inaccuracies will accumulate and degrade the lean angle as time progresses. This of course has a direct impact on control performance and also only allows the final system to be tested for short periods of time before requiring a reset.
+Lastly, it is important to note that an approximate model of the dynamics is used in conjunction with a noisy, biased sensor. Even though the resulting state estimation performance is much improved over using only the gyroscope readings, the inevitable inaccuracies will accumulate and degrade the lean angle estimate as time progresses. This ultimately has a direct impact on control performance and also only allows the final system to be tested for short periods of time before requiring a reset. \\
 
-\subsubsection{Discrete Form of PID}
-To be able to implement a PID controller in software, the continuous-time transfer function needs to be transformed into discrete-time. This is achieved by using the Tustin (Bilinear) transform, which gives the best possible match in the frequency domain between continuous and discrete forms. Furthermore, stability is preserved between the mappings. We start with the transfer function of a \textit{parallel} type PID representation:
-\begin{equation*}
-K_a(s) = K_P + \frac{K_I}{s} + K_D \frac{s}{s \tau + 1}
-\end{equation*}
+This is displayed in the simulated EKF state estimation in Figure \ref{fig:LegoKalman} below, where it is evident that after an initially good estimation performance, after a brief amount of time the lean angle estimate starts to drift away from the true value.
 
-To discretize this transfer function, we now apply the Tustin mapping from the s to the z-domain:
-\begin{equation*}
-s \rightarrow \frac{2}{T} \frac{z - 1}{z + 1}
-\end{equation*}
-
-Where $T$ is the sample time in seconds. After substituting and rearranging, this leads us to the discrete transfer function representation of the PID controller:
-\begin{equation*}
-K_d(z) = K_P + K_I \frac{T (z + 1)}{2 (z - 1)} + K_D \frac{2 (z - 1)}{z(2 \tau + T) - (2 \tau - T)}
-\end{equation*}
-
-The terms are intentionally kept separated, as in software these can be seen as three distinct blocks which are then summed to give the controller output. The discrete integrator and differentiator can then be implemented simply by difference equations with constant coefficients (assuming a constant sample time $T$).
-
-Integrator wind-up is prevented by clamping. The output is also clamped to prevent the actuator from moving beyond fixed limits.
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Lean Angle $\phi$ (deg),
+			 xmin=0,xmax=4.0,
+			 ymin=-1,ymax=1.5,
+			 legend pos=north east,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none,dashed] table[x=t,y=true,col sep=comma] {legoKalman.csv};	
+			\addplot[mark=none,color=blue] table[x=t,y=estimate,col sep=comma] {legoKalman.csv};
+			\legend{True,Model}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{EKF Lean Angle Estimation}
+	\label{fig:LegoKalman}
+\end{figure}
 
 \subsection{Results}
-\subsubsection{Proportional Controller}
+
+\subsubsection{PID}
 A proportional-only controller was indeed able to stabilise the bicycle. As predicted by the second-order model and simulation, the bicycle could be stabilised at the given forward speed of $V=0.44ms^{-1}$ by a gain greater than 11.4. \\
 Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and controller effort of the Lego prototype for a proportional gain of $K_P=12$.
 
@@ -111,51 +138,9 @@ As a brief aside, the servo model is again verified by running a simulation in M
 	\label{fig:LegoServoIDPart2}
 \end{figure}
 
-\subsubsection{Proportional-Derivative Controller}
-As a next step, we will aim to improve control performance by adding phase lead to the controller, as discussed in the section on controller design. This is achieved by the use of a lead compensator.  This can also be seen as a parallel combination of a proportional gain and a band-limited differentiator. The lead compensator increases the phase margin of the system in the hope of reducing the oscillations currently present in the closed-loop response. HOW DO WE SPLIT THIS BETWEEN CONTROLLER DESIGN AND IMPLEMENTATION??? \\
+\subsubsection{LQR}
 
-\begin{equation}
-K_{Lead}(s) = 14 \cdot \frac{s + 1.1}{s + 2.0}
-\end{equation}
-
-Or in PD form,
-
-\begin{equation}
-K_{PD}(s) = 8 + 3 \frac{s}{s \cdot 0.50 + 1}.
-\end{equation}
-\begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
-		\begin{axis}
-			[xlabel=Time (s),
-			 ylabel=Lean Angle $\phi$ (deg),			 
-			 xmin=0.25,xmax=2.5,
-			 ymin=-1.5,ymax=1.5,
-			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {legoPDData.csv};
-		\end{axis}
-	\end{tikzpicture}
-	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
-		\begin{axis}
-			[xlabel=Time (s),
-			 ylabel=Steering Angle $\delta$ (deg),
-			 xmin=0.25,xmax=2.5,
-			 ymin=-15,ymax=15,
-			 legend pos=north west,
-			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none,color=red] table[x=t,y=delta, col sep=comma] {legoPDData.csv};			
-		\end{axis}
-	\end{tikzpicture}
-	\caption{Actuator Effort}
-	\end{subfigure}
-	\caption{PD-Controller Response ($K_P=8$, $K_D=3$, $\tau=0.5$)}
-	\label{fig:LegoP12Controller}
-\end{figure}
-
-Small oscillations still remain but better damped , controller effort is greatly reduced for a better performance! Derivative is heavily filtered (tau=0.5), so that the jiterring which would otherwise occur due to noise is redueced. Lean angle only just above 1 deg.
+\subsubsection{$H_{\infty}$ Loop-Shaping}
 
 \subsubsection{Final Observations}
 hard to stabilise since h is small and time constants are short, not robust to disturbances. Have hardly any time to react. Additional limitation is maximum speed of lego model, which causes it to be very unstable. Stabilisation can be achieved but not a very good performance. Performance could probably be improved if we were to use a better angle estimation system, i.e. use an IMU. As soon as gyro estimate starts drifting we're in trouble (which turns out to be pretty quickly)...

@@ -8,9 +8,11 @@ if (bikeID == 1) % Lego
     % Bike parameters
     a = 0.10;
     b = 0.225;
+    c = 0.025;
     g = 9.81;
-    h = 0.132; %0.11;
+    h = 0.11;
     m = 0.76;
+    lambda = 55 * pi / 180;
     
     % 2nd order servo model (via system identification toolbox)
     T1 = 0.056; Tw = 0.030; zeta = 0.37; K = 1;
@@ -30,6 +32,8 @@ else % Full-scale
     g = 9.81;
     h = 0.55;
     m = 27.5;
+    c = 0.085;
+    lambda = 70 * pi / 180.0;
     
     T1 = 0.07; Tw = 0.073; zeta = 0.48; K = 1;
     
@@ -42,6 +46,8 @@ s=tf('s');
 
 % 2nd order bike model (steer angle (degrees) to lean angle (degrees))
 G = (V*D / (J*b)) * (s + m*h*V/D) / (s^2 - m*g*h/J);
+
+G2 = a * V * sin(lambda) / (b * h) * (s + (V^2*h-a*c*g)/(V*a*h)) / (s^2-g/h);
 
 % Servo model
 Ga = K/((T1*s+1)*(Tw^2*s^2+2*zeta*Tw*s+1));

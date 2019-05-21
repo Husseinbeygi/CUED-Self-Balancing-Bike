@@ -30,13 +30,13 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnSaveLog = new System.Windows.Forms.Button();
             this.label11 = new System.Windows.Forms.Label();
             this.rawData = new System.Windows.Forms.DataGridView();
@@ -50,18 +50,19 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtLim = new System.Windows.Forms.TextBox();
+            this.txtTf = new System.Windows.Forms.TextBox();
+            this.txtD = new System.Windows.Forms.TextBox();
+            this.txtI = new System.Windows.Forms.TextBox();
+            this.txtP = new System.Windows.Forms.TextBox();
+            this.txtSpeed = new System.Windows.Forms.TextBox();
+            this.btnUpdateSettings = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.CtrlLim = new System.Windows.Forms.TrackBar();
             this.label9 = new System.Windows.Forms.Label();
-            this.Tf = new System.Windows.Forms.TrackBar();
             this.label6 = new System.Windows.Forms.Label();
-            this.Kd = new System.Windows.Forms.TrackBar();
-            this.Ki = new System.Windows.Forms.TrackBar();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.Kp = new System.Windows.Forms.TrackBar();
-            this.speedSetting = new System.Windows.Forms.TrackBar();
             this.cmbPorts = new System.Windows.Forms.ComboBox();
             this.txtLog = new System.Windows.Forms.RichTextBox();
             this.btnConnect = new System.Windows.Forms.Button();
@@ -76,16 +77,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.chrtSteer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chrtLean)).BeginInit();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CtrlLim)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Tf)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Kd)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Ki)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Kp)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.speedSetting)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.btnSaveLog);
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.rawData);
@@ -103,12 +99,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Real-Time Data";
             // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.Location = new System.Drawing.Point(246, 573);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(225, 23);
+            this.button1.TabIndex = 24;
+            this.button1.Text = "Clear Log";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // btnSaveLog
             // 
             this.btnSaveLog.Font = new System.Drawing.Font("DejaVu Sans Condensed", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSaveLog.Location = new System.Drawing.Point(10, 573);
             this.btnSaveLog.Name = "btnSaveLog";
-            this.btnSaveLog.Size = new System.Drawing.Size(461, 23);
+            this.btnSaveLog.Size = new System.Drawing.Size(230, 23);
             this.btnSaveLog.TabIndex = 23;
             this.btnSaveLog.Text = "Save Log to CSV";
             this.btnSaveLog.UseVisualStyleBackColor = true;
@@ -126,14 +133,6 @@
             // 
             // rawData
             // 
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.rawData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.rawData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.rawData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -141,9 +140,9 @@
             this.Column3});
             this.rawData.Location = new System.Drawing.Point(10, 419);
             this.rawData.Name = "rawData";
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("DejaVu Sans Condensed", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            this.rawData.RowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("DejaVu Sans Condensed", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
+            this.rawData.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.rawData.Size = new System.Drawing.Size(461, 150);
             this.rawData.TabIndex = 9;
             // 
@@ -236,18 +235,19 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.txtLim);
+            this.groupBox2.Controls.Add(this.txtTf);
+            this.groupBox2.Controls.Add(this.txtD);
+            this.groupBox2.Controls.Add(this.txtI);
+            this.groupBox2.Controls.Add(this.txtP);
+            this.groupBox2.Controls.Add(this.txtSpeed);
+            this.groupBox2.Controls.Add(this.btnUpdateSettings);
             this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.CtrlLim);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.Tf);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Controls.Add(this.Kd);
-            this.groupBox2.Controls.Add(this.Ki);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Controls.Add(this.Kp);
-            this.groupBox2.Controls.Add(this.speedSetting);
             this.groupBox2.Controls.Add(this.cmbPorts);
             this.groupBox2.Controls.Add(this.txtLog);
             this.groupBox2.Controls.Add(this.btnConnect);
@@ -263,6 +263,72 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Control";
             // 
+            // txtLim
+            // 
+            this.txtLim.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtLim.Location = new System.Drawing.Point(77, 503);
+            this.txtLim.Name = "txtLim";
+            this.txtLim.Size = new System.Drawing.Size(207, 23);
+            this.txtLim.TabIndex = 29;
+            this.txtLim.Text = "60";
+            // 
+            // txtTf
+            // 
+            this.txtTf.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtTf.Location = new System.Drawing.Point(77, 452);
+            this.txtTf.Name = "txtTf";
+            this.txtTf.Size = new System.Drawing.Size(207, 23);
+            this.txtTf.TabIndex = 28;
+            this.txtTf.Text = "20";
+            // 
+            // txtD
+            // 
+            this.txtD.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtD.Location = new System.Drawing.Point(77, 401);
+            this.txtD.Name = "txtD";
+            this.txtD.Size = new System.Drawing.Size(207, 23);
+            this.txtD.TabIndex = 27;
+            this.txtD.Text = "5";
+            // 
+            // txtI
+            // 
+            this.txtI.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtI.Location = new System.Drawing.Point(77, 350);
+            this.txtI.Name = "txtI";
+            this.txtI.Size = new System.Drawing.Size(207, 23);
+            this.txtI.TabIndex = 26;
+            this.txtI.Text = "0";
+            // 
+            // txtP
+            // 
+            this.txtP.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtP.Location = new System.Drawing.Point(77, 296);
+            this.txtP.Name = "txtP";
+            this.txtP.Size = new System.Drawing.Size(207, 23);
+            this.txtP.TabIndex = 25;
+            this.txtP.Text = "20";
+            // 
+            // txtSpeed
+            // 
+            this.txtSpeed.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtSpeed.Location = new System.Drawing.Point(77, 248);
+            this.txtSpeed.Name = "txtSpeed";
+            this.txtSpeed.Size = new System.Drawing.Size(207, 23);
+            this.txtSpeed.TabIndex = 24;
+            this.txtSpeed.Text = "14";
+            // 
+            // btnUpdateSettings
+            // 
+            this.btnUpdateSettings.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btnUpdateSettings.Font = new System.Drawing.Font("DejaVu Sans Condensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnUpdateSettings.Location = new System.Drawing.Point(10, 542);
+            this.btnUpdateSettings.Name = "btnUpdateSettings";
+            this.btnUpdateSettings.Size = new System.Drawing.Size(131, 52);
+            this.btnUpdateSettings.TabIndex = 23;
+            this.btnUpdateSettings.Text = "&Update";
+            this.btnUpdateSettings.UseVisualStyleBackColor = false;
+            this.btnUpdateSettings.Click += new System.EventHandler(this.btnUpdateSettings_Click);
+            // 
             // label10
             // 
             this.label10.AutoSize = true;
@@ -272,19 +338,6 @@
             this.label10.Size = new System.Drawing.Size(44, 19);
             this.label10.TabIndex = 22;
             this.label10.Text = "Lim:";
-            // 
-            // CtrlLim
-            // 
-            this.CtrlLim.LargeChange = 10;
-            this.CtrlLim.Location = new System.Drawing.Point(73, 507);
-            this.CtrlLim.Maximum = 75;
-            this.CtrlLim.Minimum = 10;
-            this.CtrlLim.Name = "CtrlLim";
-            this.CtrlLim.Size = new System.Drawing.Size(211, 45);
-            this.CtrlLim.SmallChange = 5;
-            this.CtrlLim.TabIndex = 21;
-            this.CtrlLim.Value = 30;
-            this.CtrlLim.Scroll += new System.EventHandler(this.CtrlLim_Scroll);
             // 
             // label9
             // 
@@ -296,17 +349,6 @@
             this.label9.TabIndex = 20;
             this.label9.Text = "Tf:";
             // 
-            // Tf
-            // 
-            this.Tf.Location = new System.Drawing.Point(73, 456);
-            this.Tf.Maximum = 75;
-            this.Tf.Minimum = 1;
-            this.Tf.Name = "Tf";
-            this.Tf.Size = new System.Drawing.Size(211, 45);
-            this.Tf.TabIndex = 19;
-            this.Tf.Value = 10;
-            this.Tf.Scroll += new System.EventHandler(this.Tf_Scroll);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -316,26 +358,6 @@
             this.label6.Size = new System.Drawing.Size(20, 19);
             this.label6.TabIndex = 18;
             this.label6.Text = "I:";
-            // 
-            // Kd
-            // 
-            this.Kd.Location = new System.Drawing.Point(73, 405);
-            this.Kd.Maximum = 20;
-            this.Kd.Name = "Kd";
-            this.Kd.Size = new System.Drawing.Size(211, 45);
-            this.Kd.TabIndex = 17;
-            this.Kd.Value = 10;
-            this.Kd.Scroll += new System.EventHandler(this.Kd_Scroll_1);
-            // 
-            // Ki
-            // 
-            this.Ki.Location = new System.Drawing.Point(73, 354);
-            this.Ki.Maximum = 20;
-            this.Ki.Name = "Ki";
-            this.Ki.Size = new System.Drawing.Size(211, 45);
-            this.Ki.TabIndex = 16;
-            this.Ki.Value = 10;
-            this.Ki.Scroll += new System.EventHandler(this.Ki_Scroll);
             // 
             // label8
             // 
@@ -366,27 +388,6 @@
             this.label5.Size = new System.Drawing.Size(65, 19);
             this.label5.TabIndex = 10;
             this.label5.Text = "Speed:";
-            // 
-            // Kp
-            // 
-            this.Kp.Location = new System.Drawing.Point(73, 303);
-            this.Kp.Maximum = 40;
-            this.Kp.Name = "Kp";
-            this.Kp.Size = new System.Drawing.Size(211, 45);
-            this.Kp.TabIndex = 12;
-            this.Kp.Value = 10;
-            this.Kp.Scroll += new System.EventHandler(this.Kp_Scroll);
-            // 
-            // speedSetting
-            // 
-            this.speedSetting.Location = new System.Drawing.Point(73, 252);
-            this.speedSetting.Maximum = 15;
-            this.speedSetting.Minimum = 10;
-            this.speedSetting.Name = "speedSetting";
-            this.speedSetting.Size = new System.Drawing.Size(211, 45);
-            this.speedSetting.TabIndex = 11;
-            this.speedSetting.Value = 10;
-            this.speedSetting.Scroll += new System.EventHandler(this.desiredSpeed_Scroll);
             // 
             // cmbPorts
             // 
@@ -425,9 +426,9 @@
             this.btnStartStop.BackColor = System.Drawing.Color.Lime;
             this.btnStartStop.Enabled = false;
             this.btnStartStop.Font = new System.Drawing.Font("DejaVu Sans Condensed", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnStartStop.Location = new System.Drawing.Point(6, 560);
+            this.btnStartStop.Location = new System.Drawing.Point(153, 542);
             this.btnStartStop.Name = "btnStartStop";
-            this.btnStartStop.Size = new System.Drawing.Size(278, 36);
+            this.btnStartStop.Size = new System.Drawing.Size(131, 52);
             this.btnStartStop.TabIndex = 5;
             this.btnStartStop.Text = "&Start";
             this.btnStartStop.UseVisualStyleBackColor = false;
@@ -437,7 +438,7 @@
             // 
             this.btnResetEncoder.Enabled = false;
             this.btnResetEncoder.Font = new System.Drawing.Font("DejaVu Sans Condensed", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnResetEncoder.Location = new System.Drawing.Point(6, 223);
+            this.btnResetEncoder.Location = new System.Drawing.Point(6, 218);
             this.btnResetEncoder.Name = "btnResetEncoder";
             this.btnResetEncoder.Size = new System.Drawing.Size(278, 23);
             this.btnResetEncoder.TabIndex = 4;
@@ -494,12 +495,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.chrtLean)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.CtrlLim)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Tf)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Kd)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Ki)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.Kp)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.speedSetting)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -518,28 +513,30 @@
         private System.Windows.Forms.Button btnResetEncoder;
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.ComboBox cmbPorts;
-        private System.Windows.Forms.TrackBar speedSetting;
-        private System.Windows.Forms.TrackBar Kp;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.DataVisualization.Charting.Chart chrtLean;
-        private System.Windows.Forms.TrackBar Kd;
-        private System.Windows.Forms.TrackBar Ki;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TrackBar Tf;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.DataVisualization.Charting.Chart chrtSteer;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Timer tmrChart;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TrackBar CtrlLim;
         private System.Windows.Forms.Button btnSaveLog;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.DataGridView rawData;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox txtSpeed;
+        private System.Windows.Forms.Button btnUpdateSettings;
+        private System.Windows.Forms.TextBox txtLim;
+        private System.Windows.Forms.TextBox txtTf;
+        private System.Windows.Forms.TextBox txtD;
+        private System.Windows.Forms.TextBox txtI;
+        private System.Windows.Forms.TextBox txtP;
     }
 }
 

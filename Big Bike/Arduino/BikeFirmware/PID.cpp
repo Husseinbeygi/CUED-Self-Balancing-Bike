@@ -18,6 +18,8 @@ void PID::init(float Kp, float Ki, float Kd, float Tf, float limOutputMin, float
 }
 
 float PID::update(float setpoint, float measurement, float dt) {
+ // Serial.print(Kp); Serial.print(" "); Serial.print(Ki); Serial.print(" "); Serial.print(Kd); Serial.print(" "); Serial.println(Tf);
+  
   float error = setpoint - measurement;
   
   /* Proportional */
@@ -67,10 +69,12 @@ void PID::setKp(float Kp) {
 
 void PID::setKi(float Ki) {
   this->Ki = Ki;
+  integral = 0.0;
 }
 
 void PID::setKd(float Kd) {
   this->Kd = Kd;
+  derivative = 0.0;
 }
 
 void PID::setTf(float Tf) {

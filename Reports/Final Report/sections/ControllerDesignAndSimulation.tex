@@ -1,27 +1,38 @@
-SISO design, only can actuated handlebars, single output which is lean angle..
-Currently only using lean angle feedback, to keep on straight path would need some way of knowing heading - future work? \\
-Simulation used non-linear model to determine performance away from equilibrium point, was also compared to linear model. But plots only show non-linear simulation.
+This section details the controller design process for the bicycle, where three controller types were investigated: \textit{PID}, \textit{LQR}, and \textit{$H_{\infty}$ loop-shaping}. Since the steering angle is the only control variable and the lean angle is the only measured variable, the controller design problem is a \textit{single-input, single-output} (SISO) type. \\
+
+For simulation, the second order non-linear model derived in the previous section will be used to test the suitability of the final controller designs. This is to determine if the controller will still manage to stabilise the bicycle, even if it is perturbed outside of the linear range the controller is designed for. Thus, all following plots are using the non-linear model. \\
+
+The simulation and development environment was chosen to be Matlab and Simulink. Additionally, a bicycle simulator was developed from first principles using the game engine \textit{Unity} and C\#. This gives a full 3D representation of the bicycle dynamics and allows real-time simulation, where the user can impose disturbances, and change various parameters on the fly, such as controller gains, sensor noise, actuator limits, and so forth. The  non-linear differential equation of the second order model was integrated using the fourth order \textit{Runge-Kutta} method. A screenshot of the custom simulator is given in Figure \ref{fig:bikesim} below.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6]{BikeSim}
+	\caption{Custom Bicycle Simulator}
+	\label{fig:bikesim}
+\end{figure}
+
+For the sake of brevity, this section will only give detailed explanations of the controller design process for \textit{one} of the two bicycles, namely the Lego prototype. The controller designs for the full-scale bicycle follow essentially the same logic, given that the plant and actuator models are of the same form, and thus the design steps need only be described once. However, the final controller designs and their performance in simulation will be given for both bicycles.
 
 \subsection{Performance Requirements}
-When designing a new control system, it is important to be aware of any requirements and specifications that need to be met as to tailor the control law to those needs. In the case of the rider-less bicycle, the main goal is to ensure stability across a relatively broad range of forward speeds.\\
+When designing a control system, it is important to be aware of any requirements and specifications that need to be met as to tailor the control law to those needs. In the case of the rider-less bicycle, the main goal is to ensure stability across a relatively broad range of forward speeds.\\
 
-In addition, should stability be achieved, it is desirable to have a controller that is focused on reducing the effects of disturbances acting on the bicycle, as opposed to tracking the reference. Disturbances could be as small as an uneven road or path that the bicycle is riding over, and as large as a strong gust of wind giving the bicycle a sideways push (which is equivalent to a lean angle disturbance). As a further consideration, the amount of overshoot should be limited, so as not to excite any unmodelled non-linearities by deviating too far from the linear operating point the controller was designed for. \\
+In addition, should stability be achieved, it is desirable to have a controller that is primarily focused on reducing the effects of disturbances acting on the bicycle, as opposed to tracking the reference since this will be predominantly set to zero. Disturbances could be as small as an uneven road or path that the bicycle is riding over, and as large as a strong gust of wind giving the bicycle a sideways push. As a further consideration, the amount of overshoot should be limited, so as not to excite any non-linearities by deviating too far from the linear operating point the controller is designed for. \\
 
-%Once a reliable controller is in place, that works both in simulation and when implemented on the real-world system, it may be interesting to investigate a controller that can not only reject disturbance Minimize steady-state error for tracking? Etc... 
+For all controllers, the output is limited to $\pm 60$ degrees to prevent extreme steering angles. \\
 
-Cross-over needs to be above frequency of RHP pole, as we need the phase lead provided by the pole to ensure an encirclement of the -1 point on the Nyquist diagram.
+Furthermore, the cross-over frequency needs to be kept above the frequency of the right-half plane pole, as there the phase lead provided by the pole is needed to ensure an encirclement of the -1 point on the Nyquist diagram. \\
 
 Overall however, the bicycle, as an under-actuated system with only a handlebar actuator, is an incredibly difficult system to control. This therefore limits the control performance one can expect and reduces the number of performance constraints that can be placed on it.
 
 \subsection{Operating Point}
-As the bicycle models are \textit{strongly} dependent on forward speed, it needs be to ensured that that the controllers can cope well with changes in velocity. However, to simplify controller design and to reduce the amount of symbolic expressions, an operating point is selected (i.e. a specific forward speed) and controllers designed for that specific operating point. This process can then be repeated over a large range of forward speeds and then during the final implementation, the controllers can be gain-scheduled using gain look-up tables. \\
+As the bicycle models are \textit{strongly} dependent on forward speed, it needs be to ensured that that the controllers can cope well with changes in velocity. However, to simplify controller design and to reduce the amount of symbolic expressions, an operating point is selected (i.e. a specific forward speed) and controllers designed for that specific operating point. This process can be repeated over a large range of forward speeds and then during the final implementation, the controllers can be gain-scheduled using gain look-up tables. \\
 
 For the Lego prototype, the maximum achievable speed was found to be $V=0.44ms^{-1}$, which is thus chosen as the operating point. An increase in speed would be desirable to enable better control performance, however this was limited by the motors available. \\
 
 For the full-scale bicycle, the operating point was empirically selected to be $V=3ms^{-1}$. This was chosen to be deliberately low for safety reasons, as not to damage the bicycle or any surrounding objects, should the bicycle become uncontrollable. Additionally, a control system that works for low speeds is harder to achieve, and therefore any increase in speed will make the control design easier.
 
 \subsection{PID}
-A first controller design using a Proportional-Integral-Derivative (PID) controller was investigated, for which the block diagram, including actuator $G_a(s)$ and plant dynamics $G(s)$, can be seen in Figure \ref{fig:PID} below. PID controllers are used extensively in control engineering for their simplicity and overall good performance in a multitude of scenarios.
+A first controller design using a Proportional-Integral-Derivative (PID) controller was investigated, for which the block diagram, including actuator $G_a(s)$ and plant dynamics $G(s)$, can be seen in Figure \ref{fig:PID} below. PID controllers are used extensively in control engineering for their relative simplicity and overall good performance in a multitude of scenarios.
 
 \begin{figure}[H]
 	\begin{tikzpicture}[auto, node distance=2cm,>=latex']
@@ -64,12 +75,11 @@ A first controller design using a Proportional-Integral-Derivative (PID) control
 
 From the block diagram it can be seen that a band-limited differentiator is used, since a pure differentiator is not realisable in practice as the gain increases indefinitely as the frequency increases. Additionally, a pure differentiator amplifies high-frequency sensor noise in the system, which in turn greatly decreases control performance and actuator lifespan. Thus, a practical band-limited differentiator flattens off the gain at a cross-over frequency (in $rads^{-1}$) given by $\tau^{-1}$. It can be seen as a pure differentiator followed by a first-order low-pass filter. \\
 
-\subsubsection{Lego Prototype}
-Firstly, we wish to achieve closed-loop stability. From equation \ref{eq:minGain}, which gives us the minimum proportional gain required to stabilise the bicycle, we see that we can theoretically stabilise the bicycle with solely a proportional controller with gain:
-
-\begin{equation}
+\textbf{Lego Prototype} \\
+Firstly, closed-loop stability is to be achieved. From Equation \ref{eq:minGain}, the bicycle can in theory be stabilised using a proportional-only controller with gain satisfying:
+\begin{equation*}
 K_P > 11.4
-\end{equation}
+\end{equation*}
 
 However, this is without considering the effects of the actuator. Cascading the plant with the actuator gives the following root locus diagram:
 
@@ -92,16 +102,63 @@ However, this is without considering the effects of the actuator. Cascading the 
 	\caption{Root Locus for $K_P > 0$}
 \end{figure}
 
-As can be seen from the plot, we now also have an additional upper bound on the gain, as the pair of complex conjugate poles move towards and into the right-half plane as $K_P$ increases further. Thus, the closed-loop system is stable for a proportional gain in the range of:
-
-\begin{equation}
+As can be seen from the plot, there is now an additional upper bound on the gain, as the pair of complex conjugate poles move towards and into the right-half plane as $K_P$ increases further. Thus, the closed-loop system is stable for a proportional gain in the range of:
+\begin{equation*}
 11.4 < K_P < 14.3
-\end{equation}
+\end{equation*}
 
-After choosing a proportional gain, both an integral gain and derivative gain can be chosen using the same root-locus approach, be reforming the controller and plant into the respective Evan's form.
+After choosing a proportional gain, both an integral gain and derivative gain can be chosen using the same root-locus approach by reforming the controller and plant into the respective Evans' form:
+
+\begin{align*}
+1 + K_I \frac{G_a(s) G(s)}{s (1 + (1 + K_P) G_a(s) G(s)} &= 0 \\
+1 + K_D \frac{s G_a(s) G(s)}{1 + (1 + (K_P + K_I/s) G_a(s) G(s)} &= 0
+\end{align*}
+
+Integral gain is chosen to give zero steady-state error when the system is subjected to a constant disturbance, whereas derivative gain is then chosen to increase the damping of the system, thus reducing the oscillations. \\
+
+Lastly, the time constant $\tau$, which determines the cut-off frequency of the band-limited differentiator, is chosen by iteration so that stability and sufficient damping of the closed-loop system is maintained. However, $\tau$ must be kept large enough to suppress sensor noise from corrupting the response. \\
+
+In this way the parameters were chosen to be: $K_P=12$, $K_I=92$, $K_D=0.39$, and $\tau=0.00048$. The response to a step disturbance of magnitude $10$ at the input and the corresponding actuator effort can be seen in Figure \ref{fig:pidLego} below.
+
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Lean Angle $\phi$ (deg),			 
+			 xmin=0,xmax=1.5,
+			 ymin=-1,ymax=2,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {pidLego.csv};		
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Lean Angle Response}
+	\end{subfigure}
+	\quad
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Steering Angle $\delta$ (deg),
+			 xmin=0,xmax=1.5,
+			 ymin=-18,ymax=7.5,
+			 legend pos=north west,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {pidLego.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Controller Effort}
+	\end{subfigure}
+	\caption{Lego PID Controller Response}
+	\label{fig:pidLego}
+\end{figure}
+
+As can be seen from the plots, the PID controller in simulation can recover from an impulse in approximately one second whilst keeping the controller effort relatively small.
+
+\textbf{Additionally show sensitivity and complementary sensitivity?}
 
 \subsection{Linear Quadratic Regulator}
-Optimal linear control was investigated by means of an infinite-horizon linear quadratic regulator (LQR), which aims to minimise the cost function for the state-space realisation $\underline{\dot{x}}=\mathbf{A} \underline{x} + \mathbf{B} \underline{u}, \underline{y} = \mathbf{C} \underline{x}$,
+As a second controller type, optimal linear control was investigated by means of an infinite-horizon linear quadratic regulator (LQR), which aims to minimise the cost function for the state-space realisation $\underline{\dot{x}}=\mathbf{A} \underline{x} + \mathbf{B} \underline{u}, \underline{y} = \mathbf{C} \underline{x}$,
 \begin{equation*}
 J = \int_{0}^{\infty} (\underline{x}^T \mathbf{Q} \underline{x} + \underline{u}^T \mathbf{R} \underline{u}) dt.
 \end{equation*}
@@ -121,8 +178,8 @@ The second-order bicycle model can be transformed into state-space form using co
 \mathbf{A} &= \begin{bmatrix}
 0 & 1 \\
 \frac{m g h}{J} & 0
-\end{bmatrix} \\
-\mathbf{B} &= \begin{bmatrix}
+\end{bmatrix}, 
+\mathbf{B} = \begin{bmatrix}
 0 \\ 1
 \end{bmatrix} \\
 \mathbf{C} &= \begin{bmatrix}
@@ -132,18 +189,41 @@ The second-order bicycle model can be transformed into state-space form using co
 
 As before, the control input $u$ is the steer angle $\delta$ and the output $y$ is the lean angle $\phi$. For simplicity, the actuator model was \textit{not} taken into account, as to keep the state dimension low. \\
 
-Unfortunately, the states are not directly measurable. However, since the rank of the observability matrix $\mathcal{O}(A,C)$ is equal to the state dimension and the system is thus observable, an observer can be used to estimate the internal states of the system, given measurable inputs and outputs. For simplicity, it was decided to use the \textit{Luenberger} observer given by,
+Unfortunately, the states are not directly measurable. However, since the rank of the observability matrix $\mathcal{O}(A,C)$ is equal to the state dimension and the system is thus observable, an observer can be used to estimate the internal states of the system, given measured inputs and outputs. For simplicity, it was decided to use the \textit{Luenberger} observer given by,
 \begin{equation*}
 \underline{\hat{\dot{x}}}=\mathbf{A} \underline{\hat{x}} + \mathbf{B} \underline{u} + \mathbf{L} (\underline{y} - \underline{\hat{y}}).
 \end{equation*}
 
-Where $\underline{\hat{x}}$ denotes the state estimate. The rate of change of the estimation error $\dot{\underline{e}} = (\mathbf{A - \mathbf{L C}}) \underline{e}$ is determined by the eigenvalues of the matrix $\mathbf{A - \mathbf{L C}}$. Thus, $\mathbf{L}$ must be appropriately chosen to ensure that the estimation error approaches zero at a sufficiently fast rate. \\
+Where $\underline{\hat{x}}$ denotes the state estimate. The rate of change of the estimation error $\dot{\underline{e}} = (\mathbf{A - \mathbf{L C}}) \underline{e}$ is determined by the eigenvalues of the matrix $\mathbf{A - \mathbf{L C}}$. Thus, $\mathbf{L}$ must be appropriately chosen to ensure that the estimation error approaches zero quickly. \\
 
-The state estimates of the observer can then be used in conjunction with the state-feedback law given by the LQR. \\
+As pictured in Figure \ref{fig:LQR} below, the state estimates of the observer can then be used in conjunction with the state-feedback matrix $\mathbf{K}$ given by the LQR to form the closed-loop system. \\
 
-The choice of $\mathbf{Q}$ and R, which for a single-input system is a scalar, in general is not trivial. However, some constraints can be placed on the magnitudes of both. For the bicycle, it is desirable to reduce actuator effort, which is achieved by increasing the magnitude of R. Rapid stabilisation in turn is brought into effect by increasing the elements of $\mathbf{Q}$, thus heavily penalising a non-zero state.
+\begin{figure}[H]
+	\begin{tikzpicture}[auto, node distance=2cm,>=latex']
+		\node [sum] (sum) {};
+		\node [block, right of=sum] (actuator) {$G_a(s)$};
+    	\node [block, right of=actuator] (plant) {$G(s)$};
+    	\node [output, right of=plant] (output) {};
+    	\node [block, below of=plant] (obsv) {Observer};
+    	\node [block, left of=obsv, node distance=2.5cm] (lqr) {\textbf{K}};
 
-\subsubsection{Lego Prototype}
+		\draw [->] (sum) -- node[name=u] {$\bar{u}$}(actuator);
+    	\draw [->] (actuator) -- (plant);
+    	\draw [->] (plant) -- node [name=y] {$\bar{y}$}(output);
+    	\draw [->] (output) |- (obsv);
+		\draw [->] (obsv) -- node[name=xhat] {$\hat{\bar{\underline{x}}}$} (lqr);    
+    	\draw [->] (lqr) -| node[pos=0.99] {$-$} node [near end] {} (sum);
+		\draw [->] (u) -| (obsv);    	
+    	
+	\end{tikzpicture}
+	\centering
+	\caption{LQR Controller Block Diagram}
+	\label{fig:LQR}
+\end{figure}
+
+The choice of $\mathbf{Q}$ and R, which for a single-input system is a scalar, in general is not trivial. However, some constraints can be placed on the magnitudes of both. For the bicycle, it is desirable to reduce actuator effort, which is achieved by increasing the magnitude of R. Rapid stabilisation in turn is brought into effect by increasing the elements of $\mathbf{Q}$, thus heavily penalising a non-zero state. \\
+
+\textbf{Lego Protoype} \\
 Values for $\mathbf{Q}$ and R for the Lego prototype model were chosen by iteration. The solution to the CARE and thus the resulting state-feedback gains were computed using the Matlab command \texttt{lqr}. In addition, the observer gain matrix $\mathbf{L}$ was selected via pole placement and was iteratively found to give the best estimation results when the poles are located at $-2,-4$:
 \begin{equation*}
 \mathbf{L} = \begin{bmatrix}
@@ -176,7 +256,7 @@ It was observed that changing the values of both $\mathbf{Q}$ and R over a broad
 			 ymin=0,ymax=65,
 			 legend pos=north west,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none] table[x=t,y=u1, col sep=comma] {lqrLego.csv};			
+			\addplot[mark=none] table[x=t,y=u1, col sep=comma] {lqrLego.csv};
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Controller Effort}
@@ -184,9 +264,6 @@ It was observed that changing the values of both $\mathbf{Q}$ and R over a broad
 	\caption{Lego LQR Controller Response}
 	\label{fig:lqrLego}
 \end{figure}
-
-\subsubsection{Full-Scale Bicycle}
-The same $\mathbf{Q}$ and $\mathbf{R}$ matrices were chosen for the full-scale bicycle, resulting in control performance that can be seen in Figure XXX below.
 
 \subsection{$H_{\infty}$ Loop-Shaping}
 The second order model of the bicycle is an extremely simplified formulation of the actual system dynamics and parameters of the bicycle are only approximately known. Furthermore, the plant changes significantly with forward speed. Thus, it is important to maximise the robustness of the closed-loop system to plant perturbations, so that stability is achieved for a broad range of uncertainties. $H_{\infty}$ loop-shaping is concerned with robust stabilisation and thus an ideal candidate for this problem. The aim is to find a stabilising controller that maximises robustness, whilst trying to achieve a desired loop-shape of the return ratio. This section briefly covers aspects of the theory and then describes the prototype controller design process using this method. \\
@@ -231,34 +308,33 @@ Furthermore, it may be more convenient to use the $\nu$-gap metric (denoted by $
 \delta_{\nu}(G_0,G_1) < b(G_0,K).
 \end{equation*}
 
-Thus, after having computed a stabilising $H_{\infty}$ optimal controller, the $\nu$-gap metric can be used to determine the range of forward speeds, as well as the maximum uncertainties in system parameters, that can be tolerated to maintain closed-loop stability. \\
-Table \ref{table:nugap} below gives numerical values for the $\nu$-gap between the nominal plant, again including the actuator model, and expected perturbations in plant parameters.
+Thus, after having computed a stabilising $H_{\infty}$ optimal controller, the $\nu$-gap metric can be used to determine the range of forward speeds, as well as the maximum uncertainties in system parameters, that can be tolerated in order to maintain closed-loop stability. \\
+
+Table \ref{table:nugap} below gives numerical values for the $\nu$-gap between the nominal Lego prototype plant, again including the actuator model, and expected plant perturbations.
 
 \begin{table}[H]
 	\centering
- 	\begin{tabular}{||c c c||} 
- 	\hline
- 	\textbf{Parameter} & \textbf{Variation} & \textbf{$\nu$-gap} \\ [0.5ex] 
- 	\hline\hline
+ 	\begin{tabular}[t]{lcc} 
+ 	\toprule
+ 	Parameter & Variation & $\nu$-gap\\ 
+ 	\midrule
  	Forward speed $v$ & $\pm 30\%$ & 0.046,0.0615  \\
- 	\hline
  	Mass $m$ & $\pm 5\%$ & negligible \\ 
- 	\hline
  	Center of mass $h$ & $\pm 20\%$ & 0.057,0.047 \\
- 	\hline
- 	Wheel Base & b & $0.23m$ \\
- 	\hline
- 	Moment of Inertia & D & $0.0084 kgm^2$ \\
- 	\hline
- 	Moment of Inertia & J & $0.0092 kgm^2$ \\
- 	\hline
+ 	Center of mass $a$ & $\pm 20\%$ & 0.019,10.018\\
+ 	Wheel Base $b$ & $\pm 10$ & 0.012,0.0098\\
+ 	Moment of Inertia $D$ & $\pm 25\%$ & 0.022,0.022\\
+ 	Moment of Inertia $J$ & $\pm 25\%$ & 0.073,0.057\\
+ 	\bottomrule
 	\end{tabular}
- 	\caption{Lego Prototype Parameters}
+ 	\caption{$\nu$-gap Estimates for Expected Variations in Plant Parameters}
  	\label{table:nugap}
 \end{table}
 
-\subsubsection{Lego Prototype}
-The frequency response of the nominal system, including the actuator model, is shown in Figure \ref{fig:bodeLego} below.
+As is evident from the table above, \textit{single} variations in parameters are bounded by a maximum $\nu$-gap of approximately 0.073. However, taking into account that there inevitably  will be uncertainties in \textit{all} parameters, the corresponding $\nu$-gap between the nominal and true plant will be significantly higher. Thus, as a general rule of thumb, a stability margin $b(G_0,K)$ of at least 0.2 will be sought out to ensure robustness. \\
+
+\textbf{Lego Prototype} \\
+The frequency response of the nominal Lego Prototype model, including the actuator model, is shown in Figure \ref{fig:bodeLego} below.
 
 \begin{figure}[H]
 	\begin{tikzpicture}
@@ -324,3 +400,23 @@ As opposed to having several linear controllers gain-scheduled for different ope
 
 \subsection{Comparison}
 Comparison of control schemes, LQR difficult because control performance not only depends on sensors but also on observer, PID simplest to implement and tune on the fly, H-infinity
+
+\subsection{Implementation Details}
+All controller designs have been performed in the continuous domain. However, the controllers will eventually be implemented on a digital microprocessor, they need to be discretised. This is achieved by using the \textit{Tustin} transformation, which maps the s to the z domain as follows:
+
+\begin{equation*}
+s \rightarrow \frac{2}{T} \frac{z - 1}{z + 1}
+\end{equation*}
+
+The Tustin transform achieves the best frequency domain match between continuous and discrete systems. Furthermore, the choice of sampling time $T$ is critical for two reasons:
+
+\begin{enumerate}
+\item{A small value of $T$ will reduce the effects of \textit{frequency warping} induced by using the Tustin transform.}
+\item{$T$ must be chosen small enough so that the controller can react to the plant dynamics up to all relevant frequencies. As a general rule of thumb, the sampling time should be chosen so that $T \leq \frac{2 \pi}{10 \omega_c}$, where $\omega_c$ is the bandwidth of the plant.}
+\end{enumerate}
+
+However, the smallest possible sampling time is limited by the computational power of the processor. \\
+
+Another implementation detail is the prevention of integrator wind-up. For instance, a large error signal sustained over a longer period of time can cause an integrating controller to produce a very large output, which will cause large amounts of overshoot, as well as instability. To counter-act that problem, all integrators will be limited using a dynamic clamping scheme proposed in \cite{antiwindup}. \\
+
+Finally, the controller output is limited to $\pm 60^{\circ}$ as to not cause excessive steering angles to be demanded of the actuator.

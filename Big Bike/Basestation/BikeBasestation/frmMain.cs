@@ -262,7 +262,7 @@ namespace BikeBasestation
                 started = true;
                 stopwatch.Reset();
                 stopwatch.Start();
-                rawData.Rows.Clear();
+                
             }
 
             radioParsing = false;
@@ -273,48 +273,6 @@ namespace BikeBasestation
         private decimal Map(decimal x, long in_min, long in_max, long out_min, long out_max)
         {
             return Convert.ToDecimal((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min);
-        }
-
-        private void desiredSpeed_Scroll(object sender, EventArgs e)
-        {
-            // Start byte - settingID - driveSetting - Stop byte
-            byte[] speedCMD = new byte[] { 254, 1, Convert.ToByte(speedSetting.Value), 255 };
-            radio.Write(speedCMD, 0, 4);
-        }
-
-        private void Kp_Scroll(object sender, EventArgs e)
-        {
-            // Start byte - settingID - Kp - Stop byte
-            byte[] kpCMD = new byte[] { 254, 2, Convert.ToByte(Kp.Value), 255 };
-            radio.Write(kpCMD, 0, 4);   
-        }
-
-        private void Ki_Scroll(object sender, EventArgs e)
-        {
-            // Start byte - settingID - Ki - Stop byte
-            byte[] kiCMD = new byte[] { 254, 3, Convert.ToByte(Ki.Value), 255 };
-            radio.Write(kiCMD, 0, 4);
-        }
-
-        private void Kd_Scroll(object sender, EventArgs e)
-        {
-            // Start byte - settingID - Kd - Stop byte
-            byte[] kdCMD = new byte[] { 254, 4, Convert.ToByte(Kd.Value), 255 };
-            radio.Write(kdCMD, 0, 4);
-        }
-
-        private void Tf_Scroll(object sender, EventArgs e)
-        {
-            // Start byte - settingID - Kd - Stop byte
-            byte[] tfCMD = new byte[] { 254, 5, Convert.ToByte(Tf.Value), 255 };
-            radio.Write(tfCMD, 0, 4);
-        }
-
-        private void Kd_Scroll_1(object sender, EventArgs e)
-        {
-            // Start byte - settingID - Kd - Stop byte
-            byte[] kdCMD = new byte[] { 254, 4, Convert.ToByte(Kd.Value), 255 };
-            radio.Write(kdCMD, 0, 4);
         }
 
         private void tmrChart_Tick(object sender, EventArgs e)
@@ -336,33 +294,63 @@ namespace BikeBasestation
 
         }
 
-        private void CtrlLim_Scroll(object sender, EventArgs e)
-        {
-            byte[] limCMD = new byte[] { 254, 6, Convert.ToByte(CtrlLim.Value), 255 };
-            radio.Write(limCMD, 0, 4);
-        }
-
         private void btnSaveLog_Click(object sender, EventArgs e)
         {
             if (saveFileDialog.ShowDialog() != DialogResult.Cancel)
             {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
 
-                string[] columnNames = rawData.Columns.Cast<DataColumn>().
-                                                  Select(column => column.ColumnName).
-                                                  ToArray();
-                sb.AppendLine(string.Join(",", columnNames));
+                var headers = rawData.Columns.Cast<DataGridViewColumn>();
+                sb.AppendLine(string.Join(",", headers.Select(column => "\"" + column.HeaderText + "\"").ToArray()));
 
-                foreach (DataRow row in rawData.Rows)
+                foreach (DataGridViewRow row in rawData.Rows)
                 {
-                    string[] fields = row.ItemArray.Select(field => field.ToString()).
-                                                    ToArray();
-                    sb.AppendLine(string.Join(",", fields));
+                    var cells = row.Cells.Cast<DataGridViewCell>();
+                    sb.AppendLine(string.Join(",", cells.Select(cell => "\"" + cell.Value + "\"").ToArray()));
                 }
 
                 System.IO.File.WriteAllText(saveFileDialog.FileName, sb.ToString());
-                addLog("Saved raw data to CSV.");
             }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            chrtLean.Series[0].Points.Clear();
+            chrtSteer.Series[0].Points.Clear();
+
+            for (int n = 0; n < NUM_ELEMENTS; n++)
+            {
+                leanAngle[n] = 0;
+                steerAngle[n] = 0;
+            }
+
+            rawData.Rows.Clear();
+        }
+
+        private void btnUpdateSettings_Click(object sender, EventArgs e)
+        {
+            // Start byte - settingID - driveSetting - Stop byte
+            byte[] speedCMD = new byte[] { 254, 1, Convert.ToByte(txtSpeed.Text), 255 };
+            radio.Write(speedCMD, 0, 4);
+
+            // Start byte - settingID - Kp - Stop byte
+            byte[] kpCMD = new byte[] { 254, 2, Convert.ToByte(txtP.Text), 255 };
+            radio.Write(kpCMD, 0, 4);
+
+            // Start byte - settingID - Ki - Stop byte
+            byte[] kiCMD = new byte[] { 254, 3, Convert.ToByte(txtI.Text), 255 };
+            radio.Write(kiCMD, 0, 4);
+
+            // Start byte - settingID - Kd - Stop byte
+            byte[] kdCMD = new byte[] { 254, 4, Convert.ToByte(txtD.Text), 255 };
+            radio.Write(kdCMD, 0, 4);
+
+            // Start byte - settingID - Tf - Stop byte
+            byte[] tfCMD = new byte[] { 254, 5, Convert.ToByte(txtTf.Text), 255 };
+            radio.Write(tfCMD, 0, 4);
+
+            byte[] limCMD = new byte[] { 254, 6, Convert.ToByte(txtLim.Text), 255 };
+            radio.Write(limCMD, 0, 4);
         }
     }
 }

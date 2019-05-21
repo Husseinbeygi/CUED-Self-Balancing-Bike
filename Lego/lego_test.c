@@ -45,8 +45,9 @@ float prevRef = 0.0;
 
 // Function prototypes
 void calibrateGyro(int iterations);
-float LagCompensator(float error, float dt);
+float Compensator(float error, float dt);
 float HInf(float error);
+float lqr(float measurement, float input, float dt);
 
 task main() {
 
@@ -105,15 +106,13 @@ task main() {
 			hderiv = (2 * Kdh * (prevMeas - measurements[0] * RAD2DEG)+ (2 * tau - dt) * hderiv) / (2 * tau + dt);
 			prevMeas = measurements[0] * RAD2DEG;
 
-			u = Kph * (ref - measurements[0] * RAD2DEG) + hderiv + integrator;
-			prevRef = ref;
+		//	u = Kph * (ref - measurements[0] * RAD2DEG) + hderiv + integrator;
+		//	prevRef = ref;
 
-			u = HInf(0.0 - measurements[0] * RAD2DEG);
-
-			/* Gain scheduling */
+	//		u = HInf(0.0 - measurements[0] * RAD2DEG);
 
 
-		//	u = HInf(0.0 - measurements[0] * RAD2DEG);
+			u = Compensator(0.0 - measurements[0] * RAD2DEG, dt);
 
 			float error = u - getMotorEncoder(handlebarMotor);
 
@@ -178,18 +177,19 @@ void calibrateGyro(int iterations) {
 
 }
 
-float LagCompensator(float error, float dt) {
+float Compensator(float error, float dt) {
 
 	static float u[2] = {0.0, 0.0};
 	static float y[2] = {0.0, 0.0};
 
-	static float a = 0.01679;
-	static float b = 0.00600;
+	static float k = 15.5;
+	static float a =  5.0;
+	static float b = -2.0;
 
 	u[1] = u[0]; u[0] = error;
 	y[1] = y[0];
 
-	y[0] = ((u[0] - 0.9999 * u[1]) + 0.9999 * y[1]);
+	y[0] = (u[0] * k * (a * dt + 2.0) + u[1] * k * (a * dt - 2.0) - y[1] * (b * dt - 2.0)) / (b * dt + 2.0);
 
 	return y[0];
 
@@ -213,5 +213,22 @@ float HInf(float error) {
 									+ den[7] * u[7] + den[8] * y[8]);
 
 	return y[0];
+
+}
+
+float lqr(float measurement, float input, float dt) {
+
+	static float x1 = 0.0;
+	static float x2 = 0.0;
+
+	const static float L[2] = {0.6282, -1.0768};
+	const static float K[2] = {170.32, 18.0584};
+
+	x1 = x1 + T * ((0.0 - L[0] * 7.8222) * x1 + (1.0 - L[0] * 1.7778) * x2 + L[0] * measurement);
+	x2 = x2 + T * ((89.1818 - L[1] * 7.8222) * x1 + (0.0 - L[1] * 1.7778) * x2 + L[1] * measurement + input);
+
+	float output = -(K[0] * x1 + K[1] * x2);
+
+	return output;
 
 }
