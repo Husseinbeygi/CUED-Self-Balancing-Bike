@@ -1,11 +1,4 @@
-After having completed the modelling and controller design for both bicycles, the final designs could then be tested on the real-world system. Firstly, the Lego prototype implementation was investigated, since it is much easier to assemble and to test in a confined space. The Lego prototype is depicted in Figure \ref{fig:lego} below.
-
-\begin{figure}[H]
-\centering
-\includegraphics[scale=0.075]{LegoBike.jpg}
-\caption{Lego Prototype Bicycle}
-\label{fig:lego}
-\end{figure}
+After having completed the modelling and controller design for both bicycles, the final designs could then be tested on the real-world system. Firstly, the implementation using the Lego prototype bicycle was investigated, since it is quickly assembled, and easier to test in a confined space, compared to the full-scale bicycle.
 
 \subsection{Hardware}
 The Lego prototype was made up of standard \textit{Lego Mindstorms EV3} parts. In particular, two large motors are used in parallel to propel the bicycle forwards at a maximum possible speed, whilst a smaller motor was placed at the handlebars to actuate the front fork assembly. Only a single gyroscopic sensor was available to provide a measurement of the rate of change of the lean angle. Lastly, the \textit{Lego EV3 Brick} served as the central processing system, with a 300 MHz ARM processor, 16MB of Flash memory, and 64MB of RAM.
@@ -71,7 +64,7 @@ This is displayed in the simulated EKF state estimation in Figure \ref{fig:LegoK
 			 tick label style={/pgf/number format/fixed}]
 			\addplot[mark=none,dashed] table[x=t,y=true,col sep=comma] {legoKalman.csv};	
 			\addplot[mark=none,color=blue] table[x=t,y=estimate,col sep=comma] {legoKalman.csv};
-			\legend{True,Model}
+			\legend{True,Estimate}
 		\end{axis}
 	\end{tikzpicture}
 	\caption{EKF Lean Angle Estimation}
@@ -81,8 +74,10 @@ This is displayed in the simulated EKF state estimation in Figure \ref{fig:LegoK
 \subsection{Results}
 
 \subsubsection{PID}
+\textbf{Proportional Only} \\
 A proportional-only controller was indeed able to stabilise the bicycle. As predicted by the second-order model and simulation, the bicycle could be stabilised at the given forward speed of $V=0.44ms^{-1}$ by a gain greater than 11.4. \\
-Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and controller effort of the Lego prototype for a proportional gain of $K_P=12$.
+
+Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and actuator effort of the Lego prototype for a proportional gain of $K_P=12$.
 
 \begin{figure}[H]
 	\begin{subfigure}{0.5\textwidth}
@@ -116,8 +111,13 @@ Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and 
 	\label{fig:LegoPController}
 \end{figure}
 
-The response for the simple proportional controller is certainly not ideal, even though stability is achieved.  The magnitude of the lean angle is bounded by approximately $5^{\circ}$, which is an acceptable deviation from the desired setpoint of $0^{\circ}$. However, there is an oscillation present in the response, indicating that the system is on the boundary of stability. Knocking the bicycle gently, as to add an output disturbance, destabilises it. Thus the closed-loop system is not robust and sensitive to disturbances in its current state. This is to be expected however, since we are using a proportional gain which places the closed-loop poles very close to the imaginary axis. As shown, inevitable model uncertainties will deteriorate the control performance from the ideal calculations and simulations. Furthermore, this \textit{jittering} behaviour also causes the bicycle to move off-track easily and not follow a straight path. Lastly, the controller effort is larger than ideal. However, this large actuator command is required for stability. \\
+The response for the simple proportional controller is certainly not ideal, even though stability is achieved.  The magnitude of the lean angle is bounded by approximately $5^{\circ}$, which is an acceptable deviation from the desired setpoint of $0^{\circ}$. However, there is an oscillation present in the response, indicating that the system is on the boundary of stability. Knocking the bicycle gently, as to add an output disturbance, destabilises it. Thus the closed-loop system is not robust and sensitive to disturbances in its current state. This is to be expected however, since a proportional gain is used which places the closed-loop poles very close to the imaginary axis. \\
+Furthermore, the \textit{jittering} behaviour also causes the bicycle to move off-track easily and not follow a straight path. Lastly, the controller effort is larger than ideal. \\
 
+\textbf{Full PID Controller} \\
+Hello
+
+\textbf{Servo Model Verification} \\
 As a brief aside, the servo model is again verified by running a simulation in Matlab but using the real-world controller output data. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match is near perfect and confirms the actuator model identified in an earlier section of this report. \\
 
 \begin{figure}[H]
@@ -139,6 +139,7 @@ As a brief aside, the servo model is again verified by running a simulation in M
 \end{figure}
 
 \subsubsection{LQR}
+Unfortunately, the LQR controller was not able to stabilise the Lego prototype, even with varying feedback gains. It is assumed that the reason for this instability is that not only is the system relying on an approximate estimate of the lean angle, but it is now also relying on an additional state observer, which is using this degraded state estimate to again infer a further set of internal states. Thus, these combined errors will be fed back to the control law, which as seen from the previous controller type is already at its limits using a single state estimator.
 
 \subsubsection{$H_{\infty}$ Loop-Shaping}
 

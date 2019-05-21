@@ -1,48 +1,48 @@
 \contentsline {section}{\numberline {1}Introduction}{3}{section.1}
-\contentsline {section}{\numberline {2}Modelling}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}Geometry and Definitions}{4}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Parameter Estimation}{5}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Second Order Model}{6}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}Derivation}{6}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Stability}{8}{subsubsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.3}Non-Minimum Phase Behaviour}{9}{subsubsection.2.3.3}
-\contentsline {subsubsection}{\numberline {2.3.4}Transfer Functions}{9}{subsubsection.2.3.4}
+\contentsline {section}{\numberline {2}Modelling}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Geometry and Definitions}{5}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Parameter Estimation}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Second Order Model}{7}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Derivation}{7}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Stability}{9}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Non-Minimum Phase Behaviour}{10}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Transfer Functions}{10}{subsubsection.2.3.4}
 \contentsline {subsection}{\numberline {2.4}Fourth Order Model}{10}{subsection.2.4}
 \contentsline {subsubsection}{\numberline {2.4.1}Stability}{11}{subsubsection.2.4.1}
-\contentsline {subsection}{\numberline {2.5}Actuators}{12}{subsection.2.5}
-\contentsline {subsubsection}{\numberline {2.5.1}Lego Prototype}{13}{subsubsection.2.5.1}
-\contentsline {subsubsection}{\numberline {2.5.2}Full-Scale Bicycle}{14}{subsubsection.2.5.2}
+\contentsline {subsection}{\numberline {2.5}Actuators}{13}{subsection.2.5}
+\contentsline {subsubsection}{\numberline {2.5.1}Lego Prototype}{14}{subsubsection.2.5.1}
+\contentsline {subsubsection}{\numberline {2.5.2}Full-Scale Bicycle}{15}{subsubsection.2.5.2}
 \contentsline {subsection}{\numberline {2.6}Model Verification}{15}{subsection.2.6}
-\contentsline {section}{\numberline {3}Controller Design and Simulation}{15}{section.3}
-\contentsline {subsection}{\numberline {3.1}Performance Requirements}{16}{subsection.3.1}
+\contentsline {section}{\numberline {3}Controller Design and Simulation}{16}{section.3}
+\contentsline {subsection}{\numberline {3.1}Performance Requirements}{17}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Operating Point}{17}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}PID}{17}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.3}PID}{18}{subsection.3.3}
 \contentsline {subsection}{\numberline {3.4}Linear Quadratic Regulator}{20}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}$H_{\infty }$ Loop-Shaping}{22}{subsection.3.5}
-\contentsline {subsection}{\numberline {3.6}Non-Linear Methods}{26}{subsection.3.6}
-\contentsline {subsection}{\numberline {3.7}Comparison}{26}{subsection.3.7}
-\contentsline {subsection}{\numberline {3.8}Implementation Details}{27}{subsection.3.8}
-\contentsline {section}{\numberline {4}Implementation: Lego Prototype}{27}{section.4}
-\contentsline {subsection}{\numberline {4.1}Hardware}{28}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Software}{28}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Lean Angle Estimation}{29}{subsubsection.4.2.1}
-\contentsline {subsection}{\numberline {4.3}Results}{31}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}PID}{31}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}LQR}{32}{subsubsection.4.3.2}
-\contentsline {subsubsection}{\numberline {4.3.3}$H_{\infty }$ Loop-Shaping}{32}{subsubsection.4.3.3}
-\contentsline {subsubsection}{\numberline {4.3.4}Final Observations}{32}{subsubsection.4.3.4}
-\contentsline {section}{\numberline {5}Implementation: Full-Scale Bicycle}{32}{section.5}
-\contentsline {subsection}{\numberline {5.1}Hardware}{33}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}Bicycle Frame}{33}{subsubsection.5.1.1}
-\contentsline {subsubsection}{\numberline {5.1.2}Drive Motor}{33}{subsubsection.5.1.2}
-\contentsline {subsubsection}{\numberline {5.1.3}Handlebar Actuator}{33}{subsubsection.5.1.3}
-\contentsline {subsubsection}{\numberline {5.1.4}Microprocessor and Sensors}{33}{subsubsection.5.1.4}
-\contentsline {subsubsection}{\numberline {5.1.5}Miscellaneous}{33}{subsubsection.5.1.5}
-\contentsline {subsection}{\numberline {5.2}Software}{33}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Code Layout}{33}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Lean Angle Estimation}{33}{subsubsection.5.2.2}
-\contentsline {subsubsection}{\numberline {5.2.3}Basestation and Telemetry}{34}{subsubsection.5.2.3}
-\contentsline {subsection}{\numberline {5.3}Results}{35}{subsection.5.3}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{35}{section.6}
-\contentsline {section}{References}{35}{section*.25}
-\contentsline {section}{Appendix \numberline {A}Risk Assessment}{36}{Appendix.a.A}
+\contentsline {subsection}{\numberline {3.5}$H_{\infty }$ Loop-Shaping}{23}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.6}Non-Linear Methods}{27}{subsection.3.6}
+\contentsline {subsection}{\numberline {3.7}Comparison and Robustness}{28}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.8}Implementation Details}{28}{subsection.3.8}
+\contentsline {section}{\numberline {4}Implementation: Lego Prototype}{29}{section.4}
+\contentsline {subsection}{\numberline {4.1}Hardware}{29}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Software}{29}{subsection.4.2}
+\contentsline {subsubsection}{\numberline {4.2.1}Lean Angle Estimation}{30}{subsubsection.4.2.1}
+\contentsline {subsection}{\numberline {4.3}Results}{32}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}PID}{32}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}LQR}{34}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.3}$H_{\infty }$ Loop-Shaping}{34}{subsubsection.4.3.3}
+\contentsline {subsubsection}{\numberline {4.3.4}Final Observations}{34}{subsubsection.4.3.4}
+\contentsline {section}{\numberline {5}Implementation: Full-Scale Bicycle}{34}{section.5}
+\contentsline {subsection}{\numberline {5.1}Hardware}{35}{subsection.5.1}
+\contentsline {subsubsection}{\numberline {5.1.1}Bicycle Frame}{35}{subsubsection.5.1.1}
+\contentsline {subsubsection}{\numberline {5.1.2}Drive Motor}{35}{subsubsection.5.1.2}
+\contentsline {subsubsection}{\numberline {5.1.3}Handlebar Actuator}{35}{subsubsection.5.1.3}
+\contentsline {subsubsection}{\numberline {5.1.4}Microprocessor and Sensors}{35}{subsubsection.5.1.4}
+\contentsline {subsubsection}{\numberline {5.1.5}Miscellaneous}{35}{subsubsection.5.1.5}
+\contentsline {subsection}{\numberline {5.2}Software}{35}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Code Layout}{35}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Lean Angle Estimation}{35}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}Basestation and Telemetry}{36}{subsubsection.5.2.3}
+\contentsline {subsection}{\numberline {5.3}Results}{37}{subsection.5.3}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{37}{section.6}
+\contentsline {section}{References}{37}{section*.27}
+\contentsline {section}{Appendix \numberline {A}Risk Assessment}{38}{Appendix.a.A}

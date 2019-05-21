@@ -106,7 +106,7 @@ L_x = J \dot{\phi} - D \frac{V}{b} \tan{(\delta)}.
 
 Taking derivatives, whilst noting that a constant forward speed is assumed, leads to
 \begin{equation*}
-\dot{L}_x \approx J \ddot{\phi} - \frac{D}{b} V \dot{\delta} \sec^2{(\delta)}.
+\dot{L}_x = J \ddot{\phi} - \frac{D}{b} V \dot{\delta} \sec^2{(\delta)}.
 \end{equation*}
 
 Now the torques acting on the system are required, which can be summed and used in conjunction with Newton's second law for moments,
@@ -318,13 +318,13 @@ Interfacing with the Lego handlebar motor can only be achieved by issuing a spee
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),		 
 			 xmin=0,xmax=0.3,
-			 ymin=0,ymax=120,
+			 ymin=0,ymax=12,
 			 legend pos=north west,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none,dashed] table[x=t,y=u, col sep=comma] {legoServoData.csv};
-			\addplot[mark=none,color=blue] table[x=t,y=p1, col sep=comma] {legoServoData.csv};
-			\addplot[mark=none,color=red] table[x=t,y=p2, col sep=comma] {legoServoData.csv};
-			\addplot[mark=none,color=green] table[x=t,y=p5, col sep=comma] {legoServoData.csv};
+			\addplot[mark=none,dashed] table[x=t,y=u, col sep=tab] {legoServoData.csv};
+			\addplot[mark=none,color=blue] table[x=t,y=p1, col sep=tab] {legoServoData.csv};
+			\addplot[mark=none,color=red] table[x=t,y=p2, col sep=tab] {legoServoData.csv};
+			\addplot[mark=none,color=green] table[x=t,y=p5, col sep=tab] {legoServoData.csv};
 			\legend{SP,P=1,P=2,P=5}			
 		\end{axis}
 	\end{tikzpicture}
@@ -336,11 +336,11 @@ Interfacing with the Lego handlebar motor can only be achieved by issuing a spee
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
 			 xmin=0,xmax=0.3,
-			 ymin=0,ymax=120,
+			 ymin=0,ymax=12,
 			 legend pos=north west,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none,color=red,dashed] table[x=t,y=true, col sep=comma] {legoServoVerification.csv};
-			\addplot[mark=none,color=blue] table[x=t,y=model, col sep=comma] {legoServoVerification.csv};
+			\addplot[mark=none,dashed] table[x=t,y=true, col sep=tab] {legoServoVerification.csv};
+			\addplot[mark=none,color=blue] table[x=t,y=model, col sep=tab] {legoServoVerification.csv};
 			\legend{True, Model}			
 		\end{axis}
 	\end{tikzpicture}
@@ -371,11 +371,11 @@ Again, a third order model was fitted to the step response data, giving the foll
 			[xlabel=Time (s),
 			 ylabel=Steer Angle $\delta$ (deg),
 			 xmin=0,xmax=1.2,
-			 ymin=0,ymax=120,
+			 ymin=0,ymax=12,
 			 legend pos=south east,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none,color=red,dashed] table[x=t,y=delta,col sep=comma] {FSServoData.csv};	
-			\addplot[mark=none,color=blue] table[x=t,y=deltasim,col sep=comma] {FSServoData.csv};
+			\addplot[mark=none,dashed] table[x=t,y=delta,col sep=tab] {FSServoData.csv};	
+			\addplot[mark=none,color=blue] table[x=t,y=deltasim,col sep=tab] {FSServoData.csv};
 			\legend{True,Model}
 		\end{axis}
 	\end{tikzpicture}

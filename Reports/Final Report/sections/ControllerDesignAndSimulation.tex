@@ -35,41 +35,10 @@ For the full-scale bicycle, the operating point was empirically selected to be $
 A first controller design using a Proportional-Integral-Derivative (PID) controller was investigated, for which the block diagram, including actuator $G_a(s)$ and plant dynamics $G(s)$, can be seen in Figure \ref{fig:PID} below. PID controllers are used extensively in control engineering for their relative simplicity and overall good performance in a multitude of scenarios.
 
 \begin{figure}[H]
-	\begin{tikzpicture}[auto, node distance=2cm,>=latex']
-
-    	\node [input, name=input] {};
-    	\node [sum, right of=input] (sum) {};
-    	\node [block, right of=sum] (IController) {$\frac{K_I}{s}$}; 	
-    	\node [block, above of=IController] (PController) {$K_P$};   
-    	\node [sum, right of=IController, node distance=2cm] (sum2) {};
-		\node [block, right of=sum2] (actuator) {$G_a(s)$};
-    	\node [block, right of=actuator] (plant) {$G(s)$};
-    	
-    	\node [output, right of=plant] (output) {};
-    	\node [block, below of=actuator] (deriv) {$K_D \frac{s}{s \tau + 1}$};
-    	
-    	\node [tmp, below of=deriv] (placeholder) {};
-
-		\draw [->] (sum) |- (PController);
-    	\draw [->] (IController) -- (sum2);
-    	\draw [->] (sum2) -- node [name=u1] {$\bar{u}_1$} (actuator);
-    	\draw [->] (actuator) -- node[name=u2] {$\bar{u}_2$} (plant);
-    	\draw [->] (PController) -| (sum2);
-    	
-
-    	\draw [draw,->] (input) -- node {$\bar{r}$} (sum);
-    	\draw [->] (sum) -- (IController);
-    	\draw [->] (plant) -- node [name=y] {$\bar{y}$}(output);
-        \draw [->] (y) |- (deriv);
-    	\draw [->] (deriv) -| node[pos=0.99] {$-$} 
-        node [near end] {} (sum2);
-        \draw [->] (y) |- (placeholder);
-        \draw [->] (placeholder) -| node[pos=0.99] {$-$} 
-        node [near end] {} (sum);
-    	
-	\end{tikzpicture}
 	\centering
-	\caption{PID Controller Block Diagram}
+    \def\svgwidth{0.75\textwidth}
+    \input{./figures/pidblock.pdf_tex}
+    \caption{PID Controller Block Diagram}
 	\label{fig:PID}
 \end{figure}
 
@@ -108,7 +77,6 @@ As can be seen from the plot, there is now an additional upper bound on the gain
 \end{equation*}
 
 After choosing a proportional gain, both an integral gain and derivative gain can be chosen using the same root-locus approach by reforming the controller and plant into the respective Evans' form:
-
 \begin{align*}
 1 + K_I \frac{G_a(s) G(s)}{s (1 + (1 + K_P) G_a(s) G(s)} &= 0 \\
 1 + K_D \frac{s G_a(s) G(s)}{1 + (1 + (K_P + K_I/s) G_a(s) G(s)} &= 0
@@ -118,7 +86,7 @@ Integral gain is chosen to give zero steady-state error when the system is subje
 
 Lastly, the time constant $\tau$, which determines the cut-off frequency of the band-limited differentiator, is chosen by iteration so that stability and sufficient damping of the closed-loop system is maintained. However, $\tau$ must be kept large enough to suppress sensor noise from corrupting the response. \\
 
-In this way the parameters were chosen to be: $K_P=12$, $K_I=92$, $K_D=0.39$, and $\tau=0.00048$. The response to a step disturbance of magnitude $10$ at the input and the corresponding actuator effort can be seen in Figure \ref{fig:pidLego} below.
+In this way the parameters were chosen to be: $K_P=12$, $K_I=38$, $K_D=0.44$, and $\tau=0.00062$. The response to an impulse disturbance of magnitude $10$ at the input and the corresponding actuator effort can be seen in Figure \ref{fig:pidLego} below.
 
 \begin{figure}[H]
 	\begin{subfigure}{0.5\textwidth}
@@ -127,9 +95,9 @@ In this way the parameters were chosen to be: $K_P=12$, $K_I=92$, $K_D=0.39$, an
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
 			 xmin=0,xmax=1.5,
-			 ymin=-1,ymax=2,
+			 ymin=-1.25,ymax=1.75,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {pidLego.csv};		
+			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {legoPID.csv};		
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
@@ -141,21 +109,19 @@ In this way the parameters were chosen to be: $K_P=12$, $K_I=92$, $K_D=0.39$, an
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
 			 xmin=0,xmax=1.5,
-			 ymin=-18,ymax=7.5,
+			 ymin=-25.0,ymax=12.5,
 			 legend pos=north west,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {pidLego.csv};
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {legoPID.csv};
 		\end{axis}
 	\end{tikzpicture}
-	\caption{Controller Effort}
+	\caption{Actuator Effort}
 	\end{subfigure}
 	\caption{Lego PID Controller Response}
 	\label{fig:pidLego}
 \end{figure}
 
-As can be seen from the plots, the PID controller in simulation can recover from an impulse in approximately one second whilst keeping the controller effort relatively small.
-
-\textbf{Additionally show sensitivity and complementary sensitivity?}
+As can be seen from the plots, the PID controller in simulation can recover from an impulse in approximately one second whilst keeping the controller effort relatively small. The response is rather oscillatory however due to the addition of the integrator.
 
 \subsection{Linear Quadratic Regulator}
 As a second controller type, optimal linear control was investigated by means of an infinite-horizon linear quadratic regulator (LQR), which aims to minimise the cost function for the state-space realisation $\underline{\dot{x}}=\mathbf{A} \underline{x} + \mathbf{B} \underline{u}, \underline{y} = \mathbf{C} \underline{x}$,
@@ -199,32 +165,24 @@ Where $\underline{\hat{x}}$ denotes the state estimate. The rate of change of th
 As pictured in Figure \ref{fig:LQR} below, the state estimates of the observer can then be used in conjunction with the state-feedback matrix $\mathbf{K}$ given by the LQR to form the closed-loop system. \\
 
 \begin{figure}[H]
-	\begin{tikzpicture}[auto, node distance=2cm,>=latex']
-		\node [sum] (sum) {};
-		\node [block, right of=sum] (actuator) {$G_a(s)$};
-    	\node [block, right of=actuator] (plant) {$G(s)$};
-    	\node [output, right of=plant] (output) {};
-    	\node [block, below of=plant] (obsv) {Observer};
-    	\node [block, left of=obsv, node distance=2.5cm] (lqr) {\textbf{K}};
-
-		\draw [->] (sum) -- node[name=u] {$\bar{u}$}(actuator);
-    	\draw [->] (actuator) -- (plant);
-    	\draw [->] (plant) -- node [name=y] {$\bar{y}$}(output);
-    	\draw [->] (output) |- (obsv);
-		\draw [->] (obsv) -- node[name=xhat] {$\hat{\bar{\underline{x}}}$} (lqr);    
-    	\draw [->] (lqr) -| node[pos=0.99] {$-$} node [near end] {} (sum);
-		\draw [->] (u) -| (obsv);    	
-    	
-	\end{tikzpicture}
 	\centering
-	\caption{LQR Controller Block Diagram}
+    \def\svgwidth{0.5\textwidth}
+    \input{./figures/lqrblock.pdf_tex}
+    \caption{LQR Controller Block Diagram}
 	\label{fig:LQR}
 \end{figure}
 
 The choice of $\mathbf{Q}$ and R, which for a single-input system is a scalar, in general is not trivial. However, some constraints can be placed on the magnitudes of both. For the bicycle, it is desirable to reduce actuator effort, which is achieved by increasing the magnitude of R. Rapid stabilisation in turn is brought into effect by increasing the elements of $\mathbf{Q}$, thus heavily penalising a non-zero state. \\
 
 \textbf{Lego Protoype} \\
-Values for $\mathbf{Q}$ and R for the Lego prototype model were chosen by iteration. The solution to the CARE and thus the resulting state-feedback gains were computed using the Matlab command \texttt{lqr}. In addition, the observer gain matrix $\mathbf{L}$ was selected via pole placement and was iteratively found to give the best estimation results when the poles are located at $-2,-4$:
+Values for $\mathbf{Q}$ and R for the Lego prototype model were chosen by iteration. The solution to the CARE and thus the resulting state-feedback gains were computed using the Matlab command \texttt{lqr} and resulted in the following gain matrix:
+\begin{equation*}
+\mathbf{K} = \begin{bmatrix}
+180 & 19
+\end{bmatrix}
+\end{equation*}
+
+In addition, the observer gain matrix $\mathbf{L}$ was selected via pole placement and was iteratively found to give the best estimation results when the poles are located at $-2,-4$:
 \begin{equation*}
 \mathbf{L} = \begin{bmatrix}
 0.69 & 1.0
@@ -259,7 +217,7 @@ It was observed that changing the values of both $\mathbf{Q}$ and R over a broad
 			\addplot[mark=none] table[x=t,y=u1, col sep=comma] {lqrLego.csv};
 		\end{axis}
 	\end{tikzpicture}
-	\caption{Controller Effort}
+	\caption{Actuator Effort}
 	\end{subfigure}
 	\caption{Lego LQR Controller Response}
 	\label{fig:lqrLego}
@@ -345,7 +303,7 @@ The frequency response of the nominal Lego Prototype model, including the actuat
 			 grid=both,
 			 width=0.75\textwidth,
 			 height=\axisdefaultheight]
-			\addplot[mark=none] table[x=w,y=mag, col sep=comma] {legoBode.csv};
+			\addplot[mark=none] table[x=w,y=H, col sep=comma] {legoHinf.csv};
 		\end{semilogxaxis}
 	\end{tikzpicture}
 	\centering
@@ -358,8 +316,8 @@ As previously mentioned, it is clear that a proportional gain of $K_P>11.4$ is n
 An appropriate weighting function, to give $b(G_0,K) \geq 0.2$, was then found by iteration and is comprised of three elements:
 
 \begin{enumerate}
-\item{\textit{Proportional Gain}: The gain of 12 is included in the weighting function before the controller is synthesized. Aids the controller in maintaining stability.}
-\item{\textit{Integrator}: Improves disturbance rejection and tracking by providing gain at low-frequencies.}
+\item{\textit{Proportional Gain}: Keeps the cross-over frequency above the frequency of the right-half plane pole as to aid stability.}
+\item{\textit{Integrator}: Improves disturbance rejection and reference tracking by providing gain at low-frequencies.}
 \item{\textit{Zero}: Increases the bandwidth of the system and ensures the slope of the magnitude flattens off around the cross-over frequency. This helps improve the phase-margin, by keeping the phase away from $-180^{\circ}$ at 0dB.}
 \end{enumerate}
 
@@ -368,7 +326,12 @@ The overall weighting function is therefore,
 W(s) = 12 \cdot \frac{s + 1}{s}.
 \end{equation*}
 
-The frequency response of the shaped plant, in comparison to the nominal plant, is shown in Figure \ref{fig:bodeLegoShaped} below.
+Then using Matlab to synthesize the controller resulted in a stability margin of $b(G_0,K) = 0.24$ with a sixth-order controller of the following form:
+\begin{equation*}
+K(s) = W(s) K_{\infty}(s) = \Big( 12 \cdot \frac{s+1}{s} \Big) \Big(4 \cdot \frac{(s+0.17)(s+8.9)(s+18)(s^2+25s+1110)}{(s+1.1)(s+4.3)(s+48)(s^2+32s+2370)} \Big)
+\end{equation*}
+
+The frequency response of the shaped loop, in comparison to the desired and nominal loop, is shown in Figure \ref{fig:bodeLegoShaped} below.
 
 \begin{figure}[H]
 	\begin{tikzpicture}
@@ -379,9 +342,11 @@ The frequency response of the shaped plant, in comparison to the nominal plant, 
 			 grid=both,
 			 width=0.75\textwidth,
 			 height=\axisdefaultheight]
-			 \addplot[mark=none] table[x=w,y=mag,col sep=comma] {legoBodeShaped.csv};
-			 \addplot[mark=none,dashed] table[x=w,y=mag,col sep=comma] {legoBode.csv};
-			 \legend{Shaped,Nominal}
+			 \addplot[mark=none] table[x=w,y=KH,col sep=comma] {legoHinf.csv};
+			 \addplot[mark=none,dashed] table[x=w,y=WH,col sep=comma] {legoHinf.csv};
+			 \addplot[mark=none,loosely dashed] table[x=w,y=H,col sep=comma] {legoHinf.csv};
+			 
+			 \legend{Shaped,Desired,Nominal}
 		\end{semilogxaxis}
 	\end{tikzpicture}
 	\centering
@@ -389,26 +354,57 @@ The frequency response of the shaped plant, in comparison to the nominal plant, 
 	\label{fig:bodeLegoShaped}
 \end{figure}
 
-Using Matlab to then synthesize the controller gave a stability margin of $b(G_0,K) = 0.24$ with a sixth-order controller of the following form:
+As can be seen from the plot, the final loop shape is not exactly the desired loop shape. In particular, the gain at low frequencies is reduced to maintain stability, however the cross-over frequency is approximately the same. The response to an input disturbance using the $H_{\infty}$ loop-shaping controller can be seen in Figure \ref{fig:hinfLegoResp} below.
 
-\begin{equation*}
-K(s) = W(s) K_{\infty}(s) = \Big( 12 \cdot \frac{s+1}{s} \Big) \Big(4 \cdot \frac{(s+0.17)(s+8.9)(s+18)(s^2+25s+1110)}{(s+1.1)(s+4.3)(s+48)(s^2+32s+2370)} \Big)
-\end{equation*}
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Lean Angle $\phi$ (deg),			 
+			 xmin=0,xmax=1.5,
+			 ymin=-1.0,ymax=2.0,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {legoHinfResp.csv};		
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Lean Angle Response}
+	\end{subfigure} \hspace{1mm}
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Steering Angle $\delta$ (deg),
+			 xmin=0,xmax=1.5,
+			 ymin=-25,ymax=15,
+			 legend pos=north west,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {legoHinfResp.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Actuator Effort}
+	\end{subfigure}
+	\caption{Lego $H_{\infty}$ Controller Response}
+	\label{fig:hinfLegoResp}
+\end{figure}
 
 \subsection{Non-Linear Methods}
 As opposed to having several linear controllers gain-scheduled for different operating points, want a single controller that works sufficiently well at \textit{any} forward speed.
 
-\subsection{Comparison}
-Comparison of control schemes, LQR difficult because control performance not only depends on sensors but also on observer, PID simplest to implement and tune on the fly, H-infinity
+\subsection{Comparison and Robustness}
+In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system, as stated previously. \\
+
+On the other hand, PID control is the simplest to implement and tune \textit{on-the-go}, whilst still providing satisfactory performance and the smallest controller effort. As a measurement of robustness, the phase margin of the nominal, PID-controlled system was found to be adequate at just under $30^{\circ}$. \\
+
+Lastly, the simulated LQR controller performance was the worst out of all three. In particular, the lean angle deviated the most with an excessive steering angle imposed on the actuator to maintain stability. A measure of robustness for this controller type is also not directly available.
 
 \subsection{Implementation Details}
-All controller designs have been performed in the continuous domain. However, the controllers will eventually be implemented on a digital microprocessor, they need to be discretised. This is achieved by using the \textit{Tustin} transformation, which maps the s to the z domain as follows:
-
+All controller designs were performed in the continuous domain. However, as the controllers will eventually be implemented on a digital microprocessor, they need to be discretised. This is achieved by using the \textit{Tustin} transformation, which maps the s to the z domain as follows:
 \begin{equation*}
 s \rightarrow \frac{2}{T} \frac{z - 1}{z + 1}
 \end{equation*}
 
-The Tustin transform achieves the best frequency domain match between continuous and discrete systems. Furthermore, the choice of sampling time $T$ is critical for two reasons:
+The Tustin transform achieves the best frequency domain match between continuous and discrete systems. The choice of sampling time $T$ is critical for two reasons:
 
 \begin{enumerate}
 \item{A small value of $T$ will reduce the effects of \textit{frequency warping} induced by using the Tustin transform.}
@@ -417,6 +413,6 @@ The Tustin transform achieves the best frequency domain match between continuous
 
 However, the smallest possible sampling time is limited by the computational power of the processor. \\
 
-Another implementation detail is the prevention of integrator wind-up. For instance, a large error signal sustained over a longer period of time can cause an integrating controller to produce a very large output, which will cause large amounts of overshoot, as well as instability. To counter-act that problem, all integrators will be limited using a dynamic clamping scheme proposed in \cite{antiwindup}. \\
+Another implementation detail is the prevention of integrator wind-up. For instance, a large error signal sustained over a longer period of time can cause an integrating controller to produce a very large output, which will cause large amounts of overshoot, as well as instability. To counter-act this problem, all integrators will be limited using a dynamic clamping scheme proposed in \cite{antiwindup}. \\
 
-Finally, the controller output is limited to $\pm 60^{\circ}$ as to not cause excessive steering angles to be demanded of the actuator.
+As a last consideration, the controller output is limited to $\pm 60^{\circ}$ as to not cause excessive steering angles to be demanded of the actuator.
