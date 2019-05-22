@@ -107,7 +107,7 @@ Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and 
 	\end{tikzpicture}
 	\caption{Actuator Effort}
 	\end{subfigure}
-	\caption{P-Controller Response ($K_P=12$)}
+	\caption{Lego P-Controller Response ($K_P=12$)}
 	\label{fig:LegoPController}
 \end{figure}
 
@@ -125,7 +125,7 @@ In hope of improving the control performance over a simple proportional-only con
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
 			 xmin=0,xmax=4,
-			 ymin=-3,ymax=3,
+			 ymin=-2,ymax=2,
 			 tick label style={/pgf/number format/fixed}]
 			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {legoPIDImp.csv};		
 		\end{axis}
@@ -141,21 +141,56 @@ In hope of improving the control performance over a simple proportional-only con
 			 ymin=-30,ymax=30,
 			 legend pos=north west,
 			 tick label style={/pgf/number format/fixed}]
-			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {legoPIDImp.csv};			
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {legoPIDImp.csv};
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Actuator Effort}
 	\end{subfigure}
-	\caption{PID-Controller Response ($K_P=12$, $K_I=38$, $K_D=0.44$, $\tau=0.003$)}
+	\caption{Lego PID-Controller Response ($K_P=12$, $K_I=38$, $K_D=0.44$, $\tau=0.003$)}
 	\label{fig:LegoPIDController}
 \end{figure}
 
 The PID controller manages to stabilise the system as well with a clearly improved response and better damping compared to the proportional-only controller. The lean angle is bounded by approximately $2^{\circ}$ and the actuator effort is roughly halved in magnitude. However, it is clear from the plot that the lean angle estimate is degrading over time and thus causing the system to destabilise slowly.
 
 \subsubsection{LQR}
-Unfortunately, the LQR controller was not able to stabilise the Lego prototype, even with varying feedback gains. It is assumed that the reason for this instability is that not only is the system relying on an approximate estimate of the lean angle, but it is now also relying on an additional state observer, which is using this degraded state estimate to again infer a further set of internal states. Thus, these combined errors will be fed back to the control law, which as seen from the previous controller type is already at its limits using a single state estimator.
+Unfortunately, the LQR controller was not able to stabilise the Lego prototype, even with varying feedback gains. It is assumed that the reason for this instability is that not only is the system relying on an approximate estimate of the lean angle, but it is now also relying on an additional state observer, which is using this degraded state estimate to again infer a further set of internal states. Thus, these combined errors will be fed back to the control law, which, as seen from the previous controller type, is already at its limits using a single state estimator.
 
 \subsubsection{$H_{\infty}$ Loop-Shaping}
+The synthesized $H_{\infty}$ controller from the previous section was discretised and implemented on the microprocessor using the resulting difference equation. The response using this controller is given in Figure \ref{fig:LegoHInfController} below.
+
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Lean Angle $\phi$ (deg),			 
+			 xmin=0,xmax=3,
+			 ymin=-2,ymax=2,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {legoHInfReal.csv};		
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Lean Angle Response}
+	\end{subfigure} \hspace{1mm}
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Steering Angle $\delta$ (deg),
+			 xmin=0,xmax=3,
+			 ymin=-20,ymax=30,
+			 legend pos=north west,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {legoHInfReal.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Actuator Effort}
+	\end{subfigure}
+	\caption{Lego $H_{\infty}$ Controller Response}
+	\label{fig:LegoHInfController}
+\end{figure}
+
+The $H_{\infty}$ controller manages to stabilise the bicycle, with reasonable bounds on the lean and steering angle. However, as before, the performance from the capabilities of the lean angle estimation, causing the lean angle to diverge away from $0^{\circ}$. In comparison to the PID controller, the response is slightly less oscillatory and the lean angle deviations are smaller.
 
 \subsubsection{Servo Model Verification}
 As a brief aside, the servo model was again verified by running a simulation in Matlab using the real-world controller output data. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match is near perfect and confirms the actuator model identified in an earlier section of this report. \\
@@ -179,5 +214,14 @@ As a brief aside, the servo model was again verified by running a simulation in 
 	\label{fig:LegoServoIDPart2}
 \end{figure}
 
-\subsubsection{Final Observations}
-hard to stabilise since h is small and time constants are short, not robust to disturbances. Have hardly any time to react. Additional limitation is maximum speed of lego model, which causes it to be very unstable. Stabilisation can be achieved but not a very good performance. Performance could probably be improved if we were to use a better angle estimation system, i.e. use an IMU. As soon as gyro estimate starts drifting we're in trouble (which turns out to be pretty quickly)...
+\subsection{Final Observations}
+After having successfully implemented the majority of the proposed controller designs on the Lego prototype bicycle, the following final observations could be made.
+
+\begin{itemize}
+\item{The lean angle estimation has a \textit{large}, negative impact on control performance as the estimate drifts quickly.. The performance could certainly be improved by obtaining a full inertial measurement unit.}
+\item{The system is very hard to stabilise with satisfactory performance, since the height of the center of mass $h$ above ground is small, which in turn makes the time constant of the fall small as well.}
+\item{An additional limitation is the maximum speed of the Lego prototype, which causes it to be very unstable.}
+\item{PID and $H_{\infty}$ control schemes seem to have delivered very similar performance. PID control however is far simpler to tune and implement.}
+\item{The LQR controller during the design stage showed very large gains and thus a substantial amount of overshoot and actuator effort. This in practice evidently placed the real-world system outside of its linear operating range, thus making the bicycle impossible to stabilise.}
+\item{Lastly, if not most importantly, the second order model did indeed seem to be an appropriate model of the bicycle - even with its very simplifying assumptions - as it was used to design two different, stabilising controllers that worked in practice.}
+\end{itemize}

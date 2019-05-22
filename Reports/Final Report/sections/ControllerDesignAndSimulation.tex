@@ -6,7 +6,7 @@ The simulation and development environment was chosen to be Matlab and Simulink.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[scale=0.6]{BikeSim}
+	\includegraphics[scale=0.65]{BikeSim}
 	\caption{Custom Bicycle Simulator}
 	\label{fig:bikesim}
 \end{figure}
@@ -200,13 +200,13 @@ It was observed that changing the values of both $\mathbf{Q}$ and R over a broad
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
 			 xmin=0,xmax=1.5,
-			 ymin=-4.5,ymax=0.5,
+			 ymin=-0.5,ymax=4.5,
 			 tick label style={/pgf/number format/fixed}]
 			\addplot[mark=none] table[x=t,y=phi1, col sep=comma] {lqrLego.csv};		
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
+	\end{subfigure}
 	\begin{subfigure}{0.5\textwidth}
 	\begin{tikzpicture}
 		\begin{axis}
@@ -349,7 +349,6 @@ The frequency response of the shaped loop, in comparison to the desired and nomi
 			 \addplot[mark=none] table[x=w,y=KH,col sep=comma] {legoHinf.csv};
 			 \addplot[mark=none,dashed] table[x=w,y=WH,col sep=comma] {legoHinf.csv};
 			 \addplot[mark=none,loosely dashed] table[x=w,y=H,col sep=comma] {legoHinf.csv};
-			 
 			 \legend{Shaped,Desired,Nominal}
 		\end{semilogxaxis}
 	\end{tikzpicture}
@@ -395,6 +394,13 @@ As can be seen from the plot, the final loop shape is not exactly the desired lo
 \subsection{Non-Linear Methods}
 As opposed to having several linear controllers gain-scheduled for different operating points, want a single controller that works sufficiently well at \textit{any} forward speed.
 
+\subsection{Comparison and Robustness}
+In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system in terms of $b(G_0,K)$, as stated previously. \\
+
+On the other hand, PID control is the simplest to implement and tune \textit{on-the-go}, whilst still providing satisfactory performance and the smallest controller effort. As a measurement of robustness, the phase margin of the nominal, PID-controlled system was found to be adequate at just under $30^{\circ}$. \\
+
+Lastly, the simulated LQR controller performance was the worst out of all three. In particular, the lean angle deviated the most with an excessive steering angle imposed on the actuator to maintain stability. A measure of robustness for this controller type is also not directly available.
+
 \subsection{Full-Scale Bicycle}
 For completeness, the final controllers for the full-scale bicycle are given here. \\
 
@@ -422,12 +428,45 @@ Resulting in a stability margin of $b(G_0,K)=0.20$. \\
 
 The respective responses to an input disturbance are given in Figure \ref{fig:fsSimResp} below.
 
-\subsection{Comparison and Robustness}
-In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system in terms of $b(G_0,K)$, as stated previously. \\
+\begin{figure}[H]
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Lean Angle $\phi$ (deg),			 
+			 xmin=0,xmax=1.5,
+			 ymin=-0.75,ymax=2.75,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {fsPIDSim.csv};
+			\addplot[mark=none,dashed] table[x=t,y=phi, col sep=comma] {fsLQRSim.csv};	
+			\addplot[mark=none,loosely dashed] table[x=t,y=phi, col sep=comma] {fsHInfSim.csv};
+			\legend{PID,LQR,$H_{\infty}$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Lean Angle Response}
+	\end{subfigure} \hspace{1mm}
+	\begin{subfigure}{0.5\textwidth}
+	\begin{tikzpicture}
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Steering Angle $\delta$ (deg),
+			 xmin=0,xmax=1.5,
+			 ymin=-18,ymax=15,
+			 legend pos=north east,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {fsPIDSim.csv};
+			\addplot[mark=none,dashed] table[x=t,y=delta, col sep=comma] {fsLQRSim.csv};	
+			\addplot[mark=none,loosely dashed] table[x=t,y=delta, col sep=comma] {fsHInfSim.csv};
+			\legend{PID,LQR,$H_{\infty}$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Actuator Effort}
+	\end{subfigure}
+	\caption{Full-Scale Bicycle Simulated Controller Responses}
+	\label{fig:fsSimResp}
+\end{figure}
 
-On the other hand, PID control is the simplest to implement and tune \textit{on-the-go}, whilst still providing satisfactory performance and the smallest controller effort. As a measurement of robustness, the phase margin of the nominal, PID-controlled system was found to be adequate at just under $30^{\circ}$. \\
-
-Lastly, the simulated LQR controller performance was the worst out of all three. In particular, the lean angle deviated the most with an excessive steering angle imposed on the actuator to maintain stability. A measure of robustness for this controller type is also not directly available.
+In this case, both the PID and LQR controllers have a more suitable response in comparison to the $H_{\infty}$ controller.
 
 \subsection{Implementation Details}
 All controller designs were performed in the continuous domain. However, as the controllers will eventually be implemented on a digital microprocessor, they need to be discretised. This is achieved by using the \textit{Tustin} transformation, which maps the s to the z domain as follows:
