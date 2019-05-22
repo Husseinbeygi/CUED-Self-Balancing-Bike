@@ -270,8 +270,9 @@ The plot can be divided into three sections:
 The weave and capsize modes can be excited by a lean torque disturbance when the bicycle is travelling at the relevant forward speed. This is shown in Figure \ref{fig:FSModes} below for the full-scale bicycle model.
 
 \begin{figure}[H]
-	\begin{subfigure}[t]{0.5\textwidth}
-	\begin{tikzpicture}
+	\centering
+	\begin{subfigure}[t]{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),		 
@@ -282,15 +283,14 @@ The weave and capsize modes can be excited by a lean torque disturbance when the
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Weaving ($v=2.8\si{m.s^{-1}}$)}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}[t]{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}[t]{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),
 			 xmin=0,xmax=10,
-			 ymin=0,ymax=0.035,
+			 ymin=-0.005,ymax=0.035,
 			 tick label style={/pgf/number format/fixed}]
 			\addplot[mark=none] table[x=t,y=y,col sep=comma] {capsizeMode.csv};			
 		\end{axis}
@@ -316,8 +316,9 @@ Interfacing with the Lego handlebar motor can only be achieved by issuing a spee
 The step responses for a set of proportional gains can be seen in Figure \ref{fig:ServoModel} a) below. A proportional gain of 2 was chosen to give a critically damped response, with a fast rise time, and minimal steady-state error. \\
 
 \begin{figure}[H]
-	\begin{subfigure}[t]{0.5\textwidth}
-	\begin{tikzpicture}
+	\centering
+	\begin{subfigure}[t]{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),		 
@@ -333,9 +334,9 @@ The step responses for a set of proportional gains can be seen in Figure \ref{fi
 		\end{axis}
 	\end{tikzpicture}
 	\caption{True Servo Responses}
-	\end{subfigure}
-	\begin{subfigure}[t]{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}[t]{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),

@@ -17,6 +17,8 @@ Having successfully stabilised prototype bicycle...
 Arduino (32-bit instead of 8-bit) as controller, why particular servo, servo mounting design, battery, voltage regulators, drive motor, motor controller disassembly, etc. 
 
 \newpage
+\null
+\vfill
 \begin{figure}[H]
 	\centering
 	\begin{subfigure}[t]{0.475\textwidth}
@@ -45,24 +47,41 @@ Arduino (32-bit instead of 8-bit) as controller, why particular servo, servo mou
 	\caption{Full-Scale Bicycle Hardware}
 	\label{fig:fsHardware}
 \end{figure}
-
-\subsubsection{Microprocessor and Sensors}
-
-\subsubsection{Miscellaneous}
+\vfill
 
 \subsection{Software}
+The microprocessor was programmed using the C programming language. The software structure was very similar to that developed for the Lego prototype, however with the addition of the following items:
 
-\subsubsection{Code Layout}
-Loops at different sample times: IMU, controller, telemetry, etc.
+\begin{enumerate}
+\item{Remote Control:}
+\item{Multiple Timed Loops:}
+\item{Inertial Measurement Unit:}
+\item{Servo:}
+\item{Logging via Radio:}
+\end{enumerate}
 
 \subsubsection{Lean Angle Estimation}
 Again, it was necessary to estimate the lean angle from raw sensor data. In the case of the full-scale bicycle however, an \textit{inertial measurement unit} (IMU) was available, comprised of three gyroscopic sensors and three accelerometers, each aligned along an orthogonal axis. This meant that gyroscopic drift could now be directly accounted for without having to resort to the computationally expensive Kalman filter used for the Lego prototype.\\
 
-At rest, an accelerometer outputs a signal directly proportional to the gravitational vector, this can then be used as a reference to correct for gyroscopic drift. However, when in accelerated motion, the accelerometer output will be \textit{corrupted} by other accelerations terms, such as linear or Coriolis.
+At rest, an accelerometer produces a signal directly proportional to the gravitational vector, this can then be used as a reference to correct for gyroscopic drift. However, when in accelerated motion, the accelerometer output will be \textit{corrupted} by other accelerations terms, such as linear or Coriolis. \\
 
-The problems present in both accelerometers and gyroscopic sensors are alleviated by the use of a complementary filter. Simply put, an accelerometer is useful over a long duration of time, while a gyroscopic sensors useful over a short period of time. It is therefore possible to low-pass filtere Combining both favourable aspects of these sensors leads to the use of a complementary filter. 
+The problems present in both accelerometers and gyroscopic sensors are alleviated to an extent by the use of a \textit{complementary filter}, for which the corresponding block diagram can be seen in Figure \ref{fig:CF} below. An estimate of the lean angle $\hat{\phi}_a$ is computed using accelerometer measurements and then finally low-pass filtered. This estimate is summed with integral of the high-pass filtered, gyroscopic sensor measurements $\dot{\phi}_g$ to give an improved estimate of the lean angle $\hat{\phi}_{cf}$. The low- and high-pass filters both use the same cut-off frequency given by $1/\tau$. In this way, the stable low-frequency accelerometer data is combined with the drift-free, high-frequency gyroscope data to give an estimation based on multiple, noisy sources.
 
-Complementary filter, gyro HPF and acc LPF, more stable since we have accelerometer to correct for drift
+\begin{figure}[H]
+	\centering
+    \def\svgwidth{0.5\textwidth}
+    \input{./figures/compfilt.pdf_tex}
+    \caption{Complementary Filter Block Diagram}
+	\label{fig:CF}
+\end{figure}
+
+The discretised form of the complementary filter, used in implementation, is given by the following difference equation:
+\begin{equation*}
+\hat{\phi}_n = \alpha \cdot \hat{\phi}_a + (1 - \alpha) \cdot (\hat{\phi}_{n-1} + \dot{\phi}_g \cdot T)
+\end{equation*}
+
+Where the constant $\alpha$ determines the weighting between accelerometer and gyroscope measurements. As $\alpha \rightarrow 0$, the estimate is heavily reliant on gyroscope readings, and as $\alpha \rightarrow 1$, accelerometer estimates are favoured. $\alpha$ is typically chosen to near zero, so that the accelerometer merely acts as a long-term correction factor. \\
+Lastly, it is evident that this simple difference equation is computationally far less expensive than the aforementioned Kalman filter.
 
 \subsubsection{Basestation and Telemetry}
 

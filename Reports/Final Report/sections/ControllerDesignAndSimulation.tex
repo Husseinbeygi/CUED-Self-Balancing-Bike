@@ -91,8 +91,8 @@ Lastly, the time constant $\tau$, which determines the cut-off frequency of the 
 In this way the parameters were chosen to be: $K_P=12$, $K_I=38$, $K_D=0.44$, and $\tau=0.00062$. The response to an impulse disturbance of magnitude $10$ at the input and the corresponding actuator effort can be seen in Figure \ref{fig:pidLego} below.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -103,10 +103,9 @@ In this way the parameters were chosen to be: $K_P=12$, $K_I=38$, $K_D=0.44$, an
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure}
-	\quad
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
@@ -194,8 +193,8 @@ In addition, the observer gain matrix $\mathbf{L}$ was selected via pole placeme
 It was observed that changing the values of both $\mathbf{Q}$ and R over a broad range resulted in minimal changes in the controller gains. Thus, $\mathbf{Q}$ and R were simply set to the identity matrix and 1 respectively. The resulting response to an input disturbance is shown in Figure \ref{fig:lqrLego} below.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -206,9 +205,9 @@ It was observed that changing the values of both $\mathbf{Q}$ and R over a broad
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
@@ -360,8 +359,8 @@ The frequency response of the shaped loop, in comparison to the desired and nomi
 As can be seen from the plot, the final loop shape is not exactly the desired loop shape. In particular, the gain at low frequencies is reduced to maintain stability, however the cross-over frequency is approximately the same. The response to an input disturbance using the $H_{\infty}$ loop-shaping controller can be seen in Figure \ref{fig:hinfLegoResp} below.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -372,9 +371,9 @@ As can be seen from the plot, the final loop shape is not exactly the desired lo
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
@@ -392,7 +391,13 @@ As can be seen from the plot, the final loop shape is not exactly the desired lo
 \end{figure}
 
 \subsection{Non-Linear Methods}
-As opposed to having several linear controllers gain-scheduled for different operating points, want a single controller that works sufficiently well at \textit{any} forward speed.
+As opposed to having several linear controllers, which are then optionally gain-scheduled for different operating points, it is desirable to design a \textit{single} controller that works sufficiently well at \textit{any} forward speed and is robust to variations in plant parameters. To this effect, two different non-linear approaches were briefly investigated. \\
+
+Firstly, \textit{Virtual Model Control} proposed in \cite{virtualmodel}, which uses virtual components to enforce virtual forces and moments on a real-world system using the actuators available. And secondly, an energy-shaping approach to designing control systems discussed in \cite{puttingenergy}, which aims to shape the energy function of the closed-loop system, such that minimum energy is achieved at a desired state. For the case of the bicycle, this would clearly be zero lean angle. \\
+
+Although both methods are intuitive and have been proven useful in various scenarios, the approaches to non-linear controller design was found to be troublesome for the bicycle. Primarily due to the fact that for \textit{Virtual Model Control}, torques and forces need to be referred back to realisable actuator commands. Since the actuators in this case are driven by commanding an angle or a speed, it is difficult to infer the produced torques and forces. For the energy-shaping approach on the other hand, the bicycle model proved difficult to convert into the form required for controller design.\\
+
+Thus, both ideas were only investigated on simpler systems where they worked satisfactorily across a range of operating regimes. For the bicycle however, these methods were not feasible in the time given.
 
 \subsection{Comparison and Robustness}
 In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system in terms of $b(G_0,K)$, as stated previously. \\
@@ -429,8 +434,8 @@ Resulting in a stability margin of $b(G_0,K)=0.20$. \\
 The respective responses to an input disturbance are given in Figure \ref{fig:fsSimResp} below.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -444,9 +449,9 @@ The respective responses to an input disturbance are given in Figure \ref{fig:fs
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),

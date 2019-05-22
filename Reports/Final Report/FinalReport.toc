@@ -16,11 +16,11 @@
 \contentsline {section}{\numberline {3}Controller Design and Simulation}{16}{section.3}
 \contentsline {subsection}{\numberline {3.1}Performance Requirements}{17}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Operating Point}{18}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}PID}{19}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.3}PID}{18}{subsection.3.3}
 \contentsline {subsection}{\numberline {3.4}Linear Quadratic Regulator}{21}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}$H_{\infty }$ Loop-Shaping}{24}{subsection.3.5}
+\contentsline {subsection}{\numberline {3.5}$H_{\infty }$ Loop-Shaping}{23}{subsection.3.5}
 \contentsline {subsection}{\numberline {3.6}Non-Linear Methods}{28}{subsection.3.6}
-\contentsline {subsection}{\numberline {3.7}Comparison and Robustness}{28}{subsection.3.7}
+\contentsline {subsection}{\numberline {3.7}Comparison and Robustness}{29}{subsection.3.7}
 \contentsline {subsection}{\numberline {3.8}Full-Scale Bicycle}{29}{subsection.3.8}
 \contentsline {subsection}{\numberline {3.9}Implementation Details}{30}{subsection.3.9}
 \contentsline {section}{\numberline {4}Implementation: Lego Prototype}{31}{section.4}
@@ -29,19 +29,18 @@
 \contentsline {subsubsection}{\numberline {4.2.1}Lean Angle Estimation}{32}{subsubsection.4.2.1}
 \contentsline {subsection}{\numberline {4.3}Results}{34}{subsection.4.3}
 \contentsline {subsubsection}{\numberline {4.3.1}PID}{34}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}LQR}{35}{subsubsection.4.3.2}
+\contentsline {subsubsection}{\numberline {4.3.2}LQR}{36}{subsubsection.4.3.2}
 \contentsline {subsubsection}{\numberline {4.3.3}$H_{\infty }$ Loop-Shaping}{36}{subsubsection.4.3.3}
-\contentsline {subsubsection}{\numberline {4.3.4}Servo Model Verification}{36}{subsubsection.4.3.4}
+\contentsline {subsubsection}{\numberline {4.3.4}Servo Model Verification}{37}{subsubsection.4.3.4}
 \contentsline {subsection}{\numberline {4.4}Final Observations}{37}{subsection.4.4}
 \contentsline {section}{\numberline {5}Implementation: Full-Scale Bicycle}{38}{section.5}
 \contentsline {subsection}{\numberline {5.1}Hardware}{38}{subsection.5.1}
 \contentsline {subsubsection}{\numberline {5.1.1}Microprocessor and Sensors}{40}{subsubsection.5.1.1}
 \contentsline {subsubsection}{\numberline {5.1.2}Miscellaneous}{40}{subsubsection.5.1.2}
 \contentsline {subsection}{\numberline {5.2}Software}{40}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Code Layout}{40}{subsubsection.5.2.1}
-\contentsline {subsubsection}{\numberline {5.2.2}Lean Angle Estimation}{40}{subsubsection.5.2.2}
-\contentsline {subsubsection}{\numberline {5.2.3}Basestation and Telemetry}{40}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.1}Lean Angle Estimation}{40}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Basestation and Telemetry}{41}{subsubsection.5.2.2}
 \contentsline {subsection}{\numberline {5.3}Results}{41}{subsection.5.3}
 \contentsline {section}{\numberline {6}Conclusions and Future Work}{41}{section.6}
-\contentsline {section}{References}{41}{section*.32}
-\contentsline {section}{Appendix \numberline {A}Risk Assessment}{42}{Appendix.a.A}
+\contentsline {section}{References}{42}{section*.33}
+\contentsline {section}{Appendix \numberline {A}Risk Assessment}{43}{Appendix.a.A}

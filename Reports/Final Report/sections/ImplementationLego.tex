@@ -54,7 +54,7 @@ This is displayed in the simulated EKF state estimation in Figure \ref{fig:LegoK
 
 \begin{figure}[H]
 	\centering
-	\begin{tikzpicture}
+	\begin{tikzpicture}[scale=0.925]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),
@@ -80,8 +80,8 @@ A proportional-only controller was indeed able to stabilise the bicycle. As pred
 Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and actuator effort of the Lego prototype for a proportional gain of $K_P=12$.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -92,9 +92,9 @@ Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and 
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
@@ -119,8 +119,8 @@ Furthermore, the \textit{jittering} behaviour also causes the bicycle to move of
 In hope of improving the control performance over a simple proportional-only controller, the full PID controller was implemented on the Lego prototype. After experimentation, the derivative cut-off frequency had to be lowered, as the chosen value for $\tau$ caused rapid oscillations in the response. The final value for $\tau$ was thus chosen to be $0.003$. Then, with the remaining gains chosen as in the previous controller design section, the response can be seen in Figure \ref{fig:LegoPIDController} below.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -131,9 +131,9 @@ In hope of improving the control performance over a simple proportional-only con
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
@@ -153,14 +153,16 @@ In hope of improving the control performance over a simple proportional-only con
 The PID controller manages to stabilise the system as well with a clearly improved response and better damping compared to the proportional-only controller. The lean angle is bounded by approximately $2^{\circ}$ and the actuator effort is roughly halved in magnitude. However, it is clear from the plot that the lean angle estimate is degrading over time and thus causing the system to destabilise slowly.
 
 \subsubsection{LQR}
-Unfortunately, the LQR controller was not able to stabilise the Lego prototype, even with varying feedback gains. It is assumed that the reason for this instability is that not only is the system relying on an approximate estimate of the lean angle, but it is now also relying on an additional state observer, which is using this degraded state estimate to again infer a further set of internal states. Thus, these combined errors will be fed back to the control law, which, as seen from the previous controller type, is already at its limits using a single state estimator.
+Unfortunately, the LQR controller was not able to stabilise the Lego prototype, even with varying feedback gains. It is assumed that the reason for this instability is that not only is the system relying on an approximate estimate of the lean angle, but it is now also relying on an additional state observer, which is using this degraded state estimate to again infer a further set of internal states. Thus, these combined errors will be fed back to the control law, which, as seen from the previous controller type, is already at its limits using a single state estimator. \\
+
+Additionally, in the LQR design stage, the actuator model was not included in the state -state space model, as to keep the state dimension low for the observer. This will also have negatively affected the performance of the real-world implementation.
 
 \subsubsection{$H_{\infty}$ Loop-Shaping}
 The synthesized $H_{\infty}$ controller from the previous section was discretised and implemented on the microprocessor using the resulting difference equation. The response using this controller is given in Figure \ref{fig:LegoHInfController} below.
 
 \begin{figure}[H]
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Lean Angle $\phi$ (deg),			 
@@ -171,9 +173,9 @@ The synthesized $H_{\infty}$ controller from the previous section was discretise
 		\end{axis}
 	\end{tikzpicture}
 	\caption{Lean Angle Response}
-	\end{subfigure} \hspace{1mm}
-	\begin{subfigure}{0.5\textwidth}
-	\begin{tikzpicture}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
 		\begin{axis}
 			[xlabel=Time (s),
 			 ylabel=Steering Angle $\delta$ (deg),
@@ -190,7 +192,7 @@ The synthesized $H_{\infty}$ controller from the previous section was discretise
 	\label{fig:LegoHInfController}
 \end{figure}
 
-The $H_{\infty}$ controller manages to stabilise the bicycle, with reasonable bounds on the lean and steering angle. However, as before, the performance from the capabilities of the lean angle estimation, causing the lean angle to diverge away from $0^{\circ}$. In comparison to the PID controller, the response is slightly less oscillatory and the lean angle deviations are smaller.
+The $H_{\infty}$ controller manages to stabilise the bicycle, with reasonable bounds on the lean and steering angle. However, as before, the performance suffers from the capabilities of the lean angle estimation, causing the lean angle to diverge away from $0^{\circ}$. In comparison to the PID controller, the response is slightly less oscillatory and the lean angle deviations are smaller.
 
 \subsubsection{Servo Model Verification}
 As a brief aside, the servo model was again verified by running a simulation in Matlab using the real-world controller output data. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match is near perfect and confirms the actuator model identified in an earlier section of this report. \\

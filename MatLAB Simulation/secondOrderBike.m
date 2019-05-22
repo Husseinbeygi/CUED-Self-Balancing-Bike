@@ -1,4 +1,4 @@
-bikeID = 1;
+bikeID = 2;
 
 if (bikeID == 1) % Lego
 
