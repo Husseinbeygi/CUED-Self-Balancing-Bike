@@ -3,7 +3,7 @@ After having completed the modelling and controller design for both bicycles, th
 \subsection{Hardware}
 The Lego prototype was made up of standard \textit{Lego Mindstorms EV3} parts. In particular, two large motors are used in parallel to propel the bicycle forwards at a maximum possible speed, whilst a smaller motor was placed at the handlebars to actuate the front fork assembly. Only a single gyroscopic sensor was available to provide a measurement of the rate of change of the lean angle. Lastly, the \textit{Lego EV3 Brick} served as the central processing system, with a 300 MHz ARM processor, 16MB of Flash memory, and 64MB of RAM.
 
-\subsection{Software}
+\subsection{Software} \label{legosoftwaresec}
 The microprocessor was programmed using RobotC, a C-derivative specifically for Lego systems. The software structure is outlined in pseudo-code below.
 
 \begin{lstlisting}[language=C, caption=Lego Software Pseudo-Code]
@@ -195,7 +195,7 @@ The synthesized $H_{\infty}$ controller from the previous section was discretise
 The $H_{\infty}$ controller manages to stabilise the bicycle, with reasonable bounds on the lean and steering angle. However, as before, the performance suffers from the capabilities of the lean angle estimation, causing the lean angle to diverge away from $0^{\circ}$. In comparison to the PID controller, the response is slightly less oscillatory and the lean angle deviations are smaller.
 
 \subsubsection{Servo Model Verification}
-As a brief aside, the servo model was again verified by running a simulation in Matlab using the real-world controller output data. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match is near perfect and confirms the actuator model identified in an earlier section of this report. \\
+As a brief aside, the servo model was again verified by running a simulation in Matlab using the real-world controller output data and measured servo steer angle. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match is near perfect and confirms the actuator model identified in an earlier section of this report. \\
 
 \begin{figure}[H]
 \centering
@@ -220,10 +220,10 @@ As a brief aside, the servo model was again verified by running a simulation in 
 After having successfully implemented the majority of the proposed controller designs on the Lego prototype bicycle, the following final observations could be made.
 
 \begin{itemize}
-\item{The lean angle estimation has a \textit{large}, negative impact on control performance as the estimate drifts quickly.. The performance could certainly be improved by obtaining a full inertial measurement unit.}
-\item{The system is very hard to stabilise with satisfactory performance, since the height of the center of mass $h$ above ground is small, which in turn makes the time constant of the fall small as well.}
-\item{An additional limitation is the maximum speed of the Lego prototype, which causes it to be very unstable.}
+\item{The lean angle estimation has a \textit{large}, negative impact on control performance as the estimate drifts quickly. The performance could certainly be improved by using a full inertial measurement unit.}
+\item{The system is very hard to stabilise with satisfactory performance, since the height of the center of mass $h$ above ground is small, which in turn moves the pole further into the right-half plane.}
+\item{An additional limitation is the maximum speed of the Lego prototype, which again causes it to be harder to stabilise.}
 \item{PID and $H_{\infty}$ control schemes seem to have delivered very similar performance. PID control however is far simpler to tune and implement.}
 \item{The LQR controller during the design stage showed very large gains and thus a substantial amount of overshoot and actuator effort. This in practice evidently placed the real-world system outside of its linear operating range, thus making the bicycle impossible to stabilise.}
-\item{Lastly, if not most importantly, the second order model did indeed seem to be an appropriate model of the bicycle - even with its very simplifying assumptions - as it was used to design two different, stabilising controllers that worked in practice.}
+\item{Lastly, if not most importantly, the second order model did indeed seem to be an appropriate model of the bicycle - even with its very simplifying assumptions - as it was used to successfully design two different, stabilising controllers that worked in practice.}
 \end{itemize}

@@ -1,5 +1,28 @@
-For the actual real-world implementation, controller design is actually a small part of the work. Need to worry about acquiring good estimates of states, writing all the peripheral software, drivers, sizing actuators, modelling the system, estimating parameters, etc, etc. \\
-A controller that works in theory actually takes quite a lot of effort to work in practice.  \\
-Extremely difficult to stabilise this system, made even harder due to underactuation and difficulty in verifying model. Possibly could try adding flywheel to provide lean torque. Maybe better modelling.
+After having completed the project, the following conclusions could be drawn regarding bicycle stability, modelling, and controller design:
 
-Currently only using lean angle feedback, to keep on straight path would need some way of knowing heading - future work? \\
+\begin{itemize}
+\item{Bicycle self-stability can be attributed to the geometry of the front fork assembly, which allows the fork to lean into the fall and thus recover the bicycle.}
+\item{Bicycle dynamics are \textit{strongly} dependent on forward speed.}
+\item{Analogous to an inverted pendulum, the higher the center of mass above ground, the easier the bicycle is to stabilise.}
+\item{The fourth order model accurately predicts the motion of a bicycle over the entire range of forward speeds, showing stable and unstable regions and corresponding dynamic modes.}
+\item{Even with many simplifying assumptions, the second order model seemed to describe the bicycle to a good degree, making it useful for controller design.}
+\item{PID, LQR, and $H_{\infty}$ controllers all performed reasonably well in simulation. PID however was by far the simplest to design and tune, while showing good performance characteristics.}
+\end{itemize}
+
+In addition, having attempted implementation on two, real-world bicycles, further comments could be made:
+
+\begin{itemize}
+\item{For the real-world implementation, a large amount of work has to be done before the final controller implementation, such as sourcing of components, estimation of parameters, mechanical design, sensor fusion, writing of peripheral software, and so forth.}
+\item{A controller that works well in theory is not guaranteed in practice.}
+\item{Robust state estimation and quality sensors are key to obtaining good control performance.}
+\item{The bicycle is an extremely difficult system to control while ensuring good performance characteristics. This is made even harder due to underactuation and the difficulty in verifying the model used for controller design.}
+\item{The most amount of money should be allocated towards components that are the most important. In the case of the bicycle, the most costly items should be the handlebar servo and the inertial measurement unit. The handlebar servo is key to a successful implementation.}
+\end{itemize}
+
+Finally, the following gives ideas for future work:
+
+\begin{itemize}
+\item{Revisit the Lego prototype implementation using a full inertial measurement unit to see if control performance can be improved.}
+\item{The implementations in this project only used lean angle feedback. Heading feedback could be used in a slower, outer loop to make the bicycle follow a specific trajectory.}
+\item{To solve the problem of underactuation, a flywheel could be added to the bicycle to provide an additional lean torque. This could then be used to try and stabilise the bicycle at near-zero forward speed.}
+\end{itemize}

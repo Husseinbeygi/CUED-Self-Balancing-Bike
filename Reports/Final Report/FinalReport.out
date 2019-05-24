@@ -14,33 +14,34 @@
 \BOOKMARK [3][-]{subsubsection.2.5.2}{Full-Scale Bicycle}{subsection.2.5}% 14
 \BOOKMARK [2][-]{subsection.2.6}{Model Verification}{section.2}% 15
 \BOOKMARK [1][-]{section.3}{Controller Design and Simulation}{}% 16
-\BOOKMARK [2][-]{subsection.3.1}{Performance Requirements}{section.3}% 17
-\BOOKMARK [2][-]{subsection.3.2}{Operating Point}{section.3}% 18
-\BOOKMARK [2][-]{subsection.3.3}{PID}{section.3}% 19
-\BOOKMARK [2][-]{subsection.3.4}{Linear Quadratic Regulator}{section.3}% 20
-\BOOKMARK [2][-]{subsection.3.5}{H Loop-Shaping}{section.3}% 21
-\BOOKMARK [2][-]{subsection.3.6}{Non-Linear Methods}{section.3}% 22
-\BOOKMARK [2][-]{subsection.3.7}{Comparison and Robustness}{section.3}% 23
-\BOOKMARK [2][-]{subsection.3.8}{Full-Scale Bicycle}{section.3}% 24
-\BOOKMARK [2][-]{subsection.3.9}{Implementation Details}{section.3}% 25
-\BOOKMARK [1][-]{section.4}{Implementation: Lego Prototype}{}% 26
-\BOOKMARK [2][-]{subsection.4.1}{Hardware}{section.4}% 27
-\BOOKMARK [2][-]{subsection.4.2}{Software}{section.4}% 28
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Lean Angle Estimation}{subsection.4.2}% 29
-\BOOKMARK [2][-]{subsection.4.3}{Results}{section.4}% 30
-\BOOKMARK [3][-]{subsubsection.4.3.1}{PID}{subsection.4.3}% 31
-\BOOKMARK [3][-]{subsubsection.4.3.2}{LQR}{subsection.4.3}% 32
-\BOOKMARK [3][-]{subsubsection.4.3.3}{H Loop-Shaping}{subsection.4.3}% 33
-\BOOKMARK [3][-]{subsubsection.4.3.4}{Servo Model Verification}{subsection.4.3}% 34
-\BOOKMARK [2][-]{subsection.4.4}{Final Observations}{section.4}% 35
-\BOOKMARK [1][-]{section.5}{Implementation: Full-Scale Bicycle}{}% 36
-\BOOKMARK [2][-]{subsection.5.1}{Hardware}{section.5}% 37
-\BOOKMARK [3][-]{subsubsection.5.1.1}{Microprocessor and Sensors}{subsection.5.1}% 38
-\BOOKMARK [3][-]{subsubsection.5.1.2}{Miscellaneous}{subsection.5.1}% 39
+\BOOKMARK [2][-]{subsection.3.1}{Considerations}{section.3}% 17
+\BOOKMARK [3][-]{subsubsection.3.1.1}{Performance Requirements}{subsection.3.1}% 18
+\BOOKMARK [3][-]{subsubsection.3.1.2}{Operating Point}{subsection.3.1}% 19
+\BOOKMARK [2][-]{subsection.3.2}{Design}{section.3}% 20
+\BOOKMARK [3][-]{subsubsection.3.2.1}{PID}{subsection.3.2}% 21
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Linear Quadratic Regulator}{subsection.3.2}% 22
+\BOOKMARK [3][-]{subsubsection.3.2.3}{H Loop-Shaping}{subsection.3.2}% 23
+\BOOKMARK [3][-]{subsubsection.3.2.4}{Non-Linear Methods}{subsection.3.2}% 24
+\BOOKMARK [3][-]{subsubsection.3.2.5}{Comparison and Robustness}{subsection.3.2}% 25
+\BOOKMARK [2][-]{subsection.3.3}{Full-Scale Bicycle}{section.3}% 26
+\BOOKMARK [2][-]{subsection.3.4}{Implementation Details}{section.3}% 27
+\BOOKMARK [1][-]{section.4}{Implementation: Lego Prototype}{}% 28
+\BOOKMARK [2][-]{subsection.4.1}{Hardware}{section.4}% 29
+\BOOKMARK [2][-]{subsection.4.2}{Software}{section.4}% 30
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Lean Angle Estimation}{subsection.4.2}% 31
+\BOOKMARK [2][-]{subsection.4.3}{Results}{section.4}% 32
+\BOOKMARK [3][-]{subsubsection.4.3.1}{PID}{subsection.4.3}% 33
+\BOOKMARK [3][-]{subsubsection.4.3.2}{LQR}{subsection.4.3}% 34
+\BOOKMARK [3][-]{subsubsection.4.3.3}{H Loop-Shaping}{subsection.4.3}% 35
+\BOOKMARK [3][-]{subsubsection.4.3.4}{Servo Model Verification}{subsection.4.3}% 36
+\BOOKMARK [2][-]{subsection.4.4}{Final Observations}{section.4}% 37
+\BOOKMARK [1][-]{section.5}{Implementation: Full-Scale Bicycle}{}% 38
+\BOOKMARK [2][-]{subsection.5.1}{Hardware}{section.5}% 39
 \BOOKMARK [2][-]{subsection.5.2}{Software}{section.5}% 40
 \BOOKMARK [3][-]{subsubsection.5.2.1}{Lean Angle Estimation}{subsection.5.2}% 41
 \BOOKMARK [3][-]{subsubsection.5.2.2}{Basestation and Telemetry}{subsection.5.2}% 42
 \BOOKMARK [2][-]{subsection.5.3}{Results}{section.5}% 43
 \BOOKMARK [1][-]{section.6}{Conclusions and Future Work}{}% 44
-\BOOKMARK [1][-]{section*.33}{References}{}% 45
-\BOOKMARK [1][-]{Appendix.a.A}{Appendix Risk Assessment}{}% 46
+\BOOKMARK [1][-]{section*.34}{References}{}% 45
+\BOOKMARK [1][-]{Appendix.a.A}{Appendix Links to Resources}{}% 46
+\BOOKMARK [1][-]{Appendix.a.B}{Appendix Risk Assessment}{}% 47
