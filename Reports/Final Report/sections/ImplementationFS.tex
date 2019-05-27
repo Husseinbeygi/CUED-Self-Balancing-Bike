@@ -1,4 +1,4 @@
-After having successfully implemented various controllers on the Lego prototype bicycle, the final part of the project involved implementing control laws on a full-scale, adult bicycle. The amount of effort and work involved to modify a full-size bicycle to be self-stabilising was found to be enormous, with many obstacles along the way, and is detailed in this final section. A comparison between the unmodified and modified bicycle can be seen in Figure \ref{fig:fsvsfsmod} below.
+After having successfully implemented various controllers on the Lego prototype bicycle, the final part of the project involved implementing control laws on a full-scale, adult bicycle. The implementation was aided by the receipt of a \textit{James Dyson Foundation} bursary in Lent term, which helped cover the costs for all components. The amount of effort and work involved to modify a full-size bicycle to be self-stabilising was found to be enormous, with many obstacles along the way, and is detailed in this final section. A comparison between the unmodified and modified bicycle can be seen in Figure \ref{fig:fsvsfsmod} below.
 
 \begin{figure}[H]
 	\begin{subfigure}{0.475\textwidth}
@@ -14,7 +14,7 @@ After having successfully implemented various controllers on the Lego prototype 
 \end{figure}
 
 \subsection{Hardware}
-During modification of the bicycle, only the original frame, fork, and front wheel were kept unchanged. A full parts list is given in Table \ref{table:fscomponents} below. Close-up pictures of the relevant components are shown in \ref{fig:fsHardware}.
+During modification of the bicycle, only the original frame, fork, and front wheel were kept unchanged. A full parts list is given in Table \ref{table:fscomponents}. Close-up pictures of the relevant components are shown in \ref{fig:fsHardware}.
 
 \begin{table}[H]
 	\centering
@@ -39,10 +39,8 @@ During modification of the bicycle, only the original frame, fork, and front whe
 
 The mechanisms connecting the handlebar servo to the front fork assembly proved the most challenging and required over a month in reworking\footnote{The \textit{Cambridge University Engineering Department} mechanical services team were a tremendous help with both design and manufacture of the mechanism.}, as initial designs were not sturdy enough and failed when subjected to larger loads. The final design, which still showed problems but was kept due to time constraints, can be seen in Figure \ref{fig:fsHardware} c) and d). The cause of this problem was that the servo was only shipped with a very small shaft with a single screw-hole, thus making it extremely difficult to fix a large and strong clamping mechanism onto. \\
 
-The remaining tasks, such as fitting the rear wheel motor, and wiring the electronics, were completed in under a week and caused no issues. An \textit{Arduino Due} microcontroller was chosen as the main control unit, as it was deemed powerful enough for this application, inexpensive, and straightforward to program. The microcontroller relayed data via a radio transceiver to a basestation, which consisted of an identical transceiver, a laptop, and a piece of custom basestation software. This is described in more detail in Section \ref{basestationsec}.
+The remaining tasks, such as fitting the rear wheel motor, and wiring the electronics, were completed in under a week and caused no issues. An \textit{Arduino Due} microcontroller was chosen as the main control unit, as it was deemed powerful enough for this application, inexpensive, and straightforward to program. The microcontroller relayed data via a radio transceiver to a basestation, which consisted of an identical transceiver, a laptop, and a piece of custom basestation software. This is described in more detail in Section \ref{basestationsec}. \\
 
-\newpage
-\null
 \vfill
 \begin{figure}[H]
 	\centering
@@ -120,7 +118,44 @@ Data transmission and reception was achieved via a custom message handler implem
 \label{fig:basestation}
 \end{figure}
 
+\newpage
 \subsection{Results}
-\textbf{TO BE COMPLETED}
+Unfortunately, even after many weeks of work and modifications, the full-scale bicycle could not be stabilised satisfactorily via feedback control as it tended to instability after only a few seconds. This was the case for all control systems. A typical response implementing the previously developed PID controller is shown in Figure \ref{fig:fsPID}.
+
+\begin{figure}[H]
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Lean Angle $\phi$ (deg),			 
+			 xmin=0,xmax=4.0,
+			 ymin=-1.0,ymax=2.0,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=phi, col sep=comma] {fsPID.csv};		
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Lean Angle Response}
+	\end{subfigure} \hfill
+	\begin{subfigure}{0.475\textwidth}
+	\begin{tikzpicture}[scale=0.9]
+		\begin{axis}
+			[xlabel=Time (s),
+			 ylabel=Steering Angle $\delta$ (deg),
+			 xmin=0,xmax=4.0,
+			 ymin=-4.5,ymax=13,
+			 legend pos=north west,
+			 tick label style={/pgf/number format/fixed}]
+			\addplot[mark=none] table[x=t,y=delta, col sep=comma] {fsPID.csv};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Actuator Effort}
+	\end{subfigure}
+	\caption{Lego $H_{\infty}$ Controller Response}
+	\label{fig:fsPID}
+\end{figure}
+
+It is evident that the bicycle weaves and becomes increasingly unstable before falling over. After much work on investigating the causes of this instability, it was decided that the handlebar~ motor introduced too much delay into the system. Thus, the fork assembly could not be adjusted to the required steer angle in time and the control system failed. This seemed to be a similar phenomenon to that of \textit{Pilot Induced Oscillation} observed in aircraft. Even with various changes in controller parameters and a variety of forward speeds, the bicycle could not be stabilised. \\
+
+As described previously, the handlebar servo caused the most problems overall throughout the full-scale implementation. Additionally, interfacing with the servo only functioned sporadically and often the servo would not react to commands at all. Furthermore, even though the servo was rated at a torque of 3.2Nm and chosen exactly because of this high-torque specification, it was believed that the servo could not perform to the manufacturer's specifications. Under stall conditions, the servo datasheet gave a current consumption of 7.5A. However, when measured the servo never exceeded 3A, which running at 12V only gave 36W of power. Due to time and budget constraints however, alternative handlebar actuators and mounting mechanisms were not able to be tested. 
 
 \newpage

@@ -34,7 +34,7 @@
 \BOOKMARK [3][-]{subsubsection.4.3.2}{LQR}{subsection.4.3}% 34
 \BOOKMARK [3][-]{subsubsection.4.3.3}{H Loop-Shaping}{subsection.4.3}% 35
 \BOOKMARK [3][-]{subsubsection.4.3.4}{Servo Model Verification}{subsection.4.3}% 36
-\BOOKMARK [2][-]{subsection.4.4}{Final Observations}{section.4}% 37
+\BOOKMARK [2][-]{subsection.4.4}{Observations}{section.4}% 37
 \BOOKMARK [1][-]{section.5}{Implementation: Full-Scale Bicycle}{}% 38
 \BOOKMARK [2][-]{subsection.5.1}{Hardware}{section.5}% 39
 \BOOKMARK [2][-]{subsection.5.2}{Software}{section.5}% 40
@@ -42,6 +42,6 @@
 \BOOKMARK [3][-]{subsubsection.5.2.2}{Basestation and Telemetry}{subsection.5.2}% 42
 \BOOKMARK [2][-]{subsection.5.3}{Results}{section.5}% 43
 \BOOKMARK [1][-]{section.6}{Conclusions and Future Work}{}% 44
-\BOOKMARK [1][-]{section*.34}{References}{}% 45
+\BOOKMARK [1][-]{section*.35}{References}{}% 45
 \BOOKMARK [1][-]{Appendix.a.A}{Appendix Links to Resources}{}% 46
 \BOOKMARK [1][-]{Appendix.a.B}{Appendix Risk Assessment}{}% 47

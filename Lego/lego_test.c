@@ -10,7 +10,7 @@
 #define RAD2DEG (180.0/PI)
 
 // General settings
-const float wheelRadius = 0.04;
+//const float wheelRadius = 0.04;
 const float T = 0.01;
 
 // Controller
@@ -36,7 +36,6 @@ float kalR = 0.1;
 // Variables
 float measurements[4];
 float u;
-float vel;
 float gyro_rate_bias;
 float time;
 
@@ -74,8 +73,6 @@ task main() {
 	clearTimer(T1);
 
 	float gyrlpf = 0.0;
-	int speedctrl;
-	float speedctrlint = 0.0;
 
 	while (true) {
 
@@ -221,8 +218,8 @@ float lqr(float measurement, float input, float dt) {
 	static float x1 = 0.0;
 	static float x2 = 0.0;
 
-	const static float L[2] = {0.6282, -1.0768};
-	const static float K[2] = {170.32, 18.0584};
+	const static float L[2] = {1.1988, 7.6924}; // 1.3458 8.7909
+	const static float K[2] = {170.3220, 18.0584};
 
 	x1 = x1 + T * ((0.0 - L[0] * 7.8222) * x1 + (1.0 - L[0] * 1.7778) * x2 + L[0] * measurement);
 	x2 = x2 + T * ((89.1818 - L[1] * 7.8222) * x1 + (0.0 - L[1] * 1.7778) * x2 + L[1] * measurement + input);

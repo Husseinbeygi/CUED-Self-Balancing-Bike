@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
@@ -133,6 +134,14 @@
             // 
             // rawData
             // 
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("DejaVu Sans Condensed", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.rawData.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.rawData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.rawData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
@@ -140,9 +149,9 @@
             this.Column3});
             this.rawData.Location = new System.Drawing.Point(10, 419);
             this.rawData.Name = "rawData";
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("DejaVu Sans Condensed", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            this.rawData.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("DejaVu Sans Condensed", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
+            this.rawData.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.rawData.Size = new System.Drawing.Size(461, 150);
             this.rawData.TabIndex = 9;
             // 
@@ -197,7 +206,7 @@
             // 
             this.lblSteerAngle.AutoSize = true;
             this.lblSteerAngle.Font = new System.Drawing.Font("DejaVu Sans Condensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSteerAngle.Location = new System.Drawing.Point(445, 222);
+            this.lblSteerAngle.Location = new System.Drawing.Point(426, 222);
             this.lblSteerAngle.Name = "lblSteerAngle";
             this.lblSteerAngle.Size = new System.Drawing.Size(26, 19);
             this.lblSteerAngle.TabIndex = 6;
@@ -207,7 +216,7 @@
             // 
             this.lblLeanAngle.AutoSize = true;
             this.lblLeanAngle.Font = new System.Drawing.Font("DejaVu Sans Condensed", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLeanAngle.Location = new System.Drawing.Point(441, 47);
+            this.lblLeanAngle.Location = new System.Drawing.Point(426, 47);
             this.lblLeanAngle.Name = "lblLeanAngle";
             this.lblLeanAngle.Size = new System.Drawing.Size(26, 19);
             this.lblLeanAngle.TabIndex = 5;

@@ -1,13 +1,15 @@
-To be able to design suitable control laws in order to stabilise the bicycle, it is necessary to provide a mathematical description of the system. Additionally, developing a dynamical model of the system will give an insight into what factors influence a bicycle's behaviour in terms of its stability. \\
+To be able to design suitable control laws in order to stabilise the bicycle, it is necessary to provide a mathematical description of the system. Additionally, developing a dynamic model of the system will give an insight into what factors influence a bicycle's behaviour in terms of its stability. \\
 
 As previously mentioned, the equations of motion for a bicycle are a set of many, highly non-linear, and coupled differential equations. In this form, they do not aid an intuitive understanding of what makes a bicycle more or less stable and are inconvenient to use for control law design, which is based mainly on linear methods. For simulation however, these non-linear equations of motion are important, as they capture the dynamics over the entire range of operating regimes. \\
 
-This section aims to explore two commonly used linearised bicycle models of second and fourth order, which will be the basis for controller design in later sections.
+This section aims to explore two widely used bicycle models of second and fourth order, which will be the basis for controller design in later sections.
 
 \subsection{Geometry and Definitions}
-The definitions of bicycle parameters, geometry, and coordinate system in this report follows the system given by {\AA}str{\"o}m in \cite{astrom}, which is based on the \textit{ISO 8855} standard \cite{iso}. \\
+The definitions of bicycle parameters, geometry, and coordinate system in this report follow the system given by {\AA}str{\"o}m in \cite{astrom}, which is based on the \textit{ISO 8855} standard \cite{iso}. \\
 
 A brief explanation of the bicycle parameters, as well as the top, rear, and side views of the bicycle are detailed in Table \ref{table:params} and Figures \ref{fig:geometry} and \ref{fig:geometry2}. \\
+
+\vspace{1cm}
 
 \begin{table}[h]
 	\centering
@@ -98,7 +100,7 @@ I_{xz} & 0 & I_z
 \dot{\phi} \\
 0 \\
 \omega_z
-\end{bmatrix}
+\end{bmatrix}.
 \end{equation*}
 
 Extracting only the component about the x-axis and letting $D=-I_{xz}$ and $J=I_x$ gives
@@ -123,25 +125,25 @@ In this model, it is assumed that \textit{two} torques are acting on the system.
 
 The second torque is due to circular motion and can be written as follows:
 \begin{align*}
-F_c &= m \omega^2_z r = \frac{m V^2}{b} \tan{(\delta)} \\
+F_c &= m \omega^2_z r = \frac{m V^2}{b} \tan{(\delta)}, \\
 \uptau_c &= F_c h \cos{(\phi)} \\
-&= \frac{m V^2 h}{b} \tan{(\delta)} \cos{(\phi)}
+&= \frac{m V^2 h}{b} \tan{(\delta)} \cos{(\phi)}.
 \end{align*}
 
 Summing both torques results in the final moment balance:
 \begin{equation}
-J \ddot{\phi} - \frac{V D}{b} \dot{\delta} \sec^2{(\delta)} = m g h \sin{(\phi)} + \frac{m V^2 h}{b} \tan{(\delta)} \cos{(\phi)}
+J \ddot{\phi} - \frac{V D}{b} \dot{\delta} \sec^2{(\delta)} = m g h \sin{(\phi)} + \frac{m V^2 h}{b} \tan{(\delta)} \cos{(\phi)}.
 \label{eq:2ndOrderNL}
 \end{equation}
 
-This is the final form of the governing second-order, non-linear differential equation of motion and will be used for simulation. To make this model useful for controller design, it needs to be linearised about zero lean and zero steer angle by using small-angle approximations. Collecting terms, the linearised equation of motion then becomes,
+This is the final form of the governing second order, non-linear differential equation of motion and will be used for simulation. To make this model useful for controller design, it needs to be linearised about zero lean and zero steer angle by using small-angle approximations. Collecting terms, the linearised equation of motion then becomes,
 \begin{equation*}
 J \ddot{\phi} - m g h \phi = \frac{V D}{b} \dot{\delta} + \frac{m V^2 h}{b} \delta.
 \end{equation*}
 
 Now taking Laplace transforms, the transfer function for the second order bicycle model becomes:
 \begin{equation*}
-G(s) = \frac{\bar{\phi}(s)}{\bar{\delta}(s)} =  \frac{V D}{J b} \frac{s + m h V / D}{s^2 - m g h / J}
+G(s) = \frac{\bar{\phi}(s)}{\bar{\delta}(s)} =  \frac{V D}{J b} \frac{s + m h V / D}{s^2 - m g h / J}.
 \end{equation*}
 
 Lastly, the moment of inertia terms can be approximated as $D \approx m a h$ and $J \approx m h^2$, which leads to the final version of the linearised, second order model,
@@ -159,7 +161,7 @@ Even though the model is substantially simplified, it provides a good insight in
 \item{\textbf{Always unstable}: The poles are fixed and do not vary with forward speed. They are always symmetric about the imaginary axis, with one stable and one unstable pole.}
 \item{\textbf{Speed-dependent gain}: The effectiveness of applying a steer angle input decreases as speed decreases. Therefore, controllability of the system decreases as well. Far larger inputs are needed at lower speeds, and smaller inputs are required at higher speeds.}
 \item{\textbf{Speed-dependent zero}: The zero present in the system is moved further into the left-half plane as the forward speed increases. This in effect pulls the root-locus further into the left-half plane as well, making the system easier to stabilise.}
-\item{\textbf{Center of mass}: The poles are located at $\pm \sqrt{g/h}$. Since $g$ is fixed, the location of the center of mass above ground $h$ is the only variable that changes the locations of the poles. Thus, the instability of the bicycle decreases as $h$ increases, with the limiting case of marginal stability when $h \rightarrow \infty$. This is analogous to the stabilisation of a vertical beam: a longer beam is easier to stabilise.}
+\item{\textbf{Center of mass}: The poles are located at $\pm \sqrt{g/h}$. Since $g$ is fixed, the location of the center of mass above ground $h$ is the only variable that changes the locations of the poles. Thus, the instability of the bicycle decreases as $h$ increases, with the limiting case of marginal stability when $h \rightarrow \infty$. This is analogous to the stabilisation of an inverted pendulum: a longer pendulum is easier to stabilise.}
 \end{enumerate}
 
 Furthermore, a simple proportional controller of the form $\delta=-k_{\delta} \phi$ can stabilise the bicycle in theory if and only if the gain $k_{\delta}$ satisfies the following condition:
@@ -169,10 +171,10 @@ k_{\delta} > \frac{b g}{V^2}
 \label{eq:minGain}
 \end{equation}
 
-Which shows that an ever-increasing gain is needed as the forward speed decreases. This, of course, is practically infeasible and shows that it is impossible to balance a stationary bicycle via just controlling the handlebars. Interestingly, a longer wheel base ($b$) in turn requires the feedback gain to be larger as well.
+Which shows that an ever-increasing gain is needed as the forward speed decreases. This, of course, is practically infeasible and shows that it is impossible to balance a stationary bicycle by just controlling the handlebars. Interestingly, a longer wheel base $b$ in turn requires the feedback gain to be larger as well.
 
 \subsubsection{Non-Minimum Phase Behaviour}
-As a brief aside, the model given above does not take fork parameters into account, such as trail $c$ or head angle $\lambda$. Including these in the model leads to a zero that can move into the right-half plane, where the location is given by:
+As a brief aside, the model given previously does not take fork parameters into account, such as trail $c$ or head angle $\lambda$. Including these in the model leads to a zero that can move into the right-half plane, where the location is given by:
 
 \begin{equation*}
 s = - \frac{V^2h-acg}{Vah}
@@ -198,14 +200,14 @@ G_{FS}(s) = 0.44 \cdot V \cdot \frac{s + 3.8 \cdot V}{s^2 - 18}
 \end{equation}
 
 \subsection{Fourth Order Model} \label{FourthOrder}
-A natural evolution from the second order model is the fourth order model, which takes the dynamics of the front fork into account. This model can explain why the bicycle can keep itself self-stable under certain conditions. However, the control input is now the \textit{torque} acting on the handlebar as opposed to the steer angle. Thus, this model is not suited for control design for two reasons: 
+A natural evolution from the second order model is the fourth order model, which takes the dynamics of the front fork into account. This model can explain why the bicycle can keep itself stable under certain conditions. However, the control input is now the \textit{torque} acting on the handlebar as opposed to the steer angle. Thus, this model is not suited for control design for two reasons: 
 
 \begin{enumerate}
-\item{Driving the handlebar motor in torque is not feasible, since both motor current and voltage measurement, as well as knowledge of the internal motor parameters, is needed to estimate the torque.}
+\item{Driving the handlebar motor in torque is not feasible, since both motor current and voltage measurement, as well as knowledge of the internal motor parameters, are needed to estimate the torque.}
 \item{If not most importantly, using a servo at the handlebars essentially eliminates the front fork dynamics by enforcing a steer angle.}
 \end{enumerate}
 
-Therefore, the second order model will be used for controller design. Nonetheless, this fourth order model is incredibly useful in describing the self-stable dynamics of a rider-less bicycle and will be briefly investigated here. A full derivation is given by Papadopoulos in \cite{fourthorder}. The model takes the following standard form:
+Therefore, the second order model will be used for controller design. Nonetheless, the fourth order model is incredibly useful in describing the self-stable dynamics of a rider-less bicycle and will be briefly investigated here. A full derivation is given by Papadopoulos in \cite{fourthorder}. The model takes the following standard form:
 
 \begin{equation*}
 \mathbf{M} \cdot \underline{\ddot{q}} + \mathbf{C}_1 \cdot v \cdot \underline{\dot{q}} + (\mathbf{K}_0 + \mathbf{K}_2 \cdot v^2) \cdot \underline{q} = \begin{bmatrix}
@@ -235,7 +237,7 @@ Alternatively, this can be converted to a four-state, state-space representation
 Where the state vector is given by $\underline{x} = [\phi, \dot{\phi}, \delta, \dot{\delta}]^T$.
 
 \subsubsection{Stability}
-In comparison to the second order model given previously, the fourth order model does not give us a direct insight into factors that make the bicycle more or less stable. However, it does show the fact that when the front fork dynamics are taken into account, the bike will be self-stable across a certain range of forward speeds. In addition, it describes various modes apparent in the bicycle dynamics. This is illustrated in Figure \ref{fig:PoleVsSpeed} below, which shows the real parts of the eigenvalues of the system dynamics across a range of forward speeds for the unmodified, full-scale bicycle.
+In comparison to the second order model given previously, the fourth order model does not give a direct insight into factors that make the bicycle more or less stable. However, it does show the fact that when the front fork dynamics are taken into account, the bike will be self-stable across a certain range of forward speeds. In addition, it describes various modes apparent in the bicycle dynamics. This is illustrated in Figure \ref{fig:PoleVsSpeed} below, which shows the real parts of the eigenvalues of the system dynamics across a range of forward speeds for the unmodified, full-scale bicycle.
 
 \begin{figure}[H]
 	\begin{tikzpicture}
@@ -263,11 +265,11 @@ The plot can be divided into three sections:
 
 \begin{enumerate}
 \item{\textbf{Unstable and weaving}: Up to approximately $3ms^{-1}$, the bike is unstable, as two of the four poles are in the right-half plane. The poles start off as four distinct, real poles and form into two complex-conjugate pairs. These complex poles give rise to an oscillatory, weaving motion, where the frequency of oscillation is dictated by the magnitude of the imaginary components of the poles.}
-\item{\textbf{Self-stable}: From $3ms^{-1}$ to roughly $4.8ms^{-1}$, the bike is self-stable with all poles in the left-half plane. This stability is due to the fact that as the bicycle leans over the fork is now able to steer into the direction of the fall due to its geometry, thus \textit{catching} the bike from from falling down further and restoring it to an upright position.}
+\item{\textbf{Self-stable}: From $3ms^{-1}$ to roughly $4.8ms^{-1}$, the bike is self-stable with all poles in the left-half plane. This stability is due to the fact that as the bicycle leans over the fork is now able to steer into the direction of the fall due to its geometry, thus \textit{catching} the bike from falling down further and restoring it to an upright position.}
 \item{\textbf{Capsize}: Contrary to popular belief, increasing the speed does not improve stability indefinitely. After $4.8ms^{-1}$, a real pole again moves into the right-half plane. However, this pole is very slow and thus the system is easier to stabilise via feedback compared to slower speeds. This mode is commonly termed the \textit{capsize} mode.}
 \end{enumerate}
 
-The weave and capsize modes can be excited by a lean torque disturbance when the bicycle is travelling at the relevant forward speed. This is shown in Figure \ref{fig:FSModes} below for the full-scale bicycle model.
+The weave and capsize modes can be excited by a lean torque disturbance when the bicycle is travelling at the relevant forward speed. This is shown in Figure \ref{fig:FSModes} below.
 
 \begin{figure}[H]
 	\centering
@@ -301,17 +303,17 @@ The weave and capsize modes can be excited by a lean torque disturbance when the
 	\label{fig:FSModes}
 \end{figure}
 
-The oscillations of the unstable weave mode dominate the response in a). On the other hand in b), the high frequency oscillations due to the stable complex-conjugate poles die out quickly with the very slow, non-oscillatory capsize mode dominating the response and finally causing the bicycle to fall over. Notice that even after ten seconds, the lean angle has only deviated by a couple hundredths of a degree. As stated before, this mode is therefore very easily stabilised. 
+The oscillations of the unstable weave mode dominate the response in a). On the other hand in b), the high-frequency oscillations due to the stable complex-conjugate poles die out quickly with the very slow, non-oscillatory capsize mode dominating the response and finally causing the bicycle to fall over. Notice that even after ten seconds, the lean angle has only deviated by a couple hundredths of a degree. As stated before, this mode is therefore very easily stabilised. 
 
 \subsection{Actuators}
 The modelling of control actuators is also of vital importance and needs to be included in the overall system representation. This is due to the fact that actuators cannot change their position instantaneously and therefore will introduce lag into the system, which may cause further instability. \\
 
-The actuator models were identified by applying a step input to the handlebar servos and recording the corresponding output response. It is important to mention that the step responses were under \textit{loaded} conditions, meaning that the servos were mounted on the front forks, supporting the full weight of the bicycle. \\
+The actuator models were identified by applying a step input to the handlebar motors and recording the corresponding output response. It is important to mention that the step responses were under \textit{loaded} conditions, meaning that the motors were mounted on the front forks, supporting the full weight of the bicycle. \\
 
-An initial guess was made at the form of the transfer function, such as the model order and form. Then, the Matlab \textit{System Identification Toolbox} was used to identify the locations of the poles and zeros, as well as the magnitude of any possible delays.
+An initial guess was made at the form of the transfer function. The Matlab \textit{System Identification Toolbox} was then used to identify the locations of the poles and zeros, as well as the magnitude of any possible delays.
 
 \subsubsection{Lego Prototype}
-Interfacing with the Lego handlebar motor can only be achieved by issuing a speed command, not an absolute position command. This meant that it was necessary to implement an additional controller to set the motor position. Luckily, an encoder was already fitted to the servo, meaning that positional measurement for feedback was available. After experimentation, it was decided to use a proportional-only controller, since it satisfied the requirements and was easy to implement. \\
+Interfacing with the Lego handlebar motor could only be achieved by issuing a speed command, not an absolute position command. This meant that it was necessary to implement an additional controller to set the motor position. Luckily, an encoder was already fitted to the motor, meaning that positional measurement for feedback was available. After experimentation, it was decided to use a proportional-only controller, since it satisfied the requirements and was easy to implement. \\
 
 The step responses for a set of proportional gains can be seen in Figure \ref{fig:ServoModel} a) below. A proportional gain of 2 was chosen to give a critically damped response, with a fast rise time, and minimal steady-state error. \\
 
@@ -333,7 +335,7 @@ The step responses for a set of proportional gains can be seen in Figure \ref{fi
 			\legend{SP,P=1,P=2,P=5}			
 		\end{axis}
 	\end{tikzpicture}
-	\caption{True Servo Responses}
+	\caption{True Actuator Responses}
 	\end{subfigure} \hfill
 	\begin{subfigure}[t]{0.475\textwidth}
 	\begin{tikzpicture}[scale=0.9]
@@ -351,7 +353,7 @@ The step responses for a set of proportional gains can be seen in Figure \ref{fi
 	\end{tikzpicture}
 	\caption{Model Verification (P=2)}
 	\end{subfigure}
-	\caption{Lego Prototype Servo Responses}
+	\caption{Lego Prototype Actuator Responses}
 	\label{fig:ServoModel}
 \end{figure}
 
@@ -361,14 +363,14 @@ The closed-loop, proportional-control motor system was given a step input of mag
 G_a(s) = \frac{1}{(T_1 s + 1) \cdot (T^2_w s^2 + 2 \zeta T_w s + 1)}
 \end{equation}
 
-Where $T_1 = 0.056$, $T_w = 0.030$, and $\zeta = 0.37$. The identification algorithm suggested a near 95\% match between true data and simulated data from this third order model. A comparison between the true and model step responses, visually confirming a good agreement, can be seen in Figure \ref{fig:ServoModel} b). \\
+Where $T_1 = 0.056$, $T_w = 0.030$, and $\zeta = 0.37$. The identification algorithm suggested a near 95\% match between true data and simulated data using this third order model. A comparison between the true and model step responses, visually confirming a good agreement, can be seen in Figure \ref{fig:ServoModel} b). \\
 
-This servo model is then cascaded with the bicycle model to give an overall more accurate representation of the real-world system.
+This actuator model was then cascaded with the bicycle model to give an overall more accurate representation of the real-world system.
 
 \subsubsection{Full-Scale Bicycle}
-The same process can now be repeated for the full-scale bicycle. However, direct positional control of the motor was already implemented by the manufacturer and thus the step response data could be directly acquired. \\
+The same process was then be repeated for the full-scale bicycle. However, direct positional control of the motor was already implemented by the manufacturer and thus the step response data could be directly acquired. \\
 
-Again, a third order model was fitted to the step response data, giving the following parameters: $T_1 = 0.07$, $T_w = 0.073$, and $\zeta = 0.48$. The comparison between the step response of the true system and the model can be seen in Figure \ref{fig:FSServoModel} below, again indicating a near-ideal fit. 
+Again, a third order model was fitted to the step response data, giving the following parameters: $T_1 = 0.070$, $T_w = 0.073$, and $\zeta = 0.48$. The comparison between the step response of the true system and the model can be seen in Figure \ref{fig:FSServoModel} below, again indicating a near-ideal fit. 
 
 \begin{figure}[H]
 	\centering
@@ -385,9 +387,9 @@ Again, a third order model was fitted to the step response data, giving the foll
 			\legend{True,Model}
 		\end{axis}
 	\end{tikzpicture}
-	\caption{Full-Scale Bicycle Servo Step Response}
+	\caption{Full-Scale Bicycle Actuator Step Response}
 	\label{fig:FSServoModel}
 \end{figure}
 
 \subsection{Model Verification}
-Since the bicycle is an unstable system, accurate model verification without a stabilising controller is near impossible. Even with a stabilising controller in place, it is challenging to attain any kind of step or frequency response data. Therefore, model verification will be undertaken implicitly by analysing if the theoretically obtained control laws do indeed give stability when implemented on the real-world system.
+Since the bicycle is an unstable system, accurate model verification without a stabilising controller is near impossible. Even with a stabilising controller in place, it is challenging to attain any kind of step or frequency response data. Therefore, model verification was undertaken implicitly by analysing if the theoretically obtained control laws did indeed give stability when implemented on the real-world system.

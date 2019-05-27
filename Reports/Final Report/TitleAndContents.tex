@@ -5,12 +5,14 @@
 		\Huge{\textbf{Self-Balancing Bicycle}} \\
 		\vspace{0.5cm}
 		\hrule
-		\vspace{4cm}
+		\vspace{3cm}
 		\includegraphics[width=0.2\textwidth]{University_Crest} \\
 		\vspace{3cm}
 		\large{\textbf{Philip M. Salmony} \\
 		Department of Engineering \\
 		University of Cambridge} \\
+		\vspace{1.5cm}
+		29 May 2019 \\
 		\vspace{1.5cm}
 		\textit{Supervisor: Dr. Fulvio Forni}
 	\end{center}
@@ -29,9 +31,21 @@
 
 \begin{center}
 	\Large{\textbf{Self-Balancing Bicycle}} \\
-	\large{Philip Salmony, Wolfson College} \\
+	\large{Philip M. Salmony, Wolfson College} \\
 	\large{Abstract}
 \end{center}
+
+\vspace{0.5cm}
+
+Bicycles and their stability properties have been investigated ever since their inception well over a century ago and to this day prove to be an interesting research topic for the study of dynamics and control theory. This project aimed to model, simulate, and design active control systems for a rider-less bicycle. The final designs were implemented on a Lego Mindstorms prototype and a full-scale adult bicycle. \\
+
+The bicycles investigated were equipped with only a handlebar actuator and a drive motor to provide forward speed, thus making the systems underactuated. Two commonly-used second and fourth order models of the bicycle were explored and causes of stability determined. Via feedback of the lean angle, three controller types were investigated: PID, LQR, and $H_{\infty}$ loop-shaping. These controllers were tested extensively in simulation and found to perform adequately in stabilising a bicycle across a range of forward speeds, both in terms of disturbance rejection and robustness. \\
+
+The Lego prototype bicycle was able to be stabilised via feedback control using two of the three proposed controllers (PID and $H_{\infty}$). However, poor state estimation performance due to the limitations of the available sensor meant that control performance suffered. The full-scale bicycle was not able to be stabilised via feedback control, primarily due to the handlebar actuator introducing excessive delays into the system when subjected to the full load of the bicycle. \\
+
+In conclusion, the models gave good and intuitive insights into bicycle dynamics. Feedback control was successfully implemented using controller designs based on these models. \\
+
+Section 1 of this report gives a brief introduction to the topic and what questions the project aims to address. In Section 2, details of two widely used bicycle models are given, which were the basis for simulation and controller design in Section 3. In this section, utilisation of these models is detailed, to illustrate the controller design and simulation process for three different controller types. Sections 4 and 5 give details of the implementation for both the Lego prototype bicycle and the full-scale bicycle. Conclusions and ideas for future work are given in Section 6. Finally, Appendix A gives links to resources, such as the complete code repository, as well as video footage of the bicycle implementations.
 
 \newpage
 \pagenumbering{arabic}
