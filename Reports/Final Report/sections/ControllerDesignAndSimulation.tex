@@ -231,7 +231,7 @@ The resulting response to an input disturbance is shown in Figure \ref{fig:lqrLe
 \end{figure}
 
 \subsubsection{$H_{\infty}$ Loop-Shaping}
-The second order model of the bicycle is an extremely simplified formulation of the actual system dynamics and parameters of the bicycle are only approximately known. Furthermore, the plant changes significantly with forward speed. Thus, it is important to maximise the robustness of the closed-loop system to plant perturbations, so that stability is achieved for a broad range of uncertainties. $H_{\infty}$ loop-shaping is concerned with robust stabilisation and thus an ideal candidate for this problem. The aim is to find a stabilising controller that maximises robustness, whilst trying to achieve a desired loop-shape of the return ratio. This section briefly covers aspects of the theory and describes the controller design process using this method. \\
+The second order model of the bicycle is an extremely simplified formulation of the actual system dynamics and parameters of the bicycle are only approximately known. Furthermore, the plant changes significantly with forward speed. Thus, it is important to maximise the robustness of the closed-loop system to plant perturbations, so that stability is achieved for a broad range of uncertainties. $H_{\infty}$ loop-shaping is concerned with robust stabilisation and thus an ideal candidate for this problem. The aim is to find a stabilising controller that maximises robustness, whilst trying to achieve a desired loop-shape of the return ratio. This section briefly covers aspects of the theory \cite{hinftheory} and describes the controller design process using this method. \\
 
 For a general transfer function matrix $\mathbf{G}(s)$, which is analytic in the right-half plane and satisfies $\sup_{Re(s) > 0}{|\mathbf{G}(s)|}<\infty$, the $H_{\infty}$ norm of the system is defined as,
 \begin{equation*}
@@ -402,16 +402,16 @@ As opposed to having several linear controllers, which are then optionally gain-
 
 Firstly, \textit{Virtual Model Control} proposed in \cite{virtualmodel}, which uses virtual components to enforce virtual forces and moments on a real-world system using the actuators available. And secondly, an energy-shaping approach to designing control systems discussed in \cite{puttingenergy}, which aims to shape the energy function of the closed-loop system, such that minimum energy is achieved at a desired state. For the case of the bicycle this is clearly at a zero lean angle. \\
 
-Although both methods are intuitive and have been proven useful in various scenarios, the approaches to non-linear controller design was found to be troublesome for the bicycle. Primarily due to the fact that for \textit{Virtual Model Control}, torques and forces need to be referred back to realisable actuator commands. Since the actuators in this case are driven by commanding an angle or a speed, it is difficult to infer the produced torques and forces. For the energy-shaping approach on the other hand, the bicycle model proved difficult to convert into the form required for controller design.\\
+Although both methods are intuitive and have been proven useful in various scenarios, the approaches to non-linear controller design were found to be troublesome for the bicycle. Primarily due to the fact that for \textit{Virtual Model Control}, torques and forces need to be referred back to realisable actuator commands. Since the actuators in this case are driven by commanding an angle or a speed, it is difficult to infer the produced torques and forces. For the energy-shaping approach on the other hand, the bicycle model proved difficult to convert into the form required for controller design.\\
 
 Thus, both ideas were only investigated on simpler systems where they worked satisfactorily across a range of operating regimes. For the bicycle however, these methods were not feasible in the time given.
 
 \subsubsection{Comparison and Robustness}
-In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance is small, the actuator effort reasonably bounded, due to the integrator there is zero steady-state error, and importantly the lean angle is kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provides an estimate of the robustness of the closed-loop system in terms of $b(G_0,K)$, as stated previously. \\
+In simulation, out of all investigated controller designs, $H_{\infty}$ loop-shaping provided the most desirable response. In particular, the recovery time due to a disturbance was small, the actuator effort reasonably bounded, due to the integrator there was zero steady-state error, and importantly the lean angle was kept small as to keep the system in the linear operating regime. Furthermore, the $H_{\infty}$ controller synthesis also directly provided an estimate of the robustness of the closed-loop system in terms of $b(G_0,K)$, as stated previously. \\
 
-On the other hand, PID control is the simplest to implement and tune \textit{on-the-go}, whilst still providing satisfactory performance and the smallest controller effort. As a measurement of robustness, the phase margin of the nominal, PID-controlled system was found to be adequate at just under $30^{\circ}$. \\
+On the other hand, PID control was the simplest to implement and tune \textit{on-the-go}, whilst still providing satisfactory performance and the smallest controller effort. As a measurement of robustness, the phase margin of the nominal, PID-controlled system was found to be adequate at just under $30^{\circ}$. \\
 
-Lastly, the simulated LQR controller performance was the worst out of all three. In particular, the lean angle deviated the most with an excessive steering angle imposed on the actuator to maintain stability. A measure of robustness for this controller type is also not directly available.
+Lastly, the simulated LQR controller performance was the worst out of all three. In particular, the lean angle deviated the most with an excessive steering angle imposed on the actuator to maintain stability. A measure of robustness for this controller type was also not directly available.
 
 \subsection{Full-Scale Bicycle}
 For completeness, the final controllers for the full-scale bicycle are given here. \\
@@ -479,7 +479,7 @@ The respective responses to an input disturbance are given in Figure \ref{fig:fs
 	\label{fig:fsSimResp}
 \end{figure}
 
-In this case, both the PID and LQR controllers have a more suitable response in comparison to the $H_{\infty}$ controller.
+In this case, both the PID and LQR controllers had a more suitable response in comparison to the $H_{\infty}$ controller.
 
 \subsection{Implementation Details}
 All controller designs were performed in the continuous domain. However, as the controllers were eventually implemented on a digital microprocessor, they needed to be discretised. This was achieved by using the \textit{Tustin} transformation, which maps the s to the z domain as follows:

@@ -1,7 +1,7 @@
-After having completed the modelling and controller designs for both bicycles, the final designs were then be tested on the real-world system. Firstly, the implementation using the Lego prototype bicycle was investigated, since it was quickly assembled and easier to test in a confined space, compared to the full-scale bicycle.
+After having completed the modelling and controller designs for both bicycles, the final designs were then tested on the real-world system. Firstly, the implementation using the Lego prototype bicycle was investigated, since it was quickly assembled and easier to test in a confined space, compared to the full-scale bicycle.
 
 \subsection{Hardware}
-The Lego prototype was made up of standard \textit{Lego Mindstorms EV3} parts. In particular, two large motors are used in parallel to propel the bicycle forwards at a maximum possible speed, whilst a smaller motor was placed at the handlebars to actuate the front fork assembly. Only a single gyroscopic sensor was available to provide a measurement of the rate of change of the lean angle. Lastly, the \textit{Lego EV3 Brick} served as the central processing system, with a 300 MHz ARM processor, 16MB of Flash memory, and 64MB of RAM.
+The Lego prototype was made up of standard \textit{Lego Mindstorms EV3} parts. In particular, two large motors were used in parallel to propel the bicycle forwards at a maximum possible speed, whilst a smaller motor was placed at the handlebars to actuate the front fork assembly. Only a single gyroscopic sensor was available to provide a measurement of the rate of change of the lean angle. Lastly, the \textit{Lego EV3 Brick} served as the central processing system, with a 300 MHz ARM processor, 16MB of Flash memory, and 64MB of RAM.
 
 \subsection{Software} \label{legosoftwaresec}
 The microprocessor was programmed using RobotC, a C-derivative specifically for Lego systems. The software structure is outlined in pseudo-code below.
@@ -23,12 +23,12 @@ while (true) {
 }
 \end{lstlisting}
 
-The calibration routine records a fixed number of measurements and calculates their mean. This mean bias is then subtracted from each subsequent measurement in the control loop. The controller function computes the output of a difference equation obtained via discretisation, as mentioned in the previous section. Logging of data was achieved via Bluetooth using RobotC's inbuilt logging functionality. Finally, the desired sample time was chosen to be $T=0.01s$.
+The calibration routine recorded a fixed number of measurements and calculated their mean. This mean bias was then subtracted from each subsequent measurement in the control loop. The controller function computed the output of a difference equation obtained via discretisation, as mentioned in the previous section. Logging of data was achieved via Bluetooth using RobotC's inbuilt logging functionality. Finally, the sample time was chosen to be $T=0.01s$.
 
 \subsubsection{Lean Angle Estimation}
-The Lego bicycle is only equipped with a gyroscopic sensor, meaning that only the rate of change of the lean angle is directly measurable. Direct integration of this measurement to give an estimate of the lean angle is not possible, since the measurements are corrupted by noise and the gyro has a time-varying bias. This noise and gyro bias will cause a drift in the estimated lean angle over time and thus deviate quickly from the true lean angle. \\
+The Lego bicycle was only equipped with a gyroscopic sensor, meaning that only the rate of change of the lean angle was directly measurable. Direct integration of this measurement to give an estimate of the lean angle was not possible, since the measurements were corrupted by noise and the gyro had a time-varying bias. This noise and gyro bias would cause a drift in the estimated lean angle over time and thus deviate quickly from the true lean angle. \\
 
-Therefore, it is necessary to estimate the lean angle at every timestep using a continuous-discrete \textit{Extended Kalman Filter} (EKF). The EKF fuses the approximately-known, linearised, continuous system dynamics with discrete, noisy sensor readings to give an overall improved state estimate. Th full derivation of the EKF is given in \cite{smalluav}. The state vector and model dynamics are taken from the second-order model given in section \ref{SecondOrder}. Note that this entire state estimation step would not be necessary if an accelerometer were available, which could be used as reference to correct for drift. \\
+Therefore, it was necessary to estimate the lean angle at every timestep using a continuous-discrete \textit{Extended Kalman Filter} (EKF). The EKF fused the approximately-known, linearised, continuous system dynamics with discrete, noisy sensor readings to give an overall improved state estimate. The full derivation of the EKF is given in \cite{smalluav}. The state vector and model dynamics were taken from the second order model given in section \ref{SecondOrder}. Note that this entire state estimation step would not be necessary if an accelerometer were available, which could be used as reference to correct for drift. \\
 
 The continuous-discrete EKF can be divided into two steps. Firstly, the \textit{prediction} step uses the system dynamics to estimate the state vector a timestep $T$ in the future:
 \begin{align*}
@@ -48,7 +48,7 @@ Following this, the \textit{update} step fuses the linearised dynamics with the 
 Where $\underline{y}_m$ is the measurement vector, $\mathbf{C}$ is the state output matrix, $\mathbf{R}$ is the measurement noise matrix, and $\mathbf{K}$ is the Kalman gain, which places a weighting on the measurements and internal model predictions. \\
 $\mathbf{Q}$ is chosen depending on the model accuracy, whereas $\mathbf{R}$ is set to the noise covariance found in the sensor datasheet. \\
 
-Lastly, it is important to note that an approximate model of the dynamics is used in conjunction with a noisy, biased sensor. Even though the resulting state estimation performance is much improved over using only the gyroscope readings, the inevitable inaccuracies will accumulate and degrade the lean angle estimate as time progresses. This ultimately has a direct impact on control performance and also only allows the final system to be tested for short periods of time before requiring a reset. \\
+Lastly, it is important to note that an approximate model of the dynamics was used in conjunction with a noisy, biased sensor. Even though the resulting state estimation performance was much improved over using only the gyroscope readings, the inevitable inaccuracies accumulated and degraded the lean angle estimate as time progressed. This ultimately had a direct impact on control performance and also only allowed the final system to be tested for short periods of time before requiring a reset. \\
 
 This is displayed in the simulated EKF state estimation in Figure \ref{fig:LegoKalman}, where it is evident that after an initially good estimation performance, the lean angle estimate starts to drift away from the true value.
 
@@ -75,7 +75,7 @@ This is displayed in the simulated EKF state estimation in Figure \ref{fig:LegoK
 
 \subsubsection{PID}
 \textbf{Proportional Only} \\
-A proportional-only controller was indeed able to stabilise the bicycle. As predicted by the second-order model and simulation, the bicycle could be stabilised at the given forward speed of $V=0.44ms^{-1}$ by a gain greater than 11.4. \\
+A proportional-only controller was indeed able to stabilise the bicycle. As predicted by the second order model and simulation, the bicycle could be stabilised at the given forward speed of $V=0.44ms^{-1}$ by a gain greater than 11.4. \\
 
 Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and actuator effort of the Lego prototype for a proportional gain of $K_P=12$.
 
@@ -111,9 +111,9 @@ Figures \ref{fig:LegoPController} a) and b) show an excerpt of the response and 
 	\label{fig:LegoPController}
 \end{figure}
 
-The response for the simple proportional controller is certainly not ideal, even though stability is achieved.  The magnitude of the lean angle is bounded by approximately $5^{\circ}$, which is an acceptable deviation from the desired setpoint of $0^{\circ}$. However, there is an oscillation present in the response, indicating that the system is on the boundary of stability. Knocking the bicycle gently, as to add an output disturbance, destabilises it. Thus the closed-loop system is not robust and sensitive to disturbances in its current state. This is to be expected however, since a proportional gain is used which places the closed-loop poles very close to the imaginary axis. \\
+The response for the simple proportional controller was certainly not ideal, even though stability was achieved.  The magnitude of the lean angle was bounded by approximately $5^{\circ}$, which is an acceptable deviation from the desired setpoint of $0^{\circ}$. However, there was an oscillation present in the response, indicating that the system was on the boundary of instability. Knocking the bicycle gently, as to add an output disturbance, destabilised it. Thus, the closed-loop system was not robust and sensitive to disturbances in its current state. This was to be expected however, since a proportional gain was used which placed the closed-loop poles very close to the imaginary axis. \\
 
-Furthermore, the \textit{jittering} behaviour also causes the bicycle to move off-track easily and not follow a straight path. The controller effort is also far larger than ideal. \\
+Furthermore, the \textit{jittering} behaviour also caused the bicycle to move off-track easily and not follow a straight path. The controller effort was also far larger than ideal. \\
 
 \textbf{Full PID Controller} \\
 In hope of improving the control performance over a simple proportional-only controller, the full PID controller was implemented on the Lego prototype. After experimentation, the derivative cut-off frequency had to be lowered, as the chosen value for $\tau$ caused rapid oscillations in the response. The final value for $\tau$ was thus chosen to be $0.003$. Then, with the remaining gains chosen as in the previous controller design section, the response can be seen in Figure \ref{fig:LegoPIDController} below.
@@ -150,7 +150,7 @@ In hope of improving the control performance over a simple proportional-only con
 	\label{fig:LegoPIDController}
 \end{figure}
 
-The PID controller manages to stabilise the system as well with a clearly improved response and better damping compared to the proportional-only controller. The lean angle is bounded by approximately $2^{\circ}$ and the actuator effort is roughly halved in magnitude. However, it is clear from the plot that the lean angle estimate is degrading over time and thus causing the system to destabilise slowly.
+The PID controller managed to stabilise the system as well with a clearly improved response and better damping compared to the proportional-only controller. The lean angle was bounded by approximately $2^{\circ}$ and the actuator effort was roughly halved in magnitude. However, it is clear from the plot that the lean angle estimate was degrading over time and thus causing the system to destabilise slowly.
 
 \subsubsection{LQR}
 Unfortunately, the LQR controller was not able to stabilise the Lego prototype, even with varying feedback gains. It is assumed that the reason for this instability is that not only is the system relying on an approximate estimate of the lean angle, but it is now also relying on an additional state observer, which is using this degraded state estimate to again infer a further set of internal states. Thus, these combined errors will be fed back to the control law, which, as seen from the previous controller type, is already at its limits using a single state estimator. \\
@@ -192,10 +192,10 @@ The synthesized $H_{\infty}$ controller from the previous section was discretise
 	\label{fig:LegoHInfController}
 \end{figure}
 
-The $H_{\infty}$ controller manages to stabilise the bicycle, with reasonable bounds on the lean and steering angle. However, as before, the performance suffers from the capabilities of the lean angle estimation, causing the lean angle to diverge away from $0^{\circ}$. In comparison to the PID controller, the response is slightly less oscillatory and the lean angle deviations are smaller.
+The $H_{\infty}$ controller managed to stabilise the bicycle, with reasonable bounds on the lean and steering angle. However, as before, the performance suffered from the capabilities of the lean angle estimation, causing the lean angle to diverge away from $0^{\circ}$. In comparison to the PID controller, the response was slightly less oscillatory and the lean angle deviations were smaller.
 
 \subsubsection{Servo Model Verification}
-As a brief aside, the servo model was again verified by running a simulation in Matlab using the real-world controller output data and measured servo steer angle. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match is near perfect and confirms the actuator model identified in an earlier section of this report. \\
+As a brief aside, the servo model was again verified by running a simulation in Matlab using the real-world controller output data and measured servo steer angle. As can be seen in Figure \ref{fig:LegoServoIDPart2}, the match was near perfect and confirmed the actuator model identified in an earlier section of this report. \\
 
 \begin{figure}[H]
 \centering
@@ -221,7 +221,7 @@ After having successfully implemented the majority of the proposed controller de
 
 \begin{itemize}
 \item{The lean angle estimation has a \textit{large}, negative impact on control performance as the estimate drifts quickly. The performance could certainly be improved by using a full inertial measurement unit.}
-\item{The system is very hard to stabilise with satisfactory performance, since the height of the center of mass $h$ above ground is small, which in turn moves the pole further into the right-half plane.}
+\item{The system is very hard to stabilise with satisfactory performance, since the height of the center of mass $h$ above ground is small, which in turn moves the unstable pole further into the right-half plane.}
 \item{An additional limitation is the maximum speed of the Lego prototype, which again causes it to be harder to stabilise.}
 \item{PID and $H_{\infty}$ control schemes seem to have delivered very similar performance. PID control however is far simpler to tune and implement.}
 \item{The LQR controller during the design stage showed very large gains and thus a substantial amount of overshoot and actuator effort. This in practice evidently placed the real-world system outside of its linear operating range, thus making the bicycle impossible to stabilise.}
